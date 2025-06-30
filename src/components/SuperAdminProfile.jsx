@@ -3,15 +3,15 @@ import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { User, Mail, Phone, Calendar, Shield, UserPlus, LogOut, Building2 } from 'lucide-react';
+import { User, Mail, Phone, Calendar, Shield, UserPlus, LogOut, Building2, Users, Ticket } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const SuperAdminProfile = ({ onCreateAdmin }) => {
   const navigate = useNavigate();
 
   const superAdminData = {
-    name: 'Super Administrator',
-    email: 'superadmin@100acres.com',
+    name: localStorage.getItem('userName') || 'Super Administrator',
+    email: localStorage.getItem('userEmail') || 'superadmin@100acres.com',
     phone: '+91 9876543210',
     role: 'Super Admin',
     company: '100acres.com',
@@ -21,14 +21,23 @@ const SuperAdminProfile = ({ onCreateAdmin }) => {
       'Create Head Admins',
       'Manage All Users',
       'View All Reports',
-      'System Configuration'
+      'System Configuration',
+      'Access All Data'
     ]
   };
 
   const handleLogout = () => {
     localStorage.clear();
     navigate('/login');
+    window.location.reload();
   };
+
+  const statsData = [
+    { title: 'Total Users', value: '147', icon: Users, color: 'text-blue-600' },
+    { title: 'Active Leads', value: '1,234', icon: Building2, color: 'text-green-600' },
+    { title: 'Open Tickets', value: '89', icon: Ticket, color: 'text-orange-600' },
+    { title: 'System Health', value: '99.9%', icon: Shield, color: 'text-emerald-600' }
+  ];
 
   return (
     <div className="space-y-6">
@@ -38,14 +47,33 @@ const SuperAdminProfile = ({ onCreateAdmin }) => {
             <Building2 className="h-6 w-6 text-white" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">100acres.com</h1>
-            <p className="text-gray-600">Super Admin Dashboard</p>
+            <h1 className="text-3xl font-bold text-gray-900">100acres.com</h1>
+            <p className="text-gray-600">Super Admin Control Panel</p>
           </div>
         </div>
         <Button onClick={handleLogout} variant="outline" className="flex items-center">
           <LogOut className="h-4 w-4 mr-2" />
           Logout
         </Button>
+      </div>
+
+      {/* Quick Stats */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        {statsData.map((stat, index) => (
+          <Card key={index}>
+            <CardContent className="p-6">
+              <div className="flex items-center space-x-3">
+                <div className={`p-2 rounded-lg bg-gray-50`}>
+                  <stat.icon className={`h-5 w-5 ${stat.color}`} />
+                </div>
+                <div>
+                  <p className="text-sm text-gray-600">{stat.title}</p>
+                  <p className="text-2xl font-bold">{stat.value}</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -92,7 +120,7 @@ const SuperAdminProfile = ({ onCreateAdmin }) => {
           </CardContent>
         </Card>
 
-        {/* Permissions */}
+        {/* System Permissions */}
         <Card>
           <CardHeader>
             <CardTitle>System Permissions</CardTitle>
@@ -115,19 +143,28 @@ const SuperAdminProfile = ({ onCreateAdmin }) => {
       <Card>
         <CardHeader>
           <CardTitle>Quick Actions</CardTitle>
-          <CardDescription>Manage your organization</CardDescription>
+          <CardDescription>Manage your organization and access key features</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="flex flex-wrap gap-4">
-            <Button onClick={onCreateAdmin} className="flex items-center bg-green-600 hover:bg-green-700">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <Button 
+              onClick={() => navigate('/create-admin')} 
+              className="flex items-center bg-green-600 hover:bg-green-700 w-full"
+            >
               <UserPlus className="h-4 w-4 mr-2" />
               Create Head Admin
             </Button>
-            <Button variant="outline" onClick={() => navigate('/leads')}>
+            <Button variant="outline" onClick={() => navigate('/leads')} className="w-full">
+              <Building2 className="h-4 w-4 mr-2" />
               View All Leads
             </Button>
-            <Button variant="outline" onClick={() => navigate('/tickets')}>
+            <Button variant="outline" onClick={() => navigate('/tickets')} className="w-full">
+              <Ticket className="h-4 w-4 mr-2" />
               View All Tickets
+            </Button>
+            <Button variant="outline" onClick={() => navigate('/users')} className="w-full">
+              <Users className="h-4 w-4 mr-2" />
+              Manage Users
             </Button>
           </div>
         </CardContent>

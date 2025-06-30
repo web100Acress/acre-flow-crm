@@ -8,8 +8,14 @@ const Sidebar = ({ userRole, isCollapsed, onToggle }) => {
 
   const handleLogout = () => {
     // Clear user session and redirect to login
+    localStorage.clear();
     navigate('/login');
+    window.location.reload();
   };
+
+  // Get user info from localStorage
+  const userName = localStorage.getItem('userName') || 'User';
+  const userEmail = localStorage.getItem('userEmail') || '';
 
   const navigationItems = {
     'super-admin': [
@@ -43,16 +49,31 @@ const Sidebar = ({ userRole, isCollapsed, onToggle }) => {
 
   const navItems = navigationItems[userRole] || navigationItems['employee'];
 
+  const getRoleDisplayName = (role) => {
+    switch (role) {
+      case 'super-admin':
+        return 'Super Admin';
+      case 'head-admin':
+        return 'Head Admin';
+      case 'team-leader':
+        return 'Team Leader';
+      case 'employee':
+        return 'Employee';
+      default:
+        return 'User';
+    }
+  };
+
   return (
     <div className={`bg-white border-r border-gray-200 transition-all duration-300 ${isCollapsed ? 'w-16' : 'w-64'} min-h-screen flex flex-col`}>
       <div className="p-4 border-b border-gray-200">
         <div className="flex items-center">
-          <div className="bg-blue-600 text-white p-2 rounded-lg">
+          <div className="bg-green-600 text-white p-2 rounded-lg">
             <Building2 className="h-6 w-6" />
           </div>
           {!isCollapsed && (
             <div className="ml-3">
-              <h1 className="text-lg font-bold text-gray-900">100Acres</h1>
+              <h1 className="text-lg font-bold text-gray-900">100acres.com</h1>
               <p className="text-sm text-gray-500">CRM Dashboard</p>
             </div>
           )}
@@ -70,7 +91,7 @@ const Sidebar = ({ userRole, isCollapsed, onToggle }) => {
                   className={({ isActive }) =>
                     `flex items-center px-3 py-2 rounded-lg transition-colors ${
                       isActive
-                        ? 'bg-blue-50 text-blue-700 border-r-2 border-blue-700'
+                        ? 'bg-green-50 text-green-700 border-r-2 border-green-700'
                         : 'text-gray-700 hover:bg-gray-50'
                     }`
                   }
@@ -86,13 +107,13 @@ const Sidebar = ({ userRole, isCollapsed, onToggle }) => {
 
       <div className="p-4 border-t border-gray-200">
         <div className="flex items-center mb-4">
-          <div className="bg-gray-200 p-2 rounded-full">
+          <div className="bg-green-600 text-white p-2 rounded-full">
             <User className="h-4 w-4" />
           </div>
           {!isCollapsed && (
             <div className="ml-3">
-              <p className="text-sm font-medium text-gray-900">John Doe</p>
-              <p className="text-xs text-gray-500 capitalize">{userRole.replace('-', ' ')}</p>
+              <p className="text-sm font-medium text-gray-900">{userName}</p>
+              <p className="text-xs text-gray-500">{getRoleDisplayName(userRole)}</p>
             </div>
           )}
         </div>

@@ -17,13 +17,40 @@ const queryClient = new QueryClient();
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userRole, setUserRole] = useState("employee");
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const loggedIn = localStorage.getItem('isLoggedIn') === 'true';
-    const role = localStorage.getItem('userRole') || 'employee';
-    setIsLoggedIn(loggedIn);
-    setUserRole(role);
+    const checkAuthStatus = () => {
+      const loggedIn = localStorage.getItem('isLoggedIn') === 'true';
+      const role = localStorage.getItem('userRole') || 'employee';
+      
+      setIsLoggedIn(loggedIn);
+      setUserRole(role);
+      setIsLoading(false);
+    };
+
+    checkAuthStatus();
+    
+    // Listen for storage changes (in case user logs out from another tab)
+    window.addEventListener('storage', checkAuthStatus);
+    
+    return () => {
+      window.removeEventListener('storage', checkAuthStatus);
+    };
   }, []);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-16 h-16 bg-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
+            <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+          </div>
+          <p className="text-gray-600">Loading...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -49,8 +76,32 @@ const App = () => {
               element={isLoggedIn ? <Tickets userRole={userRole} /> : <Navigate to="/login" replace />} 
             />
             <Route 
-              path="/create-:type" 
-              element={isLoggedIn ? <CreateUser userRole={userRole} /> : <Navigate to="/login" replace />} 
+              path="/create-admin" 
+              element={isLoggedIn && userRole === 'super-admin' ? <CreateUser userRole={userRole} userType="admin" /> : <Navigate to="/" replace />} 
+            />
+            <Route 
+              path="/create-leader" 
+              element={isLoggedIn && userRole === 'head-admin' ? <CreateUser userRole={userRole} userType="leader" /> : <Navigate to="/" replace />} 
+            />
+            <Route 
+              path="/create-employee" 
+              element={isLoggedIn && userRole === 'team-leader' ? <CreateUser userRole={userRole} userType="employee" /> : <Navigate to="/" replace />} 
+            />
+            <Route 
+              path="/users" 
+              element={isLoggedIn && userRole === 'super-admin' ? <div className="p-6"><h1 className="text-2xl font-bold">Manage Users</h1><p>User management interface coming soon...</p></div> : <Navigate to="/" replace />} 
+            />
+            <Route 
+              path="/team" 
+              element={isLoggedIn && userRole === 'head-admin' ? <div className="p-6"><h1 className="text-2xl font-bold">Team Management</h1><p>Team management interface coming soon...</p></div> : <Navigate to="/" replace />} 
+            />
+            <Route 
+              path="/employees" 
+              element={isLoggedIn && userRole === 'team-leader' ? <div className="p-6"><h1 className="text-2xl font-bold">My Employees</h1><p>Employee management interface coming soon...</p></div> : <Navigate to="/" replace />} 
+            />
+            <Route 
+              path="/settings" 
+              element={isLoggedIn && userRole === 'super-admin' ? <div className="p-6"><h1 className="text-2xl font-bold">Settings</h1><p>Settings interface coming soon...</p></div> : <Navigate to="/" replace />} 
             />
             <Route path="*" element={<NotFound />} />
           </Routes>

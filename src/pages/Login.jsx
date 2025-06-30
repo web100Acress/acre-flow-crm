@@ -14,29 +14,42 @@ const Login = () => {
   });
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
   // User credentials for different roles
   const users = {
-    'superadmin': { password: 'super123', role: 'super-admin', email: 'superadmin@100acres.com' },
-    'headadmin': { password: 'head123', role: 'head-admin', email: 'headadmin@100acres.com' },
-    'teamleader': { password: 'tl123', role: 'team-leader', email: 'teamleader@100acres.com' },
-    'employee': { password: 'emp123', role: 'employee', email: 'employee@100acres.com' }
+    'superadmin': { password: 'super123', role: 'super-admin', email: 'superadmin@100acres.com', name: 'Super Administrator' },
+    'headadmin': { password: 'head123', role: 'head-admin', email: 'headadmin@100acres.com', name: 'Head Administrator' },
+    'teamleader': { password: 'tl123', role: 'team-leader', email: 'teamleader@100acres.com', name: 'Team Leader' },
+    'employee': { password: 'emp123', role: 'employee', email: 'employee@100acres.com', name: 'Employee' }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
+    setError('');
 
-    const user = users[credentials.username.toLowerCase()];
-    
-    if (user && user.password === credentials.password) {
-      localStorage.setItem('userRole', user.role);
-      localStorage.setItem('userEmail', user.email);
-      localStorage.setItem('isLoggedIn', 'true');
-      navigate('/');
-    } else {
-      alert('Invalid username or password');
+    try {
+      const user = users[credentials.username.toLowerCase()];
+      
+      if (user && user.password === credentials.password) {
+        // Store user session data
+        localStorage.setItem('userRole', user.role);
+        localStorage.setItem('userEmail', user.email);
+        localStorage.setItem('userName', user.name);
+        localStorage.setItem('isLoggedIn', 'true');
+        
+        // Redirect to dashboard
+        navigate('/');
+        
+        // Reload to update the app state
+        window.location.reload();
+      } else {
+        setError('Invalid username or password');
+      }
+    } catch (err) {
+      setError('Login failed. Please try again.');
     }
     
     setIsLoading(false);
@@ -50,9 +63,16 @@ const Login = () => {
             <Building2 className="h-10 w-10 text-white" />
           </div>
           <CardTitle className="text-3xl font-bold text-green-800">100acres.com</CardTitle>
+          <p className="text-sm text-gray-600 mt-2">CRM Login Portal</p>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
+            {error && (
+              <div className="p-3 bg-red-50 border border-red-200 rounded-lg">
+                <p className="text-sm text-red-600">{error}</p>
+              </div>
+            )}
+            
             <div className="space-y-2">
               <Label htmlFor="username">Username</Label>
               <Input
@@ -62,6 +82,7 @@ const Login = () => {
                 value={credentials.username}
                 onChange={(e) => setCredentials(prev => ({ ...prev, username: e.target.value }))}
                 required
+                className="focus:ring-green-500 focus:border-green-500"
               />
             </div>
             
@@ -75,6 +96,7 @@ const Login = () => {
                   value={credentials.password}
                   onChange={(e) => setCredentials(prev => ({ ...prev, password: e.target.value }))}
                   required
+                  className="focus:ring-green-500 focus:border-green-500"
                 />
                 <button
                   type="button"
@@ -86,13 +108,17 @@ const Login = () => {
               </div>
             </div>
 
-            <Button type="submit" className="w-full bg-green-600 hover:bg-green-700" disabled={isLoading}>
+            <Button 
+              type="submit" 
+              className="w-full bg-green-600 hover:bg-green-700 transition-colors" 
+              disabled={isLoading}
+            >
               {isLoading ? 'Signing In...' : 'Sign In'}
             </Button>
           </form>
 
           <div className="mt-6 p-4 bg-green-50 rounded-lg">
-            <p className="text-sm text-green-800 font-medium mb-2">Login Credentials:</p>
+            <p className="text-sm text-green-800 font-medium mb-2">Test Credentials:</p>
             <div className="text-xs text-green-700 space-y-1">
               <p><strong>Super Admin:</strong> superadmin / super123</p>
               <p><strong>Head Admin:</strong> headadmin / head123</p>

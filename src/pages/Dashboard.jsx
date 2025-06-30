@@ -23,13 +23,40 @@ const Dashboard = ({ userRole = 'employee' }) => {
     );
   }
 
+  // Get role-specific dashboard title
+  const getDashboardTitle = () => {
+    switch (userRole) {
+      case 'head-admin':
+        return 'Head Admin Dashboard';
+      case 'team-leader':
+        return 'Team Leader Dashboard';
+      case 'employee':
+        return 'Employee Dashboard';
+      default:
+        return 'Dashboard';
+    }
+  };
+
+  const getDashboardDescription = () => {
+    switch (userRole) {
+      case 'head-admin':
+        return 'Manage teams and oversee operations';
+      case 'team-leader':
+        return 'Lead your team and track performance';
+      case 'employee':
+        return 'Your daily tasks and assignments';
+      default:
+        return 'Welcome to your 100Acres CRM dashboard';
+    }
+  };
+
   // Regular dashboard for other roles
   return (
     <DashboardLayout userRole={userRole}>
       <div className="space-y-6">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
-          <p className="text-gray-600">Welcome to your 100Acres CRM dashboard</p>
+          <h1 className="text-2xl font-bold text-gray-900">{getDashboardTitle()}</h1>
+          <p className="text-gray-600">{getDashboardDescription()}</p>
         </div>
 
         <DashboardStats userRole={userRole} />

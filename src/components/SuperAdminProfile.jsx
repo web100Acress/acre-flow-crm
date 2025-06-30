@@ -3,7 +3,7 @@ import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { User, Mail, Phone, Calendar, Shield, UserPlus, LogOut } from 'lucide-react';
+import { User, Mail, Phone, Calendar, Shield, UserPlus, LogOut, Building2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const SuperAdminProfile = ({ onCreateAdmin }) => {
@@ -14,6 +14,7 @@ const SuperAdminProfile = ({ onCreateAdmin }) => {
     email: 'superadmin@100acres.com',
     phone: '+91 9876543210',
     role: 'Super Admin',
+    company: '100acres.com',
     joinDate: '2024-01-01',
     permissions: [
       'Full System Access',
@@ -32,9 +33,14 @@ const SuperAdminProfile = ({ onCreateAdmin }) => {
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900">Super Admin Dashboard</h1>
-          <p className="text-gray-600">Welcome back, {superAdminData.name}</p>
+        <div className="flex items-center space-x-4">
+          <div className="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center">
+            <Building2 className="h-6 w-6 text-white" />
+          </div>
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900">100acres.com</h1>
+            <p className="text-gray-600">Super Admin Dashboard</p>
+          </div>
         </div>
         <Button onClick={handleLogout} variant="outline" className="flex items-center">
           <LogOut className="h-4 w-4 mr-2" />
@@ -54,18 +60,22 @@ const SuperAdminProfile = ({ onCreateAdmin }) => {
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="flex items-center space-x-3">
-              <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center">
+              <div className="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center">
                 <Shield className="h-6 w-6 text-white" />
               </div>
               <div>
                 <h3 className="font-semibold text-lg">{superAdminData.name}</h3>
-                <Badge variant="secondary" className="bg-blue-100 text-blue-800">
+                <Badge variant="secondary" className="bg-green-100 text-green-800">
                   {superAdminData.role}
                 </Badge>
               </div>
             </div>
 
             <div className="space-y-3">
+              <div className="flex items-center space-x-3">
+                <Building2 className="h-4 w-4 text-gray-500" />
+                <span className="text-sm">{superAdminData.company}</span>
+              </div>
               <div className="flex items-center space-x-3">
                 <Mail className="h-4 w-4 text-gray-500" />
                 <span className="text-sm">{superAdminData.email}</span>
@@ -109,7 +119,7 @@ const SuperAdminProfile = ({ onCreateAdmin }) => {
         </CardHeader>
         <CardContent>
           <div className="flex flex-wrap gap-4">
-            <Button onClick={onCreateAdmin} className="flex items-center">
+            <Button onClick={onCreateAdmin} className="flex items-center bg-green-600 hover:bg-green-700">
               <UserPlus className="h-4 w-4 mr-2" />
               Create Head Admin
             </Button>

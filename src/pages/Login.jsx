@@ -4,55 +4,63 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { LogIn, Eye, EyeOff } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Building2, Eye, EyeOff } from 'lucide-react';
 
 const Login = () => {
   const [credentials, setCredentials] = useState({
-    email: '',
+    username: '',
     password: ''
   });
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
+  // User credentials for different roles
+  const users = {
+    'superadmin': { password: 'super123', role: 'super-admin', email: 'superadmin@100acres.com' },
+    'headadmin': { password: 'head123', role: 'head-admin', email: 'headadmin@100acres.com' },
+    'teamleader': { password: 'tl123', role: 'team-leader', email: 'teamleader@100acres.com' },
+    'employee': { password: 'emp123', role: 'employee', email: 'employee@100acres.com' }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
 
-    // Simple demo authentication - in real app, this would be handled by Supabase
-    if (credentials.email === 'superadmin@100acres.com' && credentials.password === 'superadmin123') {
-      localStorage.setItem('userRole', 'super-admin');
-      localStorage.setItem('userEmail', credentials.email);
+    const user = users[credentials.username.toLowerCase()];
+    
+    if (user && user.password === credentials.password) {
+      localStorage.setItem('userRole', user.role);
+      localStorage.setItem('userEmail', user.email);
       localStorage.setItem('isLoggedIn', 'true');
       navigate('/');
     } else {
-      alert('Invalid credentials. Use: superadmin@100acres.com / superadmin123');
+      alert('Invalid username or password');
     }
     
     setIsLoading(false);
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 flex items-center justify-center p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
-          <div className="mx-auto w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mb-4">
-            <LogIn className="h-8 w-8 text-white" />
+          <div className="mx-auto w-20 h-20 bg-green-600 rounded-full flex items-center justify-center mb-4">
+            <Building2 className="h-10 w-10 text-white" />
           </div>
-          <CardTitle className="text-2xl font-bold">100Acres CRM</CardTitle>
-          <CardDescription>Super Admin Login</CardDescription>
+          <CardTitle className="text-3xl font-bold text-green-800">100acres.com</CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="email">Email Address</Label>
+              <Label htmlFor="username">Username</Label>
               <Input
-                id="email"
-                type="email"
-                placeholder="superadmin@100acres.com"
-                value={credentials.email}
-                onChange={(e) => setCredentials(prev => ({ ...prev, email: e.target.value }))}
+                id="username"
+                type="text"
+                placeholder="Enter username"
+                value={credentials.username}
+                onChange={(e) => setCredentials(prev => ({ ...prev, username: e.target.value }))}
                 required
               />
             </div>
@@ -63,7 +71,7 @@ const Login = () => {
                 <Input
                   id="password"
                   type={showPassword ? 'text' : 'password'}
-                  placeholder="Enter your password"
+                  placeholder="Enter password"
                   value={credentials.password}
                   onChange={(e) => setCredentials(prev => ({ ...prev, password: e.target.value }))}
                   required
@@ -78,15 +86,19 @@ const Login = () => {
               </div>
             </div>
 
-            <Button type="submit" className="w-full" disabled={isLoading}>
+            <Button type="submit" className="w-full bg-green-600 hover:bg-green-700" disabled={isLoading}>
               {isLoading ? 'Signing In...' : 'Sign In'}
             </Button>
           </form>
 
-          <div className="mt-6 p-4 bg-blue-50 rounded-lg">
-            <p className="text-sm text-blue-800 font-medium">Demo Credentials:</p>
-            <p className="text-sm text-blue-600">Email: superadmin@100acres.com</p>
-            <p className="text-sm text-blue-600">Password: superadmin123</p>
+          <div className="mt-6 p-4 bg-green-50 rounded-lg">
+            <p className="text-sm text-green-800 font-medium mb-2">Login Credentials:</p>
+            <div className="text-xs text-green-700 space-y-1">
+              <p><strong>Super Admin:</strong> superadmin / super123</p>
+              <p><strong>Head Admin:</strong> headadmin / head123</p>
+              <p><strong>Team Leader:</strong> teamleader / tl123</p>
+              <p><strong>Employee:</strong> employee / emp123</p>
+            </div>
           </div>
         </CardContent>
       </Card>

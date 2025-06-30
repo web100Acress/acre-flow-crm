@@ -2,15 +2,15 @@ import React, { useState } from 'react';
 import { Search, Filter, Eye, MessageSquare, Phone, Mail, MapPin, Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import FollowUpModal from './FollowUpModal';
+import CreateLeadForm from './CreateLeadForm';
 
 const LeadTable = ({ userRole, leads = [] }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
   const [selectedLead, setSelectedLead] = useState(null);
   const [showFollowUp, setShowFollowUp] = useState(false);
-
-  // ... keep existing code (mockLeads array and other constants)
-  const mockLeads = leads.length > 0 ? leads : [
+  const [showCreateLead, setShowCreateLead] = useState(false);
+  const [leadsList, setLeadsList] = useState(leads.length > 0 ? leads : [
     {
       id: 1,
       name: 'Rajesh Kumar',
@@ -53,9 +53,9 @@ const LeadTable = ({ userRole, leads = [] }) => {
       lastContact: '2024-01-10',
       followUps: 0
     }
-  ];
+  ]);
 
-  const filteredLeads = mockLeads.filter(lead => {
+  const filteredLeads = leadsList.filter(lead => {
     const matchesSearch = lead.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          lead.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          lead.phone.includes(searchTerm);
@@ -78,8 +78,21 @@ const LeadTable = ({ userRole, leads = [] }) => {
   };
 
   const handleCreateLead = () => {
-    // TODO: Implement create lead functionality
-    console.log('Create lead clicked');
+    setShowCreateLead(true);
+  };
+
+  const handleSaveLead = (newLeadData) => {
+    const newLead = {
+      ...newLeadData,
+      id: leadsList.length + 1,
+      assignedTo: localStorage.getItem('userName') || 'Current User',
+      assignedBy: localStorage.getItem('userRole') || 'Admin',
+      lastContact: new Date().toISOString().split('T')[0],
+      followUps: 0
+    };
+    
+    setLeadsList(prev => [...prev, newLead]);
+    console.log('New lead created:', newLead);
   };
 
   return (
@@ -113,7 +126,6 @@ const LeadTable = ({ userRole, leads = [] }) => {
               </select>
             </div>
             
-            {/* Create Lead Button */}
             <Button 
               onClick={handleCreateLead}
               className="bg-green-600 hover:bg-green-700 text-white flex items-center"
@@ -125,7 +137,6 @@ const LeadTable = ({ userRole, leads = [] }) => {
         </div>
       </div>
 
-      {/* ... keep existing code (table structure and data display) */}
       <div className="overflow-x-auto">
         <table className="w-full">
           <thead className="bg-gray-50">
@@ -211,6 +222,12 @@ const LeadTable = ({ userRole, leads = [] }) => {
           userRole={userRole}
         />
       )}
+
+      <CreateLeadForm
+        isOpen={showCreateLead}
+        onClose={() => setShowCreateLead(false)}
+        onSave={handleSaveLead}
+      />
     </div>
   );
 };

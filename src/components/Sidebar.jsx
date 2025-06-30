@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { User, Users, UserPlus, Ticket, Building2, Home, LogOut, Settings } from 'lucide-react';
+import { User, Users, UserPlus, Ticket, Building2, Home, LogOut, Settings, Clock, DollarSign, Calendar, Award } from 'lucide-react';
 
 const Sidebar = ({ userRole, isCollapsed, onToggle }) => {
   const navigate = useNavigate();
@@ -44,6 +44,26 @@ const Sidebar = ({ userRole, isCollapsed, onToggle }) => {
       { path: '/', icon: Home, label: 'Dashboard' },
       { path: '/leads', icon: Building2, label: 'My Leads' },
       { path: '/tickets', icon: Ticket, label: 'My Tickets' },
+    ],
+    'hr-manager': [
+      { path: '/', icon: Home, label: 'Dashboard' },
+      { path: '/attendance', icon: Clock, label: 'Attendance' },
+      { path: '/payroll', icon: DollarSign, label: 'Payroll' },
+      { path: '/employees', icon: Users, label: 'Employees' },
+      { path: '/leave', icon: Calendar, label: 'Leave Management' },
+      { path: '/performance', icon: Award, label: 'Performance' },
+    ],
+    'hr-assistant': [
+      { path: '/', icon: Home, label: 'Dashboard' },
+      { path: '/attendance', icon: Clock, label: 'Attendance' },
+      { path: '/employees', icon: Users, label: 'Employees' },
+      { path: '/leave', icon: Calendar, label: 'Leave Requests' },
+    ],
+    'payroll-admin': [
+      { path: '/', icon: Home, label: 'Dashboard' },
+      { path: '/payroll', icon: DollarSign, label: 'Payroll' },
+      { path: '/attendance', icon: Clock, label: 'Attendance' },
+      { path: '/employees', icon: Users, label: 'Employee Data' },
     ]
   };
 
@@ -59,6 +79,12 @@ const Sidebar = ({ userRole, isCollapsed, onToggle }) => {
         return 'Team Leader';
       case 'employee':
         return 'Employee';
+      case 'hr-manager':
+        return 'HR Manager';
+      case 'hr-assistant':
+        return 'HR Assistant';
+      case 'payroll-admin':
+        return 'Payroll Admin';
       default:
         return 'User';
     }

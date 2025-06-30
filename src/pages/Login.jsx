@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -17,12 +16,15 @@ const Login = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  // User credentials for different roles
+  // User credentials for different roles including HR department
   const users = {
     'superadmin': { password: 'super123', role: 'super-admin', email: 'superadmin@100acres.com', name: 'Super Administrator' },
     'headadmin': { password: 'head123', role: 'head-admin', email: 'headadmin@100acres.com', name: 'Head Administrator' },
     'teamleader': { password: 'tl123', role: 'team-leader', email: 'teamleader@100acres.com', name: 'Team Leader' },
-    'employee': { password: 'emp123', role: 'employee', email: 'employee@100acres.com', name: 'Employee' }
+    'employee': { password: 'emp123', role: 'employee', email: 'employee@100acres.com', name: 'Employee' },
+    'hrmanager': { password: 'hr123', role: 'hr-manager', email: 'hrmanager@100acres.com', name: 'HR Manager' },
+    'hrassistant': { password: 'hra123', role: 'hr-assistant', email: 'hrassistant@100acres.com', name: 'HR Assistant' },
+    'payroll': { password: 'pay123', role: 'payroll-admin', email: 'payroll@100acres.com', name: 'Payroll Administrator' }
   };
 
   const handleSubmit = async (e) => {
@@ -124,6 +126,9 @@ const Login = () => {
               <p><strong>Head Admin:</strong> headadmin / head123</p>
               <p><strong>Team Leader:</strong> teamleader / tl123</p>
               <p><strong>Employee:</strong> employee / emp123</p>
+              <p><strong>HR Manager:</strong> hrmanager / hr123</p>
+              <p><strong>HR Assistant:</strong> hrassistant / hra123</p>
+              <p><strong>Payroll Admin:</strong> payroll / pay123</p>
             </div>
           </div>
         </CardContent>

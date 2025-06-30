@@ -41,7 +41,8 @@ const SuperAdminProfile = ({ onCreateAdmin }) => {
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
+      {/* Header with Profile and Permissions moved to top-right */}
+      <div className="flex justify-between items-start">
         <div className="flex items-center space-x-4">
           <div className="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center">
             <Building2 className="h-6 w-6 text-white" />
@@ -51,10 +52,71 @@ const SuperAdminProfile = ({ onCreateAdmin }) => {
             <p className="text-gray-600">Super Admin Control Panel</p>
           </div>
         </div>
-        <Button onClick={handleLogout} variant="outline" className="flex items-center">
-          <LogOut className="h-4 w-4 mr-2" />
-          Logout
-        </Button>
+        
+        {/* Profile and Permissions in top-right */}
+        <div className="flex space-x-4">
+          {/* Profile Information Card */}
+          <Card className="w-80">
+            <CardHeader className="pb-3">
+              <CardTitle className="flex items-center text-lg">
+                <User className="h-4 w-4 mr-2" />
+                Profile Information
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <div className="flex items-center space-x-3">
+                <div className="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center">
+                  <Shield className="h-5 w-5 text-white" />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-base">{superAdminData.name}</h3>
+                  <Badge variant="secondary" className="bg-green-100 text-green-800 text-xs">
+                    {superAdminData.role}
+                  </Badge>
+                </div>
+              </div>
+
+              <div className="space-y-2 text-sm">
+                <div className="flex items-center space-x-2">
+                  <Building2 className="h-3 w-3 text-gray-500" />
+                  <span>{superAdminData.company}</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Mail className="h-3 w-3 text-gray-500" />
+                  <span>{superAdminData.email}</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Phone className="h-3 w-3 text-gray-500" />
+                  <span>{superAdminData.phone}</span>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* System Permissions Card */}
+          <Card className="w-64">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-lg">Permissions</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-1">
+                {superAdminData.permissions.slice(0, 4).map((permission, index) => (
+                  <div key={index} className="flex items-center space-x-2 p-1 bg-green-50 rounded text-xs">
+                    <Shield className="h-3 w-3 text-green-600" />
+                    <span className="text-green-800">{permission}</span>
+                  </div>
+                ))}
+                <div className="text-xs text-gray-500 mt-2">+{superAdminData.permissions.length - 4} more</div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Logout Button */}
+          <Button onClick={handleLogout} variant="outline" className="flex items-center h-fit">
+            <LogOut className="h-4 w-4 mr-2" />
+            Logout
+          </Button>
+        </div>
       </div>
 
       {/* Quick Stats */}
@@ -74,69 +136,6 @@ const SuperAdminProfile = ({ onCreateAdmin }) => {
             </CardContent>
           </Card>
         ))}
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Profile Information */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center">
-              <User className="h-5 w-5 mr-2" />
-              Profile Information
-            </CardTitle>
-            <CardDescription>Your account details and permissions</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="flex items-center space-x-3">
-              <div className="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center">
-                <Shield className="h-6 w-6 text-white" />
-              </div>
-              <div>
-                <h3 className="font-semibold text-lg">{superAdminData.name}</h3>
-                <Badge variant="secondary" className="bg-green-100 text-green-800">
-                  {superAdminData.role}
-                </Badge>
-              </div>
-            </div>
-
-            <div className="space-y-3">
-              <div className="flex items-center space-x-3">
-                <Building2 className="h-4 w-4 text-gray-500" />
-                <span className="text-sm">{superAdminData.company}</span>
-              </div>
-              <div className="flex items-center space-x-3">
-                <Mail className="h-4 w-4 text-gray-500" />
-                <span className="text-sm">{superAdminData.email}</span>
-              </div>
-              <div className="flex items-center space-x-3">
-                <Phone className="h-4 w-4 text-gray-500" />
-                <span className="text-sm">{superAdminData.phone}</span>
-              </div>
-              <div className="flex items-center space-x-3">
-                <Calendar className="h-4 w-4 text-gray-500" />
-                <span className="text-sm">Joined: {superAdminData.joinDate}</span>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* System Permissions */}
-        <Card>
-          <CardHeader>
-            <CardTitle>System Permissions</CardTitle>
-            <CardDescription>Your access rights and capabilities</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-2">
-              {superAdminData.permissions.map((permission, index) => (
-                <div key={index} className="flex items-center space-x-3 p-2 bg-green-50 rounded-lg">
-                  <Shield className="h-4 w-4 text-green-600" />
-                  <span className="text-sm text-green-800">{permission}</span>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
       </div>
 
       {/* Quick Actions */}

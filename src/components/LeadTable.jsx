@@ -1,6 +1,6 @@
-
 import React, { useState } from 'react';
-import { Search, Filter, Eye, MessageSquare, Phone, Mail, MapPin } from 'lucide-react';
+import { Search, Filter, Eye, MessageSquare, Phone, Mail, MapPin, Plus } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import FollowUpModal from './FollowUpModal';
 
 const LeadTable = ({ userRole, leads = [] }) => {
@@ -9,6 +9,7 @@ const LeadTable = ({ userRole, leads = [] }) => {
   const [selectedLead, setSelectedLead] = useState(null);
   const [showFollowUp, setShowFollowUp] = useState(false);
 
+  // ... keep existing code (mockLeads array and other constants)
   const mockLeads = leads.length > 0 ? leads : [
     {
       id: 1,
@@ -76,38 +77,55 @@ const LeadTable = ({ userRole, leads = [] }) => {
     setShowFollowUp(true);
   };
 
+  const handleCreateLead = () => {
+    // TODO: Implement create lead functionality
+    console.log('Create lead clicked');
+  };
+
   return (
     <div className="bg-white rounded-lg shadow-sm border border-gray-200">
       <div className="p-6 border-b border-gray-200">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <h2 className="text-xl font-semibold text-gray-900">Lead Management</h2>
           
-          <div className="flex flex-col sm:flex-row gap-3">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-              <input
-                type="text"
-                placeholder="Search leads..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              />
+          <div className="flex flex-col sm:flex-row gap-3 items-end">
+            <div className="flex flex-col sm:flex-row gap-3">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                <input
+                  type="text"
+                  placeholder="Search leads..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+              </div>
+              
+              <select
+                value={statusFilter}
+                onChange={(e) => setStatusFilter(e.target.value)}
+                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              >
+                <option value="all">All Status</option>
+                <option value="hot">Hot</option>
+                <option value="warm">Warm</option>
+                <option value="cold">Cold</option>
+              </select>
             </div>
             
-            <select
-              value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value)}
-              className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            {/* Create Lead Button */}
+            <Button 
+              onClick={handleCreateLead}
+              className="bg-green-600 hover:bg-green-700 text-white flex items-center"
             >
-              <option value="all">All Status</option>
-              <option value="hot">Hot</option>
-              <option value="warm">Warm</option>
-              <option value="cold">Cold</option>
-            </select>
+              <Plus className="h-4 w-4 mr-2" />
+              Create Lead
+            </Button>
           </div>
         </div>
       </div>
 
+      {/* ... keep existing code (table structure and data display) */}
       <div className="overflow-x-auto">
         <table className="w-full">
           <thead className="bg-gray-50">

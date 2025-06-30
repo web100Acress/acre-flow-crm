@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, Filter, Eye, MessageSquare, Phone, Mail, MapPin, Plus } from 'lucide-react';
+import { Search, Filter, Eye, MessageSquare, Phone, Mail, MapPin, Plus, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import FollowUpModal from './FollowUpModal';
 import CreateLeadForm from './CreateLeadForm';
@@ -79,6 +79,13 @@ const LeadTable = ({ userRole, leads = [] }) => {
 
   const handleCreateLead = () => {
     setShowCreateLead(true);
+  };
+
+  const handleDeleteLead = (leadId) => {
+    if (window.confirm('Are you sure you want to delete this lead? This action cannot be undone.')) {
+      setLeadsList(prev => prev.filter(lead => lead.id !== leadId));
+      console.log('Lead deleted:', leadId);
+    }
   };
 
   const handleSaveLead = (newLeadData) => {
@@ -207,6 +214,15 @@ const LeadTable = ({ userRole, leads = [] }) => {
                         </span>
                       )}
                     </button>
+                    {userRole === 'super-admin' && (
+                      <button 
+                        onClick={() => handleDeleteLead(lead.id)}
+                        className="text-red-600 hover:text-red-900 p-1 hover:bg-red-50 rounded"
+                        title="Delete Lead"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </button>
+                    )}
                   </div>
                 </td>
               </tr>

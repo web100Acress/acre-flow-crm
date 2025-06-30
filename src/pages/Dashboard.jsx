@@ -1,11 +1,29 @@
 
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import DashboardLayout from '../components/DashboardLayout';
 import DashboardStats from '../components/DashboardStats';
 import LeadTable from '../components/LeadTable';
 import TicketBoard from '../components/TicketBoard';
+import SuperAdminProfile from '../components/SuperAdminProfile';
 
 const Dashboard = ({ userRole = 'employee' }) => {
+  const navigate = useNavigate();
+
+  const handleCreateAdmin = () => {
+    navigate('/create-admin');
+  };
+
+  // Show Super Admin Profile for super-admin role
+  if (userRole === 'super-admin') {
+    return (
+      <DashboardLayout userRole={userRole}>
+        <SuperAdminProfile onCreateAdmin={handleCreateAdmin} />
+      </DashboardLayout>
+    );
+  }
+
+  // Regular dashboard for other roles
   return (
     <DashboardLayout userRole={userRole}>
       <div className="space-y-6">

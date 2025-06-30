@@ -1,11 +1,10 @@
+
 import React, { useState } from 'react';
 import { Plus, Clock, CheckCircle, AlertCircle, Upload, Download } from 'lucide-react';
-import CreateTicketModal from './CreateTicketModal';
 
 const TicketBoard = ({ userRole }) => {
   const [selectedTicket, setSelectedTicket] = useState(null);
   const [showUploadModal, setShowUploadModal] = useState(false);
-  const [showCreateModal, setShowCreateModal] = useState(false);
 
   const mockTickets = {
     pending: [
@@ -146,10 +145,7 @@ const TicketBoard = ({ userRole }) => {
         <div className="flex items-center justify-between">
           <h2 className="text-xl font-semibold text-gray-900">Ticket Management</h2>
           {(userRole === 'team-leader' || userRole === 'head-admin' || userRole === 'super-admin') && (
-            <button 
-              onClick={() => setShowCreateModal(true)}
-              className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center"
-            >
+            <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center">
               <Plus className="h-4 w-4 mr-2" />
               Create Ticket
             </button>
@@ -208,13 +204,6 @@ const TicketBoard = ({ userRole }) => {
           </div>
         </div>
       </div>
-
-      {/* Create Ticket Modal */}
-      <CreateTicketModal 
-        isOpen={showCreateModal}
-        onClose={() => setShowCreateModal(false)}
-        userRole={userRole}
-      />
 
       {/* Upload Modal */}
       {showUploadModal && (

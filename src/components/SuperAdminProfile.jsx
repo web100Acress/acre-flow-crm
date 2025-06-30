@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { User, Mail, Phone, Calendar, Shield, UserPlus, LogOut, Building2, Users, Ticket } from 'lucide-react';
+import { User, Mail, Phone, Calendar, Shield, UserPlus, Building2, Users, Ticket } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const SuperAdminProfile = ({ onCreateAdmin }) => {
@@ -27,12 +27,6 @@ const SuperAdminProfile = ({ onCreateAdmin }) => {
     ]
   };
 
-  const handleLogout = () => {
-    localStorage.clear();
-    navigate('/login');
-    window.location.reload();
-  };
-
   const statsData = [
     { title: 'Total Users', value: '147', icon: Users, color: 'text-blue-600' },
     { title: 'Active Leads', value: '1,234', icon: Building2, color: 'text-green-600' },
@@ -42,25 +36,25 @@ const SuperAdminProfile = ({ onCreateAdmin }) => {
 
   return (
     <div className="space-y-6">
-      {/* Header with Profile and Permissions moved to top-right */}
-      <div className="flex justify-between items-start">
+      {/* Compact Header with Profile and Permissions */}
+      <div className="flex justify-between items-center">
         <div className="flex items-center space-x-4">
-          <div className="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center">
-            <Building2 className="h-6 w-6 text-white" />
+          <div className="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center">
+            <Building2 className="h-5 w-5 text-white" />
           </div>
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">100acres.com</h1>
-            <p className="text-gray-600">Super Admin Control Panel</p>
+            <h1 className="text-2xl font-bold text-gray-900">100acres.com</h1>
+            <p className="text-sm text-gray-600">Super Admin Control Panel</p>
           </div>
         </div>
         
-        {/* Profile and Permissions in top-right */}
-        <div className="flex items-center space-x-4">
+        {/* Compact Profile and Permissions */}
+        <div className="flex items-center space-x-3">
           {/* Profile Popover */}
           <Popover>
             <PopoverTrigger asChild>
-              <button className="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center hover:bg-green-700 transition-colors">
-                <User className="h-5 w-5 text-white" />
+              <button className="w-9 h-9 bg-green-600 rounded-full flex items-center justify-center hover:bg-green-700 transition-colors">
+                <User className="h-4 w-4 text-white" />
               </button>
             </PopoverTrigger>
             <PopoverContent className="w-80" align="end">
@@ -98,8 +92,8 @@ const SuperAdminProfile = ({ onCreateAdmin }) => {
           {/* Permissions Popover */}
           <Popover>
             <PopoverTrigger asChild>
-              <button className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center hover:bg-blue-700 transition-colors">
-                <Shield className="h-5 w-5 text-white" />
+              <button className="w-9 h-9 bg-blue-600 rounded-full flex items-center justify-center hover:bg-blue-700 transition-colors">
+                <Shield className="h-4 w-4 text-white" />
               </button>
             </PopoverTrigger>
             <PopoverContent className="w-64" align="end">
@@ -116,27 +110,21 @@ const SuperAdminProfile = ({ onCreateAdmin }) => {
               </div>
             </PopoverContent>
           </Popover>
-
-          {/* Logout Button */}
-          <Button onClick={handleLogout} variant="outline" className="flex items-center h-fit">
-            <LogOut className="h-4 w-4 mr-2" />
-            Logout
-          </Button>
         </div>
       </div>
 
-      {/* Quick Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      {/* Compact Stats Grid */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {statsData.map((stat, index) => (
-          <Card key={index}>
-            <CardContent className="p-6">
-              <div className="flex items-center space-x-3">
-                <div className={`p-2 rounded-lg bg-gray-50`}>
-                  <stat.icon className={`h-5 w-5 ${stat.color}`} />
-                </div>
+          <Card key={index} className="hover:shadow-md transition-shadow">
+            <CardContent className="p-4">
+              <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-gray-600">{stat.title}</p>
-                  <p className="text-2xl font-bold">{stat.value}</p>
+                  <p className="text-xs text-gray-600 font-medium">{stat.title}</p>
+                  <p className="text-xl font-bold mt-1">{stat.value}</p>
+                </div>
+                <div className={`p-2 rounded-lg bg-gray-50`}>
+                  <stat.icon className={`h-4 w-4 ${stat.color}`} />
                 </div>
               </div>
             </CardContent>
@@ -144,32 +132,60 @@ const SuperAdminProfile = ({ onCreateAdmin }) => {
         ))}
       </div>
 
-      {/* Quick Actions */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Quick Actions</CardTitle>
-          <CardDescription>Manage your organization and access key features</CardDescription>
+      {/* Enhanced Quick Actions */}
+      <Card className="shadow-sm">
+        <CardHeader className="pb-4">
+          <CardTitle className="text-lg">Quick Actions</CardTitle>
+          <CardDescription>Manage your organization efficiently</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* Primary Action - Create Head Admin */}
+            <div className="md:col-span-2">
+              <Button 
+                onClick={() => navigate('/create-admin')} 
+                className="flex items-center bg-green-600 hover:bg-green-700 w-full h-12 text-base font-medium"
+              >
+                <UserPlus className="h-5 w-5 mr-3" />
+                Create Head Admin
+              </Button>
+            </div>
+            
+            {/* Secondary Actions */}
             <Button 
-              onClick={() => navigate('/create-admin')} 
-              className="flex items-center bg-green-600 hover:bg-green-700 w-full"
+              variant="outline" 
+              onClick={() => navigate('/leads')} 
+              className="h-11 font-medium hover:bg-green-50 hover:border-green-300"
             >
-              <UserPlus className="h-4 w-4 mr-2" />
-              Create Head Admin
-            </Button>
-            <Button variant="outline" onClick={() => navigate('/leads')} className="w-full">
               <Building2 className="h-4 w-4 mr-2" />
               View All Leads
             </Button>
-            <Button variant="outline" onClick={() => navigate('/tickets')} className="w-full">
+            
+            <Button 
+              variant="outline" 
+              onClick={() => navigate('/tickets')} 
+              className="h-11 font-medium hover:bg-blue-50 hover:border-blue-300"
+            >
               <Ticket className="h-4 w-4 mr-2" />
               View All Tickets
             </Button>
-            <Button variant="outline" onClick={() => navigate('/users')} className="w-full">
+            
+            <Button 
+              variant="outline" 
+              onClick={() => navigate('/users')} 
+              className="h-11 font-medium hover:bg-purple-50 hover:border-purple-300"
+            >
               <Users className="h-4 w-4 mr-2" />
               Manage Users
+            </Button>
+            
+            <Button 
+              variant="outline" 
+              onClick={() => navigate('/settings')} 
+              className="h-11 font-medium hover:bg-gray-50 hover:border-gray-400"
+            >
+              <Shield className="h-4 w-4 mr-2" />
+              System Settings
             </Button>
           </div>
         </CardContent>

@@ -25,7 +25,7 @@ const App = () => {
           <Routes>
             <Route path="/" element={<Dashboard userRole={userRole} />} />
             <Route path="/leads" element={<Leads userRole={userRole} />} />
-            <Route path="/tickets" element={<TicketBoard userRole={userRole} />} />
+            <Route path="/tickets" element={<Tickets userRole={userRole} />} />
             <Route path="/create-:type" element={<CreateUser userRole={userRole} />} />
             <Route path="*" element={<NotFound />} />
           </Routes>

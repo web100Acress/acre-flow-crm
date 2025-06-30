@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -10,8 +11,6 @@ import Tickets from "./pages/Tickets";
 import CreateUser from "./pages/CreateUser";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
-import ManageUsers from "./pages/ManageUsers";
-import Settings from "./pages/Settings";
 
 const queryClient = new QueryClient();
 
@@ -90,7 +89,7 @@ const App = () => {
             />
             <Route 
               path="/users" 
-              element={isLoggedIn && userRole === 'super-admin' ? <ManageUsers userRole={userRole} /> : <Navigate to="/" replace />} 
+              element={isLoggedIn && userRole === 'super-admin' ? <div className="p-6"><h1 className="text-2xl font-bold">Manage Users</h1><p>User management interface coming soon...</p></div> : <Navigate to="/" replace />} 
             />
             <Route 
               path="/team" 
@@ -102,7 +101,7 @@ const App = () => {
             />
             <Route 
               path="/settings" 
-              element={isLoggedIn && userRole === 'super-admin' ? <Settings userRole={userRole} /> : <Navigate to="/" replace />} 
+              element={isLoggedIn && userRole === 'super-admin' ? <div className="p-6"><h1 className="text-2xl font-bold">Settings</h1><p>Settings interface coming soon...</p></div> : <Navigate to="/" replace />} 
             />
             <Route path="*" element={<NotFound />} />
           </Routes>

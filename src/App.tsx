@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -12,6 +13,7 @@ import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 import ManageUsers from "./pages/ManageUsers";
 import Settings from "./pages/Settings";
+import Calendar from "./pages/Calendar";
 
 const queryClient = new QueryClient();
 
@@ -75,6 +77,10 @@ const App = () => {
             <Route 
               path="/tickets" 
               element={isLoggedIn ? <Tickets userRole={userRole} /> : <Navigate to="/login" replace />} 
+            />
+            <Route 
+              path="/calendar" 
+              element={isLoggedIn && userRole === 'team-leader' ? <Calendar userRole={userRole} /> : <Navigate to="/" replace />} 
             />
             <Route 
               path="/create-admin" 

@@ -12,7 +12,8 @@ const CreateLeadForm = ({ isOpen, onClose, onSave }) => {
     location: '',
     budget: '',
     property: '',
-    status: 'Cold'
+    status: 'Cold',
+    assignedTo: ''
   });
 
   const handleInputChange = (e) => {
@@ -34,7 +35,8 @@ const CreateLeadForm = ({ isOpen, onClose, onSave }) => {
         location: '',
         budget: '',
         property: '',
-        status: 'Cold'
+        status: 'Cold',
+        assignedTo: ''
       });
       onClose();
     }
@@ -63,9 +65,46 @@ const CreateLeadForm = ({ isOpen, onClose, onSave }) => {
     'Plot'
   ];
 
+  // Hierarchical assignment options based on organizational structure
+  const assignmentOptions = [
+    {
+      category: 'Sales Management',
+      members: [
+        { id: 'sales_director', name: 'Sales Director', level: 1 },
+        { id: 'sales_manager', name: 'Sales Manager', level: 2 },
+        { id: 'senior_sales_exec', name: 'Senior Sales Executive', level: 3 },
+      ]
+    },
+    {
+      category: 'Sales Team',
+      members: [
+        { id: 'sales_exec_1', name: 'Sales Executive - Rajesh Kumar', level: 4 },
+        { id: 'sales_exec_2', name: 'Sales Executive - Priya Sharma', level: 4 },
+        { id: 'sales_exec_3', name: 'Sales Executive - Amit Singh', level: 4 },
+        { id: 'sales_exec_4', name: 'Sales Executive - Neha Gupta', level: 4 },
+      ]
+    },
+    {
+      category: 'Junior Sales Team',
+      members: [
+        { id: 'junior_sales_1', name: 'Junior Sales - Rohit Verma', level: 5 },
+        { id: 'junior_sales_2', name: 'Junior Sales - Sneha Patel', level: 5 },
+        { id: 'junior_sales_3', name: 'Junior Sales - Vikash Yadav', level: 5 },
+      ]
+    },
+    {
+      category: 'Telecalling Team',
+      members: [
+        { id: 'telecaller_1', name: 'Telecaller - Ravi Kumar', level: 6 },
+        { id: 'telecaller_2', name: 'Telecaller - Sunita Singh', level: 6 },
+        { id: 'telecaller_3', name: 'Telecaller - Manoj Tiwari', level: 6 },
+      ]
+    }
+  ];
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[500px]">
+      <DialogContent className="sm:max-w-[600px] max-h-[80vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center">
             Create New Lead
@@ -172,20 +211,58 @@ const CreateLeadForm = ({ isOpen, onClose, onSave }) => {
             </div>
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Lead Status
-            </label>
-            <select
-              name="status"
-              value={formData.status}
-              onChange={handleInputChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-            >
-              <option value="Cold">Cold</option>
-              <option value="Warm">Warm</option>
-              <option value="Hot">Hot</option>
-            </select>
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Lead Status
+              </label>
+              <select
+                name="status"
+                value={formData.status}
+                onChange={handleInputChange}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+              >
+                <option value="Cold">Cold</option>
+                <option value="Warm">Warm</option>
+                <option value="Hot">Hot</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Assign To *
+              </label>
+              <select
+                name="assignedTo"
+                value={formData.assignedTo}
+                onChange={handleInputChange}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                required
+              >
+                <option value="">Select assignee</option>
+                {assignmentOptions.map(category => (
+                  <optgroup key={category.category} label={category.category}>
+                    {category.members.map(member => (
+                      <option key={member.id} value={member.id}>
+                        {'  '.repeat(member.level - 1)}• {member.name}
+                      </option>
+                    ))}
+                  </optgroup>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          {/* Assignment Hierarchy Info */}
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+            <h4 className="text-sm font-medium text-blue-900 mb-2">Assignment Hierarchy</h4>
+            <div className="text-xs text-blue-700 space-y-1">
+              <div>• Level 1-2: Management (Director, Manager)</div>
+              <div>• Level 3: Senior Executives</div>
+              <div>• Level 4: Sales Executives</div>
+              <div>• Level 5: Junior Sales Team</div>
+              <div>• Level 6: Telecalling Team</div>
+            </div>
           </div>
 
           <div className="flex justify-end space-x-3 pt-4">

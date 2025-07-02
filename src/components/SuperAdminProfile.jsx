@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { User, Mail, Phone, Calendar, Shield, UserPlus, Building2, Users, Ticket, Crown, Sparkles, TrendingUp } from 'lucide-react';
+import { User, Mail, Phone, Calendar, Shield, UserPlus, Building2, Users, Ticket, Crown } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const SuperAdminProfile = ({ onCreateAdmin }) => {
@@ -28,72 +28,61 @@ const SuperAdminProfile = ({ onCreateAdmin }) => {
   };
 
   const statsData = [
-    { title: 'Total Users', value: '147', icon: Users, color: 'from-blue-500 to-blue-600', bg: 'bg-blue-50' },
-    { title: 'Active Leads', value: '1,234', icon: Building2, color: 'from-green-500 to-green-600', bg: 'bg-green-50' },
-    { title: 'Open Tickets', value: '89', icon: Ticket, color: 'from-orange-500 to-orange-600', bg: 'bg-orange-50' },
-    { title: 'System Health', value: '99.9%', icon: Shield, color: 'from-emerald-500 to-emerald-600', bg: 'bg-emerald-50' }
+    { title: 'Total Users', value: '147', icon: Users, color: 'text-blue-600' },
+    { title: 'Active Leads', value: '1,234', icon: Building2, color: 'text-green-600' },
+    { title: 'Open Tickets', value: '89', icon: Ticket, color: 'text-orange-600' },
+    { title: 'System Health', value: '99.9%', icon: Shield, color: 'text-emerald-600' }
   ];
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       {/* Enhanced Header */}
-      <div className="bg-gradient-to-br from-green-50 via-blue-50 to-purple-50 p-8 rounded-3xl border border-slate-200/60 shadow-lg">
+      <div className="bg-gradient-to-r from-green-50 to-blue-50 p-6 rounded-xl border border-green-200">
         <div className="flex justify-between items-center">
-          <div className="flex items-center space-x-6">
-            <div className="relative">
-              <div className="w-16 h-16 bg-gradient-to-br from-green-600 via-green-700 to-green-800 rounded-2xl flex items-center justify-center shadow-xl">
-                <Building2 className="h-8 w-8 text-white" />
-              </div>
-              <div className="absolute -top-1 -right-1 w-6 h-6 bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-full flex items-center justify-center shadow-md">
-                <Crown className="h-3 w-3 text-white" />
-              </div>
+          <div className="flex items-center space-x-4">
+            <div className="w-12 h-12 bg-gradient-to-br from-green-600 to-green-700 rounded-xl flex items-center justify-center shadow-lg">
+              <Building2 className="h-6 w-6 text-white" />
             </div>
             <div>
-              <h1 className="text-4xl font-bold bg-gradient-to-r from-slate-800 via-slate-700 to-slate-600 bg-clip-text text-transparent">
-                100acres.com
-              </h1>
-              <p className="text-xl text-slate-600 font-semibold mt-1">Super Admin Control Panel</p>
-              <div className="flex items-center mt-2">
-                <Sparkles className="h-4 w-4 text-yellow-500 mr-2" />
-                <span className="text-sm text-slate-500 font-medium">Premium Enterprise Dashboard</span>
-              </div>
+              <h1 className="text-3xl font-bold text-gray-900">100acres.com</h1>
+              <p className="text-lg text-gray-600 font-medium">Super Admin Control Panel</p>
             </div>
           </div>
           
-          {/* Enhanced Profile and Permissions Icons */}
-          <div className="flex items-center space-x-4">
+          {/* Profile and Permissions Icons */}
+          <div className="flex items-center space-x-3">
+            {/* Profile Popover */}
             <Popover>
               <PopoverTrigger asChild>
-                <button className="group relative w-12 h-12 bg-gradient-to-br from-green-600 to-green-700 rounded-2xl flex items-center justify-center hover:from-green-700 hover:to-green-800 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105">
-                  <User className="h-6 w-6 text-white" />
-                  <div className="absolute inset-0 rounded-2xl bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <button className="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center hover:bg-green-700 transition-all duration-200 shadow-lg hover:shadow-xl">
+                  <User className="h-5 w-5 text-white" />
                 </button>
               </PopoverTrigger>
-              <PopoverContent className="w-80 bg-white/95 backdrop-blur-md border-slate-200/60" align="end">
-                <div className="space-y-4">
-                  <div className="flex items-center space-x-4 p-3 bg-gradient-to-r from-green-50 to-blue-50 rounded-xl">
-                    <div className="w-12 h-12 bg-gradient-to-br from-green-600 to-green-700 rounded-xl flex items-center justify-center shadow-md">
-                      <Shield className="h-6 w-6 text-white" />
+              <PopoverContent className="w-80" align="end">
+                <div className="space-y-3">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center">
+                      <Shield className="h-5 w-5 text-white" />
                     </div>
                     <div>
-                      <h3 className="font-bold text-lg text-slate-900">{superAdminData.name}</h3>
-                      <Badge className="bg-gradient-to-r from-green-500 to-green-600 text-white text-xs font-semibold shadow-md">
+                      <h3 className="font-semibold text-base">{superAdminData.name}</h3>
+                      <Badge variant="secondary" className="bg-green-100 text-green-800 text-xs">
                         {superAdminData.role}
                       </Badge>
                     </div>
                   </div>
 
-                  <div className="space-y-3 text-sm">
-                    <div className="flex items-center space-x-3 p-2 hover:bg-slate-50 rounded-lg transition-colors">
-                      <Building2 className="h-4 w-4 text-slate-500" />
-                      <span className="font-medium">{superAdminData.company}</span>
+                  <div className="space-y-2 text-sm">
+                    <div className="flex items-center space-x-2">
+                      <Building2 className="h-3 w-3 text-gray-500" />
+                      <span>{superAdminData.company}</span>
                     </div>
-                    <div className="flex items-center space-x-3 p-2 hover:bg-slate-50 rounded-lg transition-colors">
-                      <Mail className="h-4 w-4 text-slate-500" />
+                    <div className="flex items-center space-x-2">
+                      <Mail className="h-3 w-3 text-gray-500" />
                       <span>{superAdminData.email}</span>
                     </div>
-                    <div className="flex items-center space-x-3 p-2 hover:bg-slate-50 rounded-lg transition-colors">
-                      <Phone className="h-4 w-4 text-slate-500" />
+                    <div className="flex items-center space-x-2">
+                      <Phone className="h-3 w-3 text-gray-500" />
                       <span>{superAdminData.phone}</span>
                     </div>
                   </div>
@@ -101,24 +90,21 @@ const SuperAdminProfile = ({ onCreateAdmin }) => {
               </PopoverContent>
             </Popover>
 
+            {/* Permissions Popover */}
             <Popover>
               <PopoverTrigger asChild>
-                <button className="group relative w-12 h-12 bg-gradient-to-br from-blue-600 to-blue-700 rounded-2xl flex items-center justify-center hover:from-blue-700 hover:to-blue-800 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105">
-                  <Shield className="h-6 w-6 text-white" />
-                  <div className="absolute inset-0 rounded-2xl bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <button className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center hover:bg-blue-700 transition-all duration-200 shadow-lg hover:shadow-xl">
+                  <Shield className="h-5 w-5 text-white" />
                 </button>
               </PopoverTrigger>
-              <PopoverContent className="w-72 bg-white/95 backdrop-blur-md border-slate-200/60" align="end">
-                <div className="space-y-4">
-                  <div className="flex items-center space-x-2 pb-3 border-b border-slate-200">
-                    <Shield className="h-5 w-5 text-blue-600" />
-                    <h4 className="font-bold text-lg text-slate-900">System Permissions</h4>
-                  </div>
-                  <div className="space-y-2">
+              <PopoverContent className="w-64" align="end">
+                <div className="space-y-3">
+                  <h4 className="font-semibold text-sm">System Permissions</h4>
+                  <div className="space-y-1">
                     {superAdminData.permissions.map((permission, index) => (
-                      <div key={index} className="flex items-center space-x-3 p-3 bg-gradient-to-r from-green-50 to-blue-50 rounded-xl border border-green-200/50 transition-all duration-200 hover:shadow-sm">
-                        <Shield className="h-4 w-4 text-green-600 flex-shrink-0" />
-                        <span className="text-sm font-medium text-green-800">{permission}</span>
+                      <div key={index} className="flex items-center space-x-2 p-2 bg-green-50 rounded-md text-xs">
+                        <Shield className="h-3 w-3 text-green-600" />
+                        <span className="text-green-800">{permission}</span>
                       </div>
                     ))}
                   </div>
@@ -130,21 +116,17 @@ const SuperAdminProfile = ({ onCreateAdmin }) => {
       </div>
 
       {/* Enhanced Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {statsData.map((stat, index) => (
-          <Card key={index} className="bg-white/80 backdrop-blur-md hover:shadow-xl transition-all duration-300 hover:scale-105 border-slate-200/60 shadow-lg group">
-            <CardContent className="p-6">
+          <Card key={index} className="hover:shadow-lg transition-all duration-200 border-0 shadow-md">
+            <CardContent className="p-5">
               <div className="flex items-center justify-between">
-                <div className="flex-1">
-                  <p className="text-sm font-semibold text-slate-600 mb-2">{stat.title}</p>
-                  <p className="text-3xl font-bold text-slate-900 mb-3">{stat.value}</p>
-                  <div className="flex items-center">
-                    <TrendingUp className="h-3 w-3 text-green-600 mr-1" />
-                    <span className="text-xs font-semibold text-green-600">+12% this month</span>
-                  </div>
+                <div>
+                  <p className="text-sm text-gray-600 font-medium">{stat.title}</p>
+                  <p className="text-2xl font-bold mt-2">{stat.value}</p>
                 </div>
-                <div className={`p-4 rounded-2xl bg-gradient-to-r ${stat.color} shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-110`}>
-                  <stat.icon className="h-7 w-7 text-white" />
+                <div className={`p-3 rounded-xl bg-gray-50`}>
+                  <stat.icon className={`h-5 w-5 ${stat.color}`} />
                 </div>
               </div>
             </CardContent>
@@ -153,28 +135,25 @@ const SuperAdminProfile = ({ onCreateAdmin }) => {
       </div>
 
       {/* Enhanced Quick Actions */}
-      <Card className="shadow-xl border-slate-200/60 bg-white/80 backdrop-blur-md">
-        <CardHeader className="pb-6 bg-gradient-to-r from-slate-50 via-white to-slate-50 rounded-t-2xl border-b border-slate-200">
-          <CardTitle className="text-2xl flex items-center">
-            <div className="p-2 rounded-xl bg-gradient-to-r from-yellow-500 to-yellow-600 mr-3 shadow-lg">
-              <Crown className="h-6 w-6 text-white" />
-            </div>
+      <Card className="shadow-lg border-0">
+        <CardHeader className="pb-4 bg-gradient-to-r from-gray-50 to-gray-100 rounded-t-lg">
+          <CardTitle className="text-xl flex items-center">
+            <Crown className="h-5 w-5 mr-2 text-yellow-600" />
             Administrative Actions
           </CardTitle>
-          <CardDescription className="text-lg text-slate-600">Manage your organization with powerful administrative tools</CardDescription>
+          <CardDescription className="text-base">Manage your organization with powerful administrative tools</CardDescription>
         </CardHeader>
-        <CardContent className="p-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <CardContent className="p-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Primary Action - Enhanced Create Head Admin */}
             <div className="md:col-span-2">
               <Button 
                 onClick={() => navigate('/create-admin')} 
-                className="group flex items-center justify-center bg-gradient-to-r from-green-600 via-green-700 to-green-800 hover:from-green-700 hover:via-green-800 hover:to-green-900 w-full h-16 text-xl font-bold shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-[1.02] rounded-2xl relative overflow-hidden"
+                className="flex items-center justify-center bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 w-full h-14 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-[1.02]"
               >
-                <div className="absolute inset-0 bg-gradient-to-r from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                <Crown className="h-7 w-7 mr-4 text-yellow-300 group-hover:rotate-12 transition-transform duration-300" />
+                <Crown className="h-6 w-6 mr-3 text-yellow-300" />
                 Create Head Admin
-                <UserPlus className="h-6 w-6 ml-4 group-hover:translate-x-1 transition-transform duration-300" />
+                <UserPlus className="h-5 w-5 ml-3" />
               </Button>
             </div>
             
@@ -182,36 +161,36 @@ const SuperAdminProfile = ({ onCreateAdmin }) => {
             <Button 
               variant="outline" 
               onClick={() => navigate('/leads')} 
-              className="h-14 font-semibold text-base hover:bg-green-50 hover:border-green-300 transition-all duration-300 shadow-md hover:shadow-lg rounded-xl group border-2"
+              className="h-12 font-medium hover:bg-green-50 hover:border-green-300 transition-all duration-200 shadow-sm hover:shadow-md"
             >
-              <Building2 className="h-5 w-5 mr-3 text-green-600 group-hover:scale-110 transition-transform duration-300" />
+              <Building2 className="h-4 w-4 mr-2" />
               Manage All Leads
             </Button>
             
             <Button 
               variant="outline" 
               onClick={() => navigate('/tickets')} 
-              className="h-14 font-semibold text-base hover:bg-blue-50 hover:border-blue-300 transition-all duration-300 shadow-md hover:shadow-lg rounded-xl group border-2"
+              className="h-12 font-medium hover:bg-blue-50 hover:border-blue-300 transition-all duration-200 shadow-sm hover:shadow-md"
             >
-              <Ticket className="h-5 w-5 mr-3 text-blue-600 group-hover:scale-110 transition-transform duration-300" />
+              <Ticket className="h-4 w-4 mr-2" />
               Support Tickets
             </Button>
             
             <Button 
               variant="outline" 
               onClick={() => navigate('/users')} 
-              className="h-14 font-semibold text-base hover:bg-purple-50 hover:border-purple-300 transition-all duration-300 shadow-md hover:shadow-lg rounded-xl group border-2"
+              className="h-12 font-medium hover:bg-purple-50 hover:border-purple-300 transition-all duration-200 shadow-sm hover:shadow-md"
             >
-              <Users className="h-5 w-5 mr-3 text-purple-600 group-hover:scale-110 transition-transform duration-300" />
+              <Users className="h-4 w-4 mr-2" />
               User Management
             </Button>
             
             <Button 
               variant="outline" 
               onClick={() => navigate('/settings')} 
-              className="h-14 font-semibold text-base hover:bg-slate-50 hover:border-slate-400 transition-all duration-300 shadow-md hover:shadow-lg rounded-xl group border-2"
+              className="h-12 font-medium hover:bg-gray-50 hover:border-gray-400 transition-all duration-200 shadow-sm hover:shadow-md"
             >
-              <Shield className="h-5 w-5 mr-3 text-slate-600 group-hover:scale-110 transition-transform duration-300" />
+              <Shield className="h-4 w-4 mr-2" />
               System Settings
             </Button>
           </div>

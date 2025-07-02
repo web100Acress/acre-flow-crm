@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { Search, Filter, Eye, MessageSquare, Phone, Mail, MapPin, Plus, Trash2, Star } from 'lucide-react';
+import { Search, Filter, Eye, MessageSquare, Phone, Mail, MapPin, Plus, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import FollowUpModal from './FollowUpModal';
 import CreateLeadForm from './CreateLeadForm';
 
@@ -66,9 +65,9 @@ const LeadTable = ({ userRole, leads = [] }) => {
 
   const getStatusColor = (status) => {
     switch (status.toLowerCase()) {
-      case 'hot': return 'bg-gradient-to-r from-red-500 to-red-600 text-white shadow-md';
-      case 'warm': return 'bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-md';
-      case 'cold': return 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-md';
+      case 'hot': return 'bg-red-100 text-red-800';
+      case 'warm': return 'bg-orange-100 text-orange-800';
+      case 'cold': return 'bg-blue-100 text-blue-800';
       default: return 'bg-gray-100 text-gray-800';
     }
   };
@@ -104,32 +103,28 @@ const LeadTable = ({ userRole, leads = [] }) => {
   };
 
   return (
-    <div className="p-0">
-      {/* Enhanced Header */}
-      <div className="p-8 bg-gradient-to-r from-slate-50 to-white">
-        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
-          <div>
-            <h2 className="text-2xl font-bold text-slate-800 mb-2">Lead Management</h2>
-            <p className="text-slate-600">Track and manage all your leads in one place</p>
-          </div>
+    <div className="bg-white rounded-lg shadow-sm border border-gray-200">
+      <div className="p-6 border-b border-gray-200">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <h2 className="text-xl font-semibold text-gray-900">Lead Management</h2>
           
-          <div className="flex flex-col sm:flex-row gap-4 items-end">
+          <div className="flex flex-col sm:flex-row gap-3 items-end">
             <div className="flex flex-col sm:flex-row gap-3">
               <div className="relative">
-                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-4 w-4 text-slate-400" />
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
                 <input
                   type="text"
                   placeholder="Search leads..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-12 pr-4 py-3 w-full sm:w-64 border border-slate-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent bg-white/80 backdrop-blur-sm shadow-sm transition-all duration-200"
+                  className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </div>
               
               <select
                 value={statusFilter}
                 onChange={(e) => setStatusFilter(e.target.value)}
-                className="px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent bg-white/80 backdrop-blur-sm shadow-sm appearance-none transition-all duration-200"
+                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
                 <option value="all">All Status</option>
                 <option value="hot">Hot</option>
@@ -140,7 +135,7 @@ const LeadTable = ({ userRole, leads = [] }) => {
             
             <Button 
               onClick={handleCreateLead}
-              className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white shadow-lg hover:shadow-xl transition-all duration-200 px-6 py-3 rounded-xl font-semibold"
+              className="bg-green-600 hover:bg-green-700 text-white flex items-center"
             >
               <Plus className="h-4 w-4 mr-2" />
               Create Lead
@@ -149,84 +144,72 @@ const LeadTable = ({ userRole, leads = [] }) => {
         </div>
       </div>
 
-      {/* Enhanced Table */}
       <div className="overflow-x-auto">
         <table className="w-full">
-          <thead className="bg-gradient-to-r from-slate-100 to-slate-50 border-b border-slate-200">
+          <thead className="bg-gray-50">
             <tr>
-              <th className="px-8 py-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">Lead Info</th>
-              <th className="px-8 py-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">Contact</th>
-              <th className="px-8 py-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">Property</th>
-              <th className="px-8 py-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">Status</th>
-              <th className="px-8 py-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">Assignment</th>
-              <th className="px-8 py-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">Actions</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Lead Info</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Contact</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Property</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Assignment</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
             </tr>
           </thead>
-          <tbody className="bg-white divide-y divide-slate-100">
-            {filteredLeads.map((lead, index) => (
-              <tr key={lead.id} className="hover:bg-slate-50/50 transition-all duration-200 group">
-                <td className="px-8 py-6 whitespace-nowrap">
-                  <div className="flex items-center">
-                    <div className="flex-shrink-0 h-10 w-10 bg-gradient-to-br from-slate-600 to-slate-700 rounded-full flex items-center justify-center shadow-md">
-                      <span className="text-white font-semibold text-sm">{lead.name.charAt(0)}</span>
-                    </div>
-                    <div className="ml-4">
-                      <div className="text-sm font-semibold text-slate-900">{lead.name}</div>
-                      <div className="text-xs text-slate-500 font-medium">ID: #{lead.id}</div>
-                    </div>
+          <tbody className="bg-white divide-y divide-gray-200">
+            {filteredLeads.map((lead) => (
+              <tr key={lead.id} className="hover:bg-gray-50">
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <div>
+                    <div className="text-sm font-medium text-gray-900">{lead.name}</div>
+                    <div className="text-sm text-gray-500">ID: #{lead.id}</div>
                   </div>
                 </td>
-                <td className="px-8 py-6 whitespace-nowrap">
-                  <div className="space-y-2">
-                    <div className="flex items-center text-sm text-slate-700">
-                      <div className="p-1.5 rounded-lg bg-green-100 mr-3">
-                        <Phone className="h-3 w-3 text-green-600" />
-                      </div>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <div className="space-y-1">
+                    <div className="flex items-center text-sm text-gray-900">
+                      <Phone className="h-4 w-4 mr-2 text-gray-400" />
                       {lead.phone}
                     </div>
-                    <div className="flex items-center text-sm text-slate-600">
-                      <div className="p-1.5 rounded-lg bg-blue-100 mr-3">
-                        <Mail className="h-3 w-3 text-blue-600" />
-                      </div>
+                    <div className="flex items-center text-sm text-gray-500">
+                      <Mail className="h-4 w-4 mr-2 text-gray-400" />
                       {lead.email}
                     </div>
-                    <div className="flex items-center text-sm text-slate-600">
-                      <div className="p-1.5 rounded-lg bg-orange-100 mr-3">
-                        <MapPin className="h-3 w-3 text-orange-600" />
-                      </div>
+                    <div className="flex items-center text-sm text-gray-500">
+                      <MapPin className="h-4 w-4 mr-2 text-gray-400" />
                       {lead.location}
                     </div>
                   </div>
                 </td>
-                <td className="px-8 py-6 whitespace-nowrap">
+                <td className="px-6 py-4 whitespace-nowrap">
                   <div>
-                    <div className="text-sm font-semibold text-slate-900">{lead.property}</div>
-                    <div className="text-sm text-slate-600 font-medium">{lead.budget}</div>
+                    <div className="text-sm font-medium text-gray-900">{lead.property}</div>
+                    <div className="text-sm text-gray-500">{lead.budget}</div>
                   </div>
                 </td>
-                <td className="px-8 py-6 whitespace-nowrap">
-                  <Badge className={`px-3 py-1.5 text-xs font-semibold rounded-full ${getStatusColor(lead.status)} border-0`}>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(lead.status)}`}>
                     {lead.status}
-                  </Badge>
+                  </span>
                 </td>
-                <td className="px-8 py-6 whitespace-nowrap">
+                <td className="px-6 py-4 whitespace-nowrap">
                   <div>
-                    <div className="text-sm font-semibold text-slate-900">{lead.assignedTo}</div>
-                    <div className="text-xs text-slate-500">by {lead.assignedBy}</div>
+                    <div className="text-sm font-medium text-gray-900">{lead.assignedTo}</div>
+                    <div className="text-sm text-gray-500">by {lead.assignedBy}</div>
                   </div>
                 </td>
-                <td className="px-8 py-6 whitespace-nowrap text-sm font-medium">
+                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                   <div className="flex space-x-2">
-                    <button className="p-2.5 text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded-xl transition-all duration-200 hover:shadow-md">
+                    <button className="text-blue-600 hover:text-blue-900 p-1 hover:bg-blue-50 rounded">
                       <Eye className="h-4 w-4" />
                     </button>
                     <button 
                       onClick={() => handleFollowUp(lead)}
-                      className="p-2.5 text-green-600 hover:text-green-800 hover:bg-green-50 rounded-xl transition-all duration-200 hover:shadow-md relative"
+                      className="text-green-600 hover:text-green-900 p-1 hover:bg-green-50 rounded relative"
                     >
                       <MessageSquare className="h-4 w-4" />
                       {lead.followUps > 0 && (
-                        <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center shadow-md">
+                        <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">
                           {lead.followUps}
                         </span>
                       )}
@@ -234,7 +217,7 @@ const LeadTable = ({ userRole, leads = [] }) => {
                     {userRole === 'super-admin' && (
                       <button 
                         onClick={() => handleDeleteLead(lead.id)}
-                        className="p-2.5 text-red-600 hover:text-red-800 hover:bg-red-50 rounded-xl transition-all duration-200 hover:shadow-md"
+                        className="text-red-600 hover:text-red-900 p-1 hover:bg-red-50 rounded"
                         title="Delete Lead"
                       >
                         <Trash2 className="h-4 w-4" />
@@ -248,7 +231,6 @@ const LeadTable = ({ userRole, leads = [] }) => {
         </table>
       </div>
 
-      {/* Enhanced Modals */}
       {showFollowUp && selectedLead && (
         <FollowUpModal
           lead={selectedLead}

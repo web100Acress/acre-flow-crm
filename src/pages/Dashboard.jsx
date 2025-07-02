@@ -2,13 +2,13 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import DashboardLayout from '../components/DashboardLayout';
-import ModernDashboard from '../components/ModernDashboard';
-import HRDashboard from '../components/HRDashboard';
+import DashboardStats from '../components/DashboardStats';
+import LeadTable from '../components/LeadTable';
+import TicketBoard from '../components/TicketBoard';
 import SuperAdminProfile from '../components/SuperAdminProfile';
 
 const Dashboard = ({ userRole = 'employee' }) => {
   const navigate = useNavigate();
-  const userName = localStorage.getItem('userName') || 'User';
 
   const handleCreateAdmin = () => {
     navigate('/create-admin');
@@ -23,13 +23,55 @@ const Dashboard = ({ userRole = 'employee' }) => {
     );
   }
 
-  // Show HR Dashboard for HR roles
-  if (userRole === 'hr-manager' || userRole === 'hr-assistant' || userRole === 'payroll-admin') {
-    return <HRDashboard userRole={userRole} userName={userName} />;
-  }
+  // Get role-specific dashboard title
+  const getDashboardTitle = () => {
+    switch (userRole) {
+      case 'head-admin':
+        return 'Head Admin Dashboard';
+      case 'team-leader':
+        return 'Team Leader Dashboard';
+      case 'employee':
+        return 'Employee Dashboard';
+      default:
+        return 'Dashboard';
+    }
+  };
 
-  // Use Modern Dashboard for all other roles
-  return <ModernDashboard userRole={userRole} userName={userName} />;
+  const getDashboardDescription = () => {
+    switch (userRole) {
+      case 'head-admin':
+        return 'Manage teams and oversee operations';
+      case 'team-leader':
+        return 'Lead your team and track performance';
+      case 'employee':
+        return 'Your daily tasks and assignments';
+      default:
+        return 'Welcome to your 100Acres CRM dashboard';
+    }
+  };
+
+  // Regular dashboard for other roles
+  return (
+    <DashboardLayout userRole={userRole}>
+      <div className="space-y-6">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900">{getDashboardTitle()}</h1>
+          <p className="text-gray-600">{getDashboardDescription()}</p>
+        </div>
+
+        <DashboardStats userRole={userRole} />
+
+        <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+          <div className="xl:col-span-2">
+            <LeadTable userRole={userRole} />
+          </div>
+          <div>
+            <TicketBoard userRole={userRole} />
+          </div>
+        </div>
+      </div>
+    </DashboardLayout>
+  );
 };
 
 export default Dashboard;

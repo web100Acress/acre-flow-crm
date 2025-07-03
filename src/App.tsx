@@ -11,6 +11,8 @@ import Tickets from "./pages/Tickets";
 import CreateUser from "./pages/CreateUser";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
+import DashboardLayout from "./components/DashboardLayout";
+import UserManagement from "./components/UserManagement";
 
 const queryClient = new QueryClient();
 
@@ -89,7 +91,11 @@ const App = () => {
             />
             <Route 
               path="/users" 
-              element={isLoggedIn && userRole === 'super-admin' ? <div className="p-6"><h1 className="text-2xl font-bold">Manage Users</h1><p>User management interface coming soon...</p></div> : <Navigate to="/" replace />} 
+              element={isLoggedIn && userRole === 'super-admin' ? (
+                <DashboardLayout userRole={userRole}>
+                  <UserManagement />
+                </DashboardLayout>
+              ) : <Navigate to="/" replace />} 
             />
             <Route 
               path="/team" 

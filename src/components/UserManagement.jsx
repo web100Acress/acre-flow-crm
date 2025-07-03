@@ -11,6 +11,9 @@ import {
   TableHeader,
   TableRow,
 } from './ui/table';
+import AddEditUserModal from './AddEditUserModal';
+import DeleteUserModal from './DeleteUserModal';
+import { useToast } from '@/hooks/use-toast';
 
 const UserManagement = () => {
   const [users, setUsers] = useState([
@@ -18,6 +21,7 @@ const UserManagement = () => {
       id: 1,
       name: 'John Doe',
       email: 'john@100acres.com',
+      phone: '+91 9876543210',
       role: 'head-admin',
       department: 'Sales',
       status: 'active',
@@ -28,6 +32,7 @@ const UserManagement = () => {
       id: 2,
       name: 'Sarah Wilson',
       email: 'sarah@100acres.com',
+      phone: '+91 9876543211',
       role: 'team-leader',
       department: 'Marketing',
       status: 'active',
@@ -38,6 +43,7 @@ const UserManagement = () => {
       id: 3,
       name: 'Mike Johnson',
       email: 'mike@100acres.com',
+      phone: '+91 9876543212',
       role: 'employee',
       department: 'Sales',
       status: 'inactive',
@@ -48,6 +54,7 @@ const UserManagement = () => {
       id: 4,
       name: 'Emily Davis',
       email: 'emily@100acres.com',
+      phone: '+91 9876543213',
       role: 'employee',
       department: 'Customer Support',
       status: 'active',
@@ -60,6 +67,11 @@ const UserManagement = () => {
   const [roleFilter, setRoleFilter] = useState('all');
   const [statusFilter, setStatusFilter] = useState('all');
   const [showAddModal, setShowAddModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
+
+  const { toast } = useToast();
 
   const getRoleDisplayName = (role) => {
     switch (role) {
@@ -97,17 +109,58 @@ const UserManagement = () => {
   });
 
   const handleToggleStatus = (userId) => {
-    setUsers(users.map(user => 
-      user.id === userId 
-        ? { ...user, status: user.status === 'active' ? 'inactive' : 'active' }
-        : user
-    ));
+    setUsers(users.map(user => {
+      if (user.id === userId) {
+        const newStatus = user.status === 'active' ? 'inactive' : 'active';
+        toast({
+          title: "Status Updated",
+          description: `${user.name} is now ${newStatus}`,
+        });
+        return { ...user, status: newStatus };
+      }
+      return user;
+    }));
+  };
+
+  const handleSaveUser = (userData) => {
+    if (selectedUser) {
+      // Update existing user
+      setUsers(users.map(user => 
+        user.id === selectedUser.id ? { ...userData, id: selectedUser.id } : user
+      ));
+      toast({
+        title: "User Updated",
+        description: `${userData.name} has been updated successfully`,
+      });
+    } else {
+      // Add new user
+      setUsers([...users, { ...userData, id: Date.now() }]);
+      toast({
+        title: "User Created",
+        description: `${userData.name} has been added to the system`,
+      });
+    }
+    setSelectedUser(null);
   };
 
   const handleDeleteUser = (userId) => {
-    if (window.confirm('Are you sure you want to delete this user?')) {
-      setUsers(users.filter(user => user.id !== userId));
-    }
+    const user = users.find(u => u.id === userId);
+    setUsers(users.filter(user => user.id !== userId));
+    toast({
+      title: "User Deleted",
+      description: `${user.name} has been removed from the system`,
+      variant: "destructive",
+    });
+  };
+
+  const handleEditUser = (user) => {
+    setSelectedUser(user);
+    setShowEditModal(true);
+  };
+
+  const handleDeleteClick = (user) => {
+    setSelectedUser(user);
+    setShowDeleteModal(true);
   };
 
   return (
@@ -234,6 +287,7 @@ const UserManagement = () => {
                         <Button
                           variant="ghost"
                           size="sm"
+                          onClick={() => handleEditUser(user)}
                           className="h-8 w-8 p-0"
                         >
                           <Edit className="h-4 w-4 text-blue-600" />
@@ -241,7 +295,7 @@ const UserManagement = () => {
                         <Button
                           variant="ghost"
                           size="sm"
-                          onClick={() => handleDeleteUser(user.id)}
+                          onClick={() => handleDeleteClick(user)}
                           className="h-8 w-8 p-0"
                         >
                           <Trash2 className="h-4 w-4 text-red-600" />
@@ -320,6 +374,33 @@ const UserManagement = () => {
           </CardContent>
         </Card>
       </div>
+
+      {/* Modals */}
+      <AddEditUserModal
+        isOpen={showAddModal}
+        onClose={() => setShowAddModal(false)}
+        onSave={handleSaveUser}
+      />
+
+      <AddEditUserModal
+        isOpen={showEditModal}
+        onClose={() => {
+          setShowEditModal(false);
+          setSelectedUser(null);
+        }}
+        user={selectedUser}
+        onSave={handleSaveUser}
+      />
+
+      <DeleteUserModal
+        isOpen={showDeleteModal}
+        onClose={() => {
+          setShowDeleteModal(false);
+          setSelectedUser(null);
+        }}
+        user={selectedUser}
+        onConfirm={handleDeleteUser}
+      />
     </div>
   );
 };

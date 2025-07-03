@@ -11,6 +11,7 @@ import Tickets from "./pages/Tickets";
 import CreateUser from "./pages/CreateUser";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
+import Settings from "./pages/Settings";
 import DashboardLayout from "./components/DashboardLayout";
 import UserManagement from "./components/UserManagement";
 
@@ -98,16 +99,16 @@ const App = () => {
               ) : <Navigate to="/" replace />} 
             />
             <Route 
+              path="/settings" 
+              element={isLoggedIn && userRole === 'super-admin' ? <Settings userRole={userRole} /> : <Navigate to="/" replace />} 
+            />
+            <Route 
               path="/team" 
               element={isLoggedIn && userRole === 'head-admin' ? <div className="p-6"><h1 className="text-2xl font-bold">Team Management</h1><p>Team management interface coming soon...</p></div> : <Navigate to="/" replace />} 
             />
             <Route 
               path="/employees" 
               element={isLoggedIn && userRole === 'team-leader' ? <div className="p-6"><h1 className="text-2xl font-bold">My Employees</h1><p>Employee management interface coming soon...</p></div> : <Navigate to="/" replace />} 
-            />
-            <Route 
-              path="/settings" 
-              element={isLoggedIn && userRole === 'super-admin' ? <div className="p-6"><h1 className="text-2xl font-bold">Settings</h1><p>Settings interface coming soon...</p></div> : <Navigate to="/" replace />} 
             />
             <Route path="*" element={<NotFound />} />
           </Routes>

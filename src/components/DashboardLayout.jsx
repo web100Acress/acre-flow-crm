@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Menu, Bell } from 'lucide-react';
+import { Menu, Bell, Search } from 'lucide-react';
 import Sidebar from './Sidebar';
 import { Card, CardContent } from './ui/card';
 
@@ -8,7 +8,7 @@ const DashboardLayout = ({ children, userRole = 'employee' }) => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   return (
-    <div className="flex h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+    <div className="flex h-screen bg-gray-50">
       <Sidebar 
         userRole={userRole} 
         isCollapsed={sidebarCollapsed}
@@ -16,46 +16,42 @@ const DashboardLayout = ({ children, userRole = 'employee' }) => {
       />
       
       <div className="flex-1 flex flex-col overflow-hidden">
-        {/* Header with Card Design */}
-        <Card className="m-4 mb-0 shadow-sm border-0 bg-white/70 backdrop-blur-sm">
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
+        {/* Header */}
+        <header className="bg-white border-b border-gray-100 px-6 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-4">
               <button
                 onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-                className="p-3 hover:bg-gray-100 rounded-xl transition-all duration-200 hover:scale-105"
+                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
               >
-                <Menu className="h-5 w-5 text-gray-700" />
+                <Menu className="h-5 w-5 text-gray-600" />
               </button>
-              
-              <div className="flex items-center space-x-3">
-                <button className="relative p-3 hover:bg-gray-100 rounded-xl transition-all duration-200 hover:scale-105">
-                  <Bell className="h-5 w-5 text-gray-700" />
-                  <span className="absolute top-2 right-2 bg-gradient-to-r from-red-500 to-pink-500 text-white text-xs rounded-full h-2.5 w-2.5 animate-pulse"></span>
-                </button>
-              </div>
+              <h1 className="text-xl font-semibold text-gray-800">
+                Hello {userRole === 'super-admin' ? 'Super Admin' : userRole === 'head-admin' ? 'Head Admin' : userRole === 'team-leader' ? 'Team Leader' : 'Employee'} 👋
+              </h1>
             </div>
-          </CardContent>
-        </Card>
-
-        {/* Main Content Area with Card Container */}
-        <div className="flex-1 overflow-hidden p-4 pt-2">
-          <Card className="h-full shadow-lg border-0 bg-white/80 backdrop-blur-sm rounded-2xl overflow-hidden">
-            <CardContent className="p-0 h-full">
-              <div className="h-full overflow-auto">
-                <div className="p-6 space-y-6">
-                  {/* Content Wrapper with Animated Container */}
-                  <div className="animate-fade-in">
-                    {children}
-                  </div>
-                </div>
+            
+            <div className="flex items-center space-x-4">
+              <div className="relative">
+                <Search className="h-4 w-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                <input
+                  type="text"
+                  placeholder="Search"
+                  className="pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-gray-50"
+                />
               </div>
-            </CardContent>
-          </Card>
-        </div>
+              <button className="relative p-2 hover:bg-gray-100 rounded-lg transition-colors">
+                <Bell className="h-5 w-5 text-gray-600" />
+                <span className="absolute top-1 right-1 bg-red-500 text-white text-xs rounded-full h-2 w-2"></span>
+              </button>
+            </div>
+          </div>
+        </header>
 
-        {/* Decorative Elements */}
-        <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-blue-100/20 to-transparent rounded-full blur-3xl pointer-events-none"></div>
-        <div className="absolute bottom-0 left-0 w-48 h-48 bg-gradient-to-tr from-purple-100/20 to-transparent rounded-full blur-3xl pointer-events-none"></div>
+        {/* Main Content */}
+        <main className="flex-1 overflow-auto p-6 bg-gray-50">
+          {children}
+        </main>
       </div>
     </div>
   );

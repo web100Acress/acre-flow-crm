@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { 
   Settings as SettingsIcon, 
@@ -348,9 +347,11 @@ const SettingsContent = ({ userRole }) => {
         <Card className="lg:col-span-3">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              {tabs.find(t => t.id === activeTab)?.icon && (
-                <tabs.find(t => t.id === activeTab).icon className="h-5 w-5" />
-              )}
+              {(() => {
+                const activeTabData = tabs.find(t => t.id === activeTab);
+                const IconComponent = activeTabData?.icon;
+                return IconComponent ? <IconComponent className="h-5 w-5" /> : null;
+              })()}
               {tabs.find(t => t.id === activeTab)?.label}
             </CardTitle>
           </CardHeader>

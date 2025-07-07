@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { 
   Code, 
@@ -6,7 +7,6 @@ import {
   Shield, 
   Activity, 
   Terminal, 
-  Settings as SettingsIcon,
   FileText,
   Globe,
   Key,
@@ -74,623 +74,602 @@ const DeveloperContent = ({ userRole }) => {
   };
 
   const renderAccessControl = () => (
-    <div className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Crown className="h-5 w-5 text-purple-600" />
+    <div className="content-section">
+      <div className="cards-grid">
+        <div className="access-card">
+          <div className="card-header">
+            <h3 className="card-title">
+              <Crown className="card-icon purple" />
               Super Admin Access
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <p className="text-sm text-gray-600 mb-4">
+            </h3>
+          </div>
+          <div className="card-content">
+            <p className="card-description">
               Full system access with all administrative privileges
             </p>
-            <div className="grid grid-cols-1 gap-2">
-              <Button 
-                onClick={() => handleAccessSection('/', 'super-admin')} 
-                className="w-full justify-start"
-                variant="outline"
+            <div className="button-list">
+              <button
+                onClick={() => handleAccessSection('/', 'super-admin')}
+                className="access-button"
               >
                 Dashboard
-              </Button>
-              <Button 
-                onClick={() => handleAccessSection('/users', 'super-admin')} 
-                className="w-full justify-start"
-                variant="outline"
+              </button>
+              <button
+                onClick={() => handleAccessSection('/users', 'super-admin')}
+                className="access-button"
               >
                 User Management
-              </Button>
-              <Button 
-                onClick={() => handleAccessSection('/settings', 'super-admin')} 
-                className="w-full justify-start"
-                variant="outline"
+              </button>
+              <button
+                onClick={() => handleAccessSection('/settings', 'super-admin')}
+                className="access-button"
               >
                 System Settings
-              </Button>
-              <Button 
-                onClick={() => handleAccessSection('/create-admin', 'super-admin')} 
-                className="w-full justify-start"
-                variant="outline"
+              </button>
+              <button
+                onClick={() => handleAccessSection('/create-admin', 'super-admin')}
+                className="access-button"
               >
                 Create Admin
-              </Button>
+              </button>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
 
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <UserCheck className="h-5 w-5 text-blue-600" />
+        <div className="access-card">
+          <div className="card-header">
+            <h3 className="card-title">
+              <UserCheck className="card-icon blue" />
               Head Admin Access
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <p className="text-sm text-gray-600 mb-4">
+            </h3>
+          </div>
+          <div className="card-content">
+            <p className="card-description">
               Administrative access with team management capabilities
             </p>
-            <div className="grid grid-cols-1 gap-2">
-              <Button 
-                onClick={() => handleAccessSection('/', 'head-admin')} 
-                className="w-full justify-start"
-                variant="outline"
+            <div className="button-list">
+              <button
+                onClick={() => handleAccessSection('/', 'head-admin')}
+                className="access-button"
               >
                 Dashboard
-              </Button>
-              <Button 
-                onClick={() => handleAccessSection('/create-leader', 'head-admin')} 
-                className="w-full justify-start"
-                variant="outline"
+              </button>
+              <button
+                onClick={() => handleAccessSection('/create-leader', 'head-admin')}
+                className="access-button"
               >
                 Create Team Leader
-              </Button>
-              <Button 
-                onClick={() => handleAccessSection('/team', 'head-admin')} 
-                className="w-full justify-start"
-                variant="outline"
+              </button>
+              <button
+                onClick={() => handleAccessSection('/team', 'head-admin')}
+                className="access-button"
               >
                 Team Management
-              </Button>
+              </button>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
 
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Briefcase className="h-5 w-5 text-green-600" />
+        <div className="access-card">
+          <div className="card-header">
+            <h3 className="card-title">
+              <Briefcase className="card-icon green" />
               Team Leader Access
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <p className="text-sm text-gray-600 mb-4">
+            </h3>
+          </div>
+          <div className="card-content">
+            <p className="card-description">
               Team leadership with employee management capabilities
             </p>
-            <div className="grid grid-cols-1 gap-2">
-              <Button 
-                onClick={() => handleAccessSection('/', 'team-leader')} 
-                className="w-full justify-start"
-                variant="outline"
+            <div className="button-list">
+              <button
+                onClick={() => handleAccessSection('/', 'team-leader')}
+                className="access-button"
               >
                 Dashboard
-              </Button>
-              <Button 
-                onClick={() => handleAccessSection('/create-employee', 'team-leader')} 
-                className="w-full justify-start"
-                variant="outline"
+              </button>
+              <button
+                onClick={() => handleAccessSection('/create-employee', 'team-leader')}
+                className="access-button"
               >
                 Create Employee
-              </Button>
-              <Button 
-                onClick={() => handleAccessSection('/employees', 'team-leader')} 
-                className="w-full justify-start"
-                variant="outline"
+              </button>
+              <button
+                onClick={() => handleAccessSection('/employees', 'team-leader')}
+                className="access-button"
               >
                 My Employees
-              </Button>
+              </button>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
 
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Users className="h-5 w-5 text-orange-600" />
+        <div className="access-card">
+          <div className="card-header">
+            <h3 className="card-title">
+              <Users className="card-icon orange" />
               Employee Access
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <p className="text-sm text-gray-600 mb-4">
+            </h3>
+          </div>
+          <div className="card-content">
+            <p className="card-description">
               Standard employee access with basic functionality
             </p>
-            <div className="grid grid-cols-1 gap-2">
-              <Button 
-                onClick={() => handleAccessSection('/', 'employee')} 
-                className="w-full justify-start"
-                variant="outline"
+            <div className="button-list">
+              <button
+                onClick={() => handleAccessSection('/', 'employee')}
+                className="access-button"
               >
                 Dashboard
-              </Button>
-              <Button 
-                onClick={() => handleAccessSection('/leads', 'employee')} 
-                className="w-full justify-start"
-                variant="outline"
+              </button>
+              <button
+                onClick={() => handleAccessSection('/leads', 'employee')}
+                className="access-button"
               >
                 Leads Management
-              </Button>
-              <Button 
-                onClick={() => handleAccessSection('/tickets', 'employee')} 
-                className="w-full justify-start"
-                variant="outline"
+              </button>
+              <button
+                onClick={() => handleAccessSection('/tickets', 'employee')}
+                className="access-button"
               >
                 Support Tickets
-              </Button>
+              </button>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Quick Role Switch</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <Button 
-              onClick={() => handleAccessSection('/', 'super-admin')} 
-              className="flex flex-col items-center p-4 h-auto"
-              variant="outline"
+      <div className="quick-switch-card">
+        <div className="card-header">
+          <h3 className="card-title">Quick Role Switch</h3>
+        </div>
+        <div className="card-content">
+          <div className="quick-buttons">
+            <button
+              onClick={() => handleAccessSection('/', 'super-admin')}
+              className="quick-button"
             >
-              <Crown className="h-6 w-6 mb-2 text-purple-600" />
-              <span className="text-xs">Super Admin</span>
-            </Button>
-            <Button 
-              onClick={() => handleAccessSection('/', 'head-admin')} 
-              className="flex flex-col items-center p-4 h-auto"
-              variant="outline"
+              <Crown className="quick-icon purple" />
+              <span>Super Admin</span>
+            </button>
+            <button
+              onClick={() => handleAccessSection('/', 'head-admin')}
+              className="quick-button"
             >
-              <UserCheck className="h-6 w-6 mb-2 text-blue-600" />
-              <span className="text-xs">Head Admin</span>
-            </Button>
-            <Button 
-              onClick={() => handleAccessSection('/', 'team-leader')} 
-              className="flex flex-col items-center p-4 h-auto"
-              variant="outline"
+              <UserCheck className="quick-icon blue" />
+              <span>Head Admin</span>
+            </button>
+            <button
+              onClick={() => handleAccessSection('/', 'team-leader')}
+              className="quick-button"
             >
-              <Briefcase className="h-6 w-6 mb-2 text-green-600" />
-              <span className="text-xs">Team Leader</span>
-            </Button>
-            <Button 
-              onClick={() => handleAccessSection('/', 'employee')} 
-              className="flex flex-col items-center p-4 h-auto"
-              variant="outline"
+              <Briefcase className="quick-icon green" />
+              <span>Team Leader</span>
+            </button>
+            <button
+              onClick={() => handleAccessSection('/', 'employee')}
+              className="quick-button"
             >
-              <Users className="h-6 w-6 mb-2 text-orange-600" />
-              <span className="text-xs">Employee</span>
-            </Button>
+              <Users className="quick-icon orange" />
+              <span>Employee</span>
+            </button>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </div>
   );
 
   const renderOverview = () => (
-    <div className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium flex items-center gap-2">
-              <Server className="h-4 w-4" />
+    <div className="content-section">
+      <div className="stats-grid">
+        <div className="stat-card">
+          <div className="stat-header">
+            <div className="stat-title">
+              <Server className="stat-icon" />
               Server Status
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-green-600">{systemStats.serverStatus}</div>
-            <p className="text-xs text-gray-500">Last checked: 2 mins ago</p>
-          </CardContent>
-        </Card>
+            </div>
+          </div>
+          <div className="stat-content">
+            <div className="stat-value green">{systemStats.serverStatus}</div>
+            <p className="stat-description">Last checked: 2 mins ago</p>
+          </div>
+        </div>
 
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium flex items-center gap-2">
-              <Database className="h-4 w-4" />
+        <div className="stat-card">
+          <div className="stat-header">
+            <div className="stat-title">
+              <Database className="stat-icon" />
               DB Connections
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{systemStats.dbConnections}</div>
-            <p className="text-xs text-gray-500">Active connections</p>
-          </CardContent>
-        </Card>
+            </div>
+          </div>
+          <div className="stat-content">
+            <div className="stat-value">{systemStats.dbConnections}</div>
+            <p className="stat-description">Active connections</p>
+          </div>
+        </div>
 
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium flex items-center gap-2">
-              <Activity className="h-4 w-4" />
+        <div className="stat-card">
+          <div className="stat-header">
+            <div className="stat-title">
+              <Activity className="stat-icon" />
               Memory Usage
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{systemStats.memoryUsage}</div>
-            <p className="text-xs text-gray-500">System memory</p>
-          </CardContent>
-        </Card>
+            </div>
+          </div>
+          <div className="stat-content">
+            <div className="stat-value">{systemStats.memoryUsage}</div>
+            <p className="stat-description">System memory</p>
+          </div>
+        </div>
 
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium flex items-center gap-2">
-              <Zap className="h-4 w-4" />
+        <div className="stat-card">
+          <div className="stat-header">
+            <div className="stat-title">
+              <Zap className="stat-icon" />
               CPU Usage
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{systemStats.cpuUsage}</div>
-            <p className="text-xs text-gray-500">Current load</p>
-          </CardContent>
-        </Card>
+            </div>
+          </div>
+          <div className="stat-content">
+            <div className="stat-value">{systemStats.cpuUsage}</div>
+            <p className="stat-description">Current load</p>
+          </div>
+        </div>
 
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium flex items-center gap-2">
-              <Globe className="h-4 w-4" />
+        <div className="stat-card">
+          <div className="stat-header">
+            <div className="stat-title">
+              <Globe className="stat-icon" />
               API Calls
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{systemStats.apiCalls}</div>
-            <p className="text-xs text-gray-500">Request count</p>
-          </CardContent>
-        </Card>
+            </div>
+          </div>
+          <div className="stat-content">
+            <div className="stat-value">{systemStats.apiCalls}</div>
+            <p className="stat-description">Request count</p>
+          </div>
+        </div>
 
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium flex items-center gap-2">
-              <Bug className="h-4 w-4" />
+        <div className="stat-card">
+          <div className="stat-header">
+            <div className="stat-title">
+              <Bug className="stat-icon" />
               Error Rate
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-green-600">{systemStats.errorRate}</div>
-            <p className="text-xs text-gray-500">24h average</p>
-          </CardContent>
-        </Card>
+            </div>
+          </div>
+          <div className="stat-content">
+            <div className="stat-value green">{systemStats.errorRate}</div>
+            <p className="stat-description">24h average</p>
+          </div>
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card>
-          <CardHeader>
-            <CardTitle>Quick Actions</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            <Button onClick={() => handleAction('Cache Clear')} className="w-full justify-start">
-              <Zap className="h-4 w-4 mr-2" />
+      <div className="overview-cards">
+        <div className="action-card">
+          <div className="card-header">
+            <h3 className="card-title">Quick Actions</h3>
+          </div>
+          <div className="card-content">
+            <button onClick={() => handleAction('Cache Clear')} className="action-button primary">
+              <Zap className="button-icon" />
               Clear System Cache
-            </Button>
-            <Button onClick={() => handleAction('DB Optimize')} className="w-full justify-start" variant="outline">
-              <Database className="h-4 w-4 mr-2" />
+            </button>
+            <button onClick={() => handleAction('DB Optimize')} className="action-button">
+              <Database className="button-icon" />
               Optimize Database
-            </Button>
-            <Button onClick={() => handleAction('Backup Create')} className="w-full justify-start" variant="outline">
-              <Package className="h-4 w-4 mr-2" />
+            </button>
+            <button onClick={() => handleAction('Backup Create')} className="action-button">
+              <Package className="button-icon" />
               Create System Backup
-            </Button>
-          </CardContent>
-        </Card>
+            </button>
+          </div>
+        </div>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Recent Activities</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-3 text-sm">
-              <div className="flex justify-between items-center">
+        <div className="activity-card">
+          <div className="card-header">
+            <h3 className="card-title">Recent Activities</h3>
+          </div>
+          <div className="card-content">
+            <div className="activity-list">
+              <div className="activity-item">
                 <span>Database backup completed</span>
-                <span className="text-gray-500">2 hours ago</span>
+                <span className="activity-time">2 hours ago</span>
               </div>
-              <div className="flex justify-between items-center">
+              <div className="activity-item">
                 <span>Security scan passed</span>
-                <span className="text-gray-500">4 hours ago</span>
+                <span className="activity-time">4 hours ago</span>
               </div>
-              <div className="flex justify-between items-center">
+              <div className="activity-item">
                 <span>System update deployed</span>
-                <span className="text-gray-500">1 day ago</span>
+                <span className="activity-time">1 day ago</span>
               </div>
-              <div className="flex justify-between items-center">
+              <div className="activity-item">
                 <span>Performance optimization</span>
-                <span className="text-gray-500">2 days ago</span>
+                <span className="activity-time">2 days ago</span>
               </div>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
     </div>
   );
 
   const renderDatabase = () => (
-    <div className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <Card>
-          <CardHeader>
-            <CardTitle>Database Management</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium mb-2">Database URL</label>
+    <div className="content-section">
+      <div className="db-cards">
+        <div className="db-card">
+          <div className="card-header">
+            <h3 className="card-title">Database Management</h3>
+          </div>
+          <div className="card-content">
+            <div className="form-group">
+              <label className="form-label">Database URL</label>
               <input
                 type="password"
                 defaultValue="mongodb://localhost:27017/100acres"
-                className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                className="form-input"
                 readOnly
               />
             </div>
-            <div className="grid grid-cols-2 gap-4">
-              <Button onClick={() => handleAction('DB Test Connection')}>
-                <Database className="h-4 w-4 mr-2" />
+            <div className="button-group">
+              <button onClick={() => handleAction('DB Test Connection')} className="db-button primary">
+                <Database className="button-icon" />
                 Test Connection
-              </Button>
-              <Button onClick={() => handleAction('DB Migrate')} variant="outline">
-                <GitBranch className="h-4 w-4 mr-2" />
+              </button>
+              <button onClick={() => handleAction('DB Migrate')} className="db-button">
+                <GitBranch className="button-icon" />
                 Run Migrations
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Database Statistics</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-3">
-              <div className="flex justify-between">
-                <span>Total Collections:</span>
-                <span className="font-bold">12</span>
-              </div>
-              <div className="flex justify-between">
-                <span>Total Documents:</span>
-                <span className="font-bold">15,847</span>
-              </div>
-              <div className="flex justify-between">
-                <span>Database Size:</span>
-                <span className="font-bold">245 MB</span>
-              </div>
-              <div className="flex justify-between">
-                <span>Index Size:</span>
-                <span className="font-bold">12 MB</span>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      <Card>
-        <CardHeader>
-          <CardTitle>Database Query Console</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            <textarea
-              placeholder="Enter your MongoDB query here..."
-              className="w-full h-32 px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent font-mono text-sm"
-              defaultValue="db.users.find({status: 'active'}).limit(10)"
-            />
-            <div className="flex gap-2">
-              <Button onClick={() => handleAction('Query Execute')}>
-                <Terminal className="h-4 w-4 mr-2" />
-                Execute Query
-              </Button>
-              <Button onClick={() => handleAction('Query Explain')} variant="outline">
-                Explain Query
-              </Button>
+              </button>
             </div>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+
+        <div className="db-card">
+          <div className="card-header">
+            <h3 className="card-title">Database Statistics</h3>
+          </div>
+          <div className="card-content">
+            <div className="db-stats">
+              <div className="db-stat">
+                <span>Total Collections:</span>
+                <span className="stat-number">12</span>
+              </div>
+              <div className="db-stat">
+                <span>Total Documents:</span>
+                <span className="stat-number">15,847</span>
+              </div>
+              <div className="db-stat">
+                <span>Database Size:</span>
+                <span className="stat-number">245 MB</span>
+              </div>
+              <div className="db-stat">
+                <span>Index Size:</span>
+                <span className="stat-number">12 MB</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="query-card">
+        <div className="card-header">
+          <h3 className="card-title">Database Query Console</h3>
+        </div>
+        <div className="card-content">
+          <textarea
+            placeholder="Enter your MongoDB query here..."
+            className="query-textarea"
+            defaultValue="db.users.find({status: 'active'}).limit(10)"
+          />
+          <div className="query-buttons">
+            <button onClick={() => handleAction('Query Execute')} className="query-button primary">
+              <Terminal className="button-icon" />
+              Execute Query
+            </button>
+            <button onClick={() => handleAction('Query Explain')} className="query-button">
+              Explain Query
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 
   const renderAPI = () => (
-    <div className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <Card>
-          <CardHeader>
-            <CardTitle>API Configuration</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium mb-2">Base URL</label>
+    <div className="content-section">
+      <div className="api-cards">
+        <div className="api-card">
+          <div className="card-header">
+            <h3 className="card-title">API Configuration</h3>
+          </div>
+          <div className="card-content">
+            <div className="form-group">
+              <label className="form-label">Base URL</label>
               <input
                 type="text"
                 defaultValue="http://localhost:5001/api"
-                className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                className="form-input"
               />
             </div>
-            <div>
-              <label className="block text-sm font-medium mb-2">Rate Limit</label>
-              <select className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+            <div className="form-group">
+              <label className="form-label">Rate Limit</label>
+              <select className="form-select">
                 <option>100 requests/minute</option>
                 <option>500 requests/minute</option>
                 <option>1000 requests/minute</option>
               </select>
             </div>
-            <Button onClick={() => handleAction('API Config Save')} className="w-full">
+            <button onClick={() => handleAction('API Config Save')} className="api-button primary">
               Save Configuration
-            </Button>
-          </CardContent>
-        </Card>
+            </button>
+          </div>
+        </div>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>API Endpoints</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-3 text-sm">
-              <div className="flex justify-between items-center">
-                <span className="font-mono">GET /api/users</span>
-                <span className="px-2 py-1 bg-green-100 text-green-800 rounded">Active</span>
+        <div className="api-card">
+          <div className="card-header">
+            <h3 className="card-title">API Endpoints</h3>
+          </div>
+          <div className="card-content">
+            <div className="endpoint-list">
+              <div className="endpoint-item">
+                <span className="endpoint-path">GET /api/users</span>
+                <span className="status-badge active">Active</span>
               </div>
-              <div className="flex justify-between items-center">
-                <span className="font-mono">POST /api/leads</span>
-                <span className="px-2 py-1 bg-green-100 text-green-800 rounded">Active</span>
+              <div className="endpoint-item">
+                <span className="endpoint-path">POST /api/leads</span>
+                <span className="status-badge active">Active</span>
               </div>
-              <div className="flex justify-between items-center">
-                <span className="font-mono">PUT /api/tickets</span>
-                <span className="px-2 py-1 bg-green-100 text-green-800 rounded">Active</span>
+              <div className="endpoint-item">
+                <span className="endpoint-path">PUT /api/tickets</span>
+                <span className="status-badge active">Active</span>
               </div>
-              <div className="flex justify-between items-center">
-                <span className="font-mono">DELETE /api/users/:id</span>
-                <span className="px-2 py-1 bg-yellow-100 text-yellow-800 rounded">Limited</span>
+              <div className="endpoint-item">
+                <span className="endpoint-path">DELETE /api/users/:id</span>
+                <span className="status-badge limited">Limited</span>
               </div>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>API Testing Console</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium mb-2">Method</label>
-                <select className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+      <div className="api-test-card">
+        <div className="card-header">
+          <h3 className="card-title">API Testing Console</h3>
+        </div>
+        <div className="card-content">
+          <div className="test-form">
+            <div className="form-row">
+              <div className="form-group">
+                <label className="form-label">Method</label>
+                <select className="form-select">
                   <option>GET</option>
                   <option>POST</option>
                   <option>PUT</option>
                   <option>DELETE</option>
                 </select>
               </div>
-              <div>
-                <label className="block text-sm font-medium mb-2">Endpoint</label>
+              <div className="form-group">
+                <label className="form-label">Endpoint</label>
                 <input
                   type="text"
                   placeholder="/api/users"
-                  className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  className="form-input"
                 />
               </div>
             </div>
-            <div>
-              <label className="block text-sm font-medium mb-2">Request Body (JSON)</label>
+            <div className="form-group">
+              <label className="form-label">Request Body (JSON)</label>
               <textarea
                 placeholder='{"name": "Test User", "email": "test@example.com"}'
-                className="w-full h-24 px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent font-mono text-sm"
+                className="form-textarea"
               />
             </div>
-            <Button onClick={() => handleAction('API Test')}>
-              <Globe className="h-4 w-4 mr-2" />
+            <button onClick={() => handleAction('API Test')} className="test-button primary">
+              <Globe className="button-icon" />
               Send Request
-            </Button>
+            </button>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </div>
   );
 
   const renderSecurity = () => (
-    <div className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <Card>
-          <CardHeader>
-            <CardTitle>Security Settings</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <h4 className="font-medium">JWT Token Expiry</h4>
-                <p className="text-sm text-gray-500">Current: 24 hours</p>
+    <div className="content-section">
+      <div className="security-cards">
+        <div className="security-card">
+          <div className="card-header">
+            <h3 className="card-title">Security Settings</h3>
+          </div>
+          <div className="card-content">
+            <div className="security-setting">
+              <div className="setting-info">
+                <h4 className="setting-name">JWT Token Expiry</h4>
+                <p className="setting-desc">Current: 24 hours</p>
               </div>
-              <select className="px-3 py-2 border border-gray-200 rounded-lg">
+              <select className="setting-select">
                 <option>1 hour</option>
                 <option>12 hours</option>
                 <option>24 hours</option>
                 <option>7 days</option>
               </select>
             </div>
-            <div className="flex items-center justify-between">
-              <div>
-                <h4 className="font-medium">Password Policy</h4>
-                <p className="text-sm text-gray-500">Minimum requirements</p>
+            <div className="security-setting">
+              <div className="setting-info">
+                <h4 className="setting-name">Password Policy</h4>
+                <p className="setting-desc">Minimum requirements</p>
               </div>
-              <select className="px-3 py-2 border border-gray-200 rounded-lg">
+              <select className="setting-select">
                 <option>Basic (6 chars)</option>
                 <option>Medium (8 chars + numbers)</option>
                 <option>Strong (12 chars + special)</option>
               </select>
             </div>
-            <Button onClick={() => handleAction('Security Update')} className="w-full">
+            <button onClick={() => handleAction('Security Update')} className="security-button primary">
               Update Security Settings
-            </Button>
-          </CardContent>
-        </Card>
+            </button>
+          </div>
+        </div>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>API Keys</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium mb-2">Master API Key</label>
-              <div className="flex gap-2">
+        <div className="security-card">
+          <div className="card-header">
+            <h3 className="card-title">API Keys</h3>
+          </div>
+          <div className="card-content">
+            <div className="key-group">
+              <label className="form-label">Master API Key</label>
+              <div className="key-input">
                 <input
                   type="password"
                   defaultValue="sk_live_abc123def456ghi789"
-                  className="flex-1 px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  className="key-field"
                   readOnly
                 />
-                <Button onClick={() => handleAction('API Key Regenerate')} variant="outline">
-                  <Key className="h-4 w-4" />
-                </Button>
+                <button onClick={() => handleAction('API Key Regenerate')} className="key-button">
+                  <Key className="key-icon" />
+                </button>
               </div>
             </div>
-            <div>
-              <label className="block text-sm font-medium mb-2">Webhook Secret</label>
-              <div className="flex gap-2">
+            <div className="key-group">
+              <label className="form-label">Webhook Secret</label>
+              <div className="key-input">
                 <input
                   type="password"
                   defaultValue="whsec_xyz789abc123def456"
-                  className="flex-1 px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  className="key-field"
                   readOnly
                 />
-                <Button onClick={() => handleAction('Webhook Secret Regenerate')} variant="outline">
-                  <Key className="h-4 w-4" />
-                </Button>
+                <button onClick={() => handleAction('Webhook Secret Regenerate')} className="key-button">
+                  <Key className="key-icon" />
+                </button>
               </div>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Security Audit</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <Button onClick={() => handleAction('Vulnerability Scan')} className="w-full">
-                <Shield className="h-4 w-4 mr-2" />
-                Run Vulnerability Scan
-              </Button>
-              <Button onClick={() => handleAction('Penetration Test')} variant="outline" className="w-full">
-                <Bug className="h-4 w-4 mr-2" />
-                Penetration Test
-              </Button>
-              <Button onClick={() => handleAction('Security Report')} variant="outline" className="w-full">
-                <FileText className="h-4 w-4 mr-2" />
-                Generate Report
-              </Button>
-            </div>
-            <div className="mt-4 p-4 bg-green-50 rounded-lg">
-              <h4 className="font-medium text-green-800">Last Security Scan</h4>
-              <p className="text-sm text-green-600">Completed 2 hours ago - No vulnerabilities found</p>
-            </div>
+      <div className="audit-card">
+        <div className="card-header">
+          <h3 className="card-title">Security Audit</h3>
+        </div>
+        <div className="card-content">
+          <div className="audit-buttons">
+            <button onClick={() => handleAction('Vulnerability Scan')} className="audit-button primary">
+              <Shield className="button-icon" />
+              Run Vulnerability Scan
+            </button>
+            <button onClick={() => handleAction('Penetration Test')} className="audit-button">
+              <Bug className="button-icon" />
+              Penetration Test
+            </button>
+            <button onClick={() => handleAction('Security Report')} className="audit-button">
+              <FileText className="button-icon" />
+              Generate Report
+            </button>
           </div>
-        </CardContent>
-      </Card>
+          <div className="audit-info">
+            <h4 className="audit-title">Last Security Scan</h4>
+            <p className="audit-desc">Completed 2 hours ago - No vulnerabilities found</p>
+          </div>
+        </div>
+      </div>
     </div>
   );
 
@@ -708,65 +687,920 @@ const DeveloperContent = ({ userRole }) => {
         return renderSecurity();
       default:
         return (
-          <div className="text-center py-8">
-            <Code className="h-16 w-16 text-green-600 mx-auto mb-4" />
-            <h3 className="text-lg font-medium mb-2">Coming Soon</h3>
-            <p className="text-gray-500">This developer tool is under development</p>
+          <div className="coming-soon">
+            <Code className="coming-soon-icon" />
+            <h3 className="coming-soon-title">Coming Soon</h3>
+            <p className="coming-soon-desc">This developer tool is under development</p>
           </div>
         );
     }
   };
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold text-gray-900">Developer Console</h1>
-        <p className="text-gray-600">Advanced system management and technical tools</p>
-      </div>
+    <>
+      <div className="developer-console">
+        <div className="console-header">
+          <h1 className="console-title">Developer Console</h1>
+          <p className="console-subtitle">Advanced system management and technical tools</p>
+        </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
-        {/* Developer Navigation */}
-        <Card className="lg:col-span-1">
-          <CardContent className="p-0">
-            <nav className="space-y-1">
-              {tabs.map((tab) => (
-                <button
-                  key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
-                  className={`w-full flex items-center px-4 py-3 text-left hover:bg-gray-50 transition-colors ${
-                    activeTab === tab.id 
-                      ? 'bg-green-50 border-r-2 border-green-600 text-green-700' 
-                      : 'text-gray-700'
-                  }`}
-                >
-                  <tab.icon className="h-5 w-5 mr-3" />
-                  <span className="text-sm">{tab.label}</span>
-                </button>
-              ))}
-            </nav>
-          </CardContent>
-        </Card>
-
-        {/* Developer Content */}
-        <div className="lg:col-span-4">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                {(() => {
-                  const activeTabData = tabs.find(t => t.id === activeTab);
-                  const IconComponent = activeTabData?.icon;
-                  return IconComponent ? <IconComponent className="h-5 w-5" /> : null;
-                })()}
-                {tabs.find(t => t.id === activeTab)?.label}
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              {renderContent()}
+        <div className="console-layout">
+          {/* Developer Navigation */}
+          <Card className="nav-panel">
+            <CardContent className="nav-content">
+              <nav className="nav-menu">
+                {tabs.map((tab) => (
+                  <button
+                    key={tab.id}
+                    onClick={() => setActiveTab(tab.id)}
+                    className={`nav-item ${activeTab === tab.id ? 'active' : ''}`}
+                  >
+                    <tab.icon className="nav-icon" />
+                    <span className="nav-text">{tab.label}</span>
+                  </button>
+                ))}
+              </nav>
             </CardContent>
           </Card>
+
+          {/* Developer Content */}
+          <div className="content-panel">
+            <Card className="content-card">
+              <CardHeader>
+                <CardTitle className="content-title">
+                  {(() => {
+                    const activeTabData = tabs.find(t => t.id === activeTab);
+                    const IconComponent = activeTabData?.icon;
+                    return IconComponent ? <IconComponent className="title-icon" /> : null;
+                  })()}
+                  {tabs.find(t => t.id === activeTab)?.label}
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                {renderContent()}
+              </CardContent>
+            </Card>
+          </div>
         </div>
       </div>
-    </div>
+
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        .developer-console {
+          font-family: 'Poppins', sans-serif;
+          background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+          min-height: 100vh;
+          padding: 1.5rem;
+        }
+
+        .console-header {
+          margin-bottom: 2rem;
+        }
+
+        .console-title {
+          font-size: 2rem;
+          font-weight: 700;
+          color: #2d3748;
+          margin-bottom: 0.5rem;
+        }
+
+        .console-subtitle {
+          color: #718096;
+          font-size: 1rem;
+        }
+
+        .console-layout {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 1.5rem;
+        }
+
+        @media (min-width: 1024px) {
+          .console-layout {
+            grid-template-columns: 1fr 4fr;
+          }
+        }
+
+        /* Navigation Panel */
+        .nav-panel {
+          background: white;
+          border-radius: 0.75rem;
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+          border: 2px solid #e2e8f0;
+        }
+
+        .nav-content {
+          padding: 0;
+        }
+
+        .nav-menu {
+          padding: 0.5rem 0;
+        }
+
+        .nav-item {
+          width: 100%;
+          display: flex;
+          align-items: center;
+          padding: 0.75rem 1rem;
+          text-align: left;
+          background: none;
+          border: none;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          color: #4a5568;
+          border-radius: 0.5rem;
+          margin: 0.25rem 0.5rem;
+        }
+
+        .nav-item:hover {
+          background: #f0f4f8;
+          transform: translateX(5px);
+        }
+
+        .nav-item.active {
+          background: linear-gradient(135deg, #dc2626, #b91c1c);
+          color: white;
+          box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3);
+        }
+
+        .nav-icon {
+          width: 1.25rem;
+          height: 1.25rem;
+          margin-right: 0.75rem;
+        }
+
+        .nav-text {
+          font-size: 0.875rem;
+          font-weight: 500;
+        }
+
+        /* Content Panel */
+        .content-panel {
+          flex: 1;
+        }
+
+        .content-card {
+          background: white;
+          border-radius: 0.75rem;
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+          border: 2px solid #e2e8f0;
+        }
+
+        .content-title {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          color: #2d3748;
+          font-size: 1.5rem;
+          font-weight: 600;
+        }
+
+        .title-icon {
+          width: 1.5rem;
+          height: 1.5rem;
+        }
+
+        /* Content Sections */
+        .content-section {
+          display: flex;
+          flex-direction: column;
+          gap: 2rem;
+        }
+
+        /* Access Control */
+        .cards-grid {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 1.5rem;
+        }
+
+        @media (min-width: 768px) {
+          .cards-grid {
+            grid-template-columns: repeat(2, 1fr);
+          }
+        }
+
+        .access-card {
+          background: white;
+          border-radius: 0.75rem;
+          padding: 1.5rem;
+          border: 2px solid #e2e8f0;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+          transition: all 0.3s ease;
+        }
+
+        .access-card:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+          margin-bottom: 1rem;
+        }
+
+        .card-title {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          font-size: 1.125rem;
+          font-weight: 600;
+          color: #2d3748;
+        }
+
+        .card-icon {
+          width: 1.5rem;
+          height: 1.5rem;
+        }
+
+        .card-icon.purple { color: #8b5cf6; }
+        .card-icon.blue { color: #3b82f6; }
+        .card-icon.green { color: #10b981; }
+        .card-icon.orange { color: #f97316; }
+
+        .card-content {
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+        }
+
+        .card-description {
+          font-size: 0.875rem;
+          color: #718096;
+          line-height: 1.6;
+        }
+
+        .button-list {
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+        }
+
+        .access-button {
+          width: 100%;
+          padding: 0.75rem 1rem;
+          text-align: left;
+          background: #f8fafc;
+          border: 1px solid #e2e8f0;
+          border-radius: 0.5rem;
+          color: #4a5568;
+          font-weight: 500;
+          cursor: pointer;
+          transition: all 0.2s ease;
+        }
+
+        .access-button:hover {
+          background: linear-gradient(135deg, #dc2626, #b91c1c);
+          color: white;
+          transform: translateX(5px);
+        }
+
+        .quick-switch-card {
+          background: white;
+          border-radius: 0.75rem;
+          padding: 1.5rem;
+          border: 2px solid #e2e8f0;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .quick-buttons {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 1rem;
+        }
+
+        @media (min-width: 768px) {
+          .quick-buttons {
+            grid-template-columns: repeat(4, 1fr);
+          }
+        }
+
+        .quick-button {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          padding: 1rem;
+          background: #f8fafc;
+          border: 1px solid #e2e8f0;
+          border-radius: 0.5rem;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          text-align: center;
+        }
+
+        .quick-button:hover {
+          background: linear-gradient(135deg, #dc2626, #b91c1c);
+          color: white;
+          transform: translateY(-5px);
+          box-shadow: 0 10px 30px rgba(220, 38, 38, 0.3);
+        }
+
+        .quick-icon {
+          width: 1.5rem;
+          height: 1.5rem;
+          margin-bottom: 0.5rem;
+        }
+
+        .quick-icon.purple { color: #8b5cf6; }
+        .quick-icon.blue { color: #3b82f6; }
+        .quick-icon.green { color: #10b981; }
+        .quick-icon.orange { color: #f97316; }
+
+        .quick-button:hover .quick-icon {
+          color: white;
+        }
+
+        .quick-button span {
+          font-size: 0.75rem;
+          font-weight: 500;
+        }
+
+        /* Overview */
+        .stats-grid {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 1rem;
+        }
+
+        @media (min-width: 768px) {
+          .stats-grid {
+            grid-template-columns: repeat(2, 1fr);
+          }
+        }
+
+        @media (min-width: 1024px) {
+          .stats-grid {
+            grid-template-columns: repeat(3, 1fr);
+          }
+        }
+
+        .stat-card {
+          background: white;
+          border-radius: 0.75rem;
+          padding: 1.5rem;
+          border: 2px solid #e2e8f0;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+          transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-header {
+          margin-bottom: 1rem;
+        }
+
+        .stat-title {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          font-size: 0.875rem;
+          font-weight: 500;
+          color: #4a5568;
+        }
+
+        .stat-icon {
+          width: 1rem;
+          height: 1rem;
+        }
+
+        .stat-value {
+          font-size: 1.5rem;
+          font-weight: 700;
+          color: #2d3748;
+          margin-bottom: 0.5rem;
+        }
+
+        .stat-value.green {
+          color: #10b981;
+        }
+
+        .stat-description {
+          font-size: 0.75rem;
+          color: #718096;
+        }
+
+        .overview-cards {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 1.5rem;
+        }
+
+        @media (min-width: 1024px) {
+          .overview-cards {
+            grid-template-columns: repeat(2, 1fr);
+          }
+        }
+
+        .action-card, .activity-card {
+          background: white;
+          border-radius: 0.75rem;
+          padding: 1.5rem;
+          border: 2px solid #e2e8f0;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .action-button {
+          width: 100%;
+          display: flex;
+          align-items: center;
+          padding: 0.75rem 1rem;
+          margin-bottom: 0.75rem;
+          background: #f8fafc;
+          border: 1px solid #e2e8f0;
+          border-radius: 0.5rem;
+          color: #4a5568;
+          font-weight: 500;
+          cursor: pointer;
+          transition: all 0.2s ease;
+        }
+
+        .action-button.primary {
+          background: linear-gradient(135deg, #dc2626, #b91c1c);
+          color: white;
+          border-color: #dc2626;
+        }
+
+        .action-button:hover {
+          transform: translateX(5px);
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .button-icon {
+          width: 1rem;
+          height: 1rem;
+          margin-right: 0.5rem;
+        }
+
+        .activity-list {
+          display: flex;
+          flex-direction: column;
+          gap: 0.75rem;
+        }
+
+        .activity-item {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding-bottom: 0.75rem;
+          border-bottom: 1px dashed #e2e8f0;
+          font-size: 0.875rem;
+        }
+
+        .activity-item:last-child {
+          border-bottom: none;
+          padding-bottom: 0;
+        }
+
+        .activity-time {
+          color: #718096;
+          font-size: 0.75rem;
+        }
+
+        /* Database */
+        .db-cards {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 1.5rem;
+        }
+
+        @media (min-width: 768px) {
+          .db-cards {
+            grid-template-columns: repeat(2, 1fr);
+          }
+        }
+
+        .db-card, .query-card {
+          background: white;
+          border-radius: 0.75rem;
+          padding: 1.5rem;
+          border: 2px solid #e2e8f0;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .form-group {
+          margin-bottom: 1rem;
+        }
+
+        .form-label {
+          display: block;
+          font-size: 0.875rem;
+          font-weight: 500;
+          color: #4a5568;
+          margin-bottom: 0.5rem;
+        }
+
+        .form-input, .form-select, .form-textarea {
+          width: 100%;
+          padding: 0.75rem;
+          border: 1px solid #e2e8f0;
+          border-radius: 0.5rem;
+          font-size: 0.875rem;
+          color: #2d3748;
+          background: #f8fafc;
+          transition: all 0.2s ease;
+        }
+
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+          outline: none;
+          border-color: #dc2626;
+          box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+        }
+
+        .button-group {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 1rem;
+        }
+
+        .db-button, .query-button {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 0.75rem 1rem;
+          border: 1px solid #e2e8f0;
+          border-radius: 0.5rem;
+          background: #f8fafc;
+          color: #4a5568;
+          font-weight: 500;
+          cursor: pointer;
+          transition: all 0.2s ease;
+        }
+
+        .db-button.primary, .query-button.primary {
+          background: linear-gradient(135deg, #dc2626, #b91c1c);
+          color: white;
+          border-color: #dc2626;
+        }
+
+        .db-button:hover, .query-button:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .db-stats {
+          display: flex;
+          flex-direction: column;
+          gap: 0.75rem;
+        }
+
+        .db-stat {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding-bottom: 0.5rem;
+          border-bottom: 1px dashed #e2e8f0;
+        }
+
+        .db-stat:last-child {
+          border-bottom: none;
+          padding-bottom: 0;
+        }
+
+        .stat-number {
+          font-weight: 700;
+          color: #2d3748;
+        }
+
+        .query-textarea {
+          min-height: 8rem;
+          font-family: 'Monaco', 'Consolas', monospace;
+          font-size: 0.75rem;
+          background: #1a202c;
+          color: #e2e8f0;
+          border-color: #4a5568;
+        }
+
+        .query-buttons {
+          display: flex;
+          gap: 1rem;
+          margin-top: 1rem;
+        }
+
+        /* API */
+        .api-cards {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 1.5rem;
+        }
+
+        @media (min-width: 768px) {
+          .api-cards {
+            grid-template-columns: repeat(2, 1fr);
+          }
+        }
+
+        .api-card, .api-test-card {
+          background: white;
+          border-radius: 0.75rem;
+          padding: 1.5rem;
+          border: 2px solid #e2e8f0;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .api-button, .test-button {
+          width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 0.75rem 1rem;
+          border: 1px solid #e2e8f0;
+          border-radius: 0.5rem;
+          background: #f8fafc;
+          color: #4a5568;
+          font-weight: 500;
+          cursor: pointer;
+          transition: all 0.2s ease;
+        }
+
+        .api-button.primary, .test-button.primary {
+          background: linear-gradient(135deg, #dc2626, #b91c1c);
+          color: white;
+          border-color: #dc2626;
+        }
+
+        .endpoint-list {
+          display: flex;
+          flex-direction: column;
+          gap: 0.75rem;
+        }
+
+        .endpoint-item {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          font-size: 0.875rem;
+        }
+
+        .endpoint-path {
+          font-family: 'Monaco', 'Consolas', monospace;
+          font-size: 0.75rem;
+        }
+
+        .status-badge {
+          padding: 0.25rem 0.5rem;
+          border-radius: 0.25rem;
+          font-size: 0.75rem;
+          font-weight: 500;
+        }
+
+        .status-badge.active {
+          background: #d1fae5;
+          color: #065f46;
+        }
+
+        .status-badge.limited {
+          background: #fef3c7;
+          color: #92400e;
+        }
+
+        .form-row {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 1rem;
+        }
+
+        @media (min-width: 768px) {
+          .form-row {
+            grid-template-columns: repeat(2, 1fr);
+          }
+        }
+
+        .test-form {
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+        }
+
+        /* Security */
+        .security-cards {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 1.5rem;
+        }
+
+        @media (min-width: 768px) {
+          .security-cards {
+            grid-template-columns: repeat(2, 1fr);
+          }
+        }
+
+        .security-card, .audit-card {
+          background: white;
+          border-radius: 0.75rem;
+          padding: 1.5rem;
+          border: 2px solid #e2e8f0;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .security-setting {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 1rem;
+          padding-bottom: 1rem;
+          border-bottom: 1px dashed #e2e8f0;
+        }
+
+        .security-setting:last-child {
+          border-bottom: none;
+          margin-bottom: 0;
+          padding-bottom: 0;
+        }
+
+        .setting-info {
+          flex: 1;
+        }
+
+        .setting-name {
+          font-weight: 500;
+          color: #2d3748;
+          margin-bottom: 0.25rem;
+        }
+
+        .setting-desc {
+          font-size: 0.875rem;
+          color: #718096;
+        }
+
+        .setting-select {
+          padding: 0.5rem 0.75rem;
+          border: 1px solid #e2e8f0;
+          border-radius: 0.5rem;
+          font-size: 0.875rem;
+          color: #2d3748;
+          background: #f8fafc;
+        }
+
+        .security-button, .audit-button {
+          width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 0.75rem 1rem;
+          border: 1px solid #e2e8f0;
+          border-radius: 0.5rem;
+          background: #f8fafc;
+          color: #4a5568;
+          font-weight: 500;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          margin-top: 1rem;
+        }
+
+        .security-button.primary, .audit-button.primary {
+          background: linear-gradient(135deg, #dc2626, #b91c1c);
+          color: white;
+          border-color: #dc2626;
+        }
+
+        .key-group {
+          margin-bottom: 1rem;
+        }
+
+        .key-input {
+          display: flex;
+          gap: 0.5rem;
+        }
+
+        .key-field {
+          flex: 1;
+          padding: 0.75rem;
+          border: 1px solid #e2e8f0;
+          border-radius: 0.5rem;
+          font-size: 0.875rem;
+          color: #2d3748;
+          background: #f8fafc;
+        }
+
+        .key-button {
+          padding: 0.75rem;
+          border: 1px solid #e2e8f0;
+          border-radius: 0.5rem;
+          background: #f8fafc;
+          color: #4a5568;
+          cursor: pointer;
+          transition: all 0.2s ease;
+        }
+
+        .key-button:hover {
+          background: #e2e8f0;
+        }
+
+        .key-icon {
+          width: 1rem;
+          height: 1rem;
+        }
+
+        .audit-buttons {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 1rem;
+          margin-bottom: 1rem;
+        }
+
+        @media (min-width: 768px) {
+          .audit-buttons {
+            grid-template-columns: repeat(3, 1fr);
+          }
+        }
+
+        .audit-info {
+          background: #ecfdf5;
+          padding: 1rem;
+          border-radius: 0.5rem;
+          border: 1px solid #d1fae5;
+        }
+
+        .audit-title {
+          font-weight: 500;
+          color: #047857;
+          margin-bottom: 0.25rem;
+        }
+
+        .audit-desc {
+          font-size: 0.875rem;
+          color: #065f46;
+        }
+
+        /* Coming Soon */
+        .coming-soon {
+          text-align: center;
+          padding: 3rem 0;
+        }
+
+        .coming-soon-icon {
+          width: 4rem;
+          height: 4rem;
+          color: #10b981;
+          margin: 0 auto 1rem;
+        }
+
+        .coming-soon-title {
+          font-size: 1.125rem;
+          font-weight: 500;
+          color: #2d3748;
+          margin-bottom: 0.5rem;
+        }
+
+        .coming-soon-desc {
+          color: #718096;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+          .developer-console {
+            padding: 1rem;
+          }
+
+          .console-title {
+            font-size: 1.5rem;
+          }
+
+          .console-layout {
+            gap: 1rem;
+          }
+
+          .nav-item {
+            padding: 0.5rem 0.75rem;
+          }
+
+          .nav-text {
+            font-size: 0.75rem;
+          }
+
+          .content-title {
+            font-size: 1.25rem;
+          }
+
+          .cards-grid {
+            grid-template-columns: 1fr;
+          }
+
+          .stats-grid {
+            grid-template-columns: 1fr;
+          }
+
+          .quick-buttons {
+            grid-template-columns: repeat(2, 1fr);
+          }
+
+          .button-group {
+            grid-template-columns: 1fr;
+          }
+
+          .form-row {
+            grid-template-columns: 1fr;
+          }
+
+          .audit-buttons {
+            grid-template-columns: 1fr;
+          }
+        }
+      `}</style>
+    </>
   );
 };
 

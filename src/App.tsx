@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -13,6 +14,8 @@ import NotFound from "./pages/NotFound";
 import Settings from "./pages/Settings";
 import UserManagementPage from "./pages/UserManagement";
 import Developer from "./pages/Developer";
+import DeveloperLogin from "./pages/DeveloperLogin";
+import DeveloperDashboard from "./pages/DeveloperDashboard";
 
 const queryClient = new QueryClient();
 
@@ -20,14 +23,17 @@ const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userRole, setUserRole] = useState("employee");
   const [isLoading, setIsLoading] = useState(true);
+  const [isDeveloperLoggedIn, setIsDeveloperLoggedIn] = useState(false);
 
   useEffect(() => {
     const checkAuthStatus = () => {
       const loggedIn = localStorage.getItem("isLoggedIn") === "true";
       const role = localStorage.getItem("userRole") || "employee";
+      const developerLoggedIn = localStorage.getItem("isDeveloperLoggedIn") === "true";
 
       setIsLoggedIn(loggedIn);
       setUserRole(role);
+      setIsDeveloperLoggedIn(developerLoggedIn);
       setIsLoading(false);
     };
 
@@ -59,6 +65,7 @@ const App = () => {
         <Sonner />
         <BrowserRouter>
           <Routes>
+            {/* Main Application Routes */}
             <Route
               path="/login"
               element={!isLoggedIn ? <Login /> : <Navigate to="/" replace />}
@@ -153,6 +160,24 @@ const App = () => {
                 )
               }
             />
+
+            {/* Developer Section Routes */}
+            <Route
+              path="/developer-login"
+              element={!isDeveloperLoggedIn ? <DeveloperLogin /> : <Navigate to="/developer-dashboard" replace />}
+            />
+            <Route
+              path="/developer-dashboard"
+              element={
+                isDeveloperLoggedIn ? (
+                  <DeveloperDashboard />
+                ) : (
+                  <Navigate to="/developer-login" replace />
+                )
+              }
+            />
+
+            {/* Team Management Routes */}
             <Route
               path="/team"
               element={

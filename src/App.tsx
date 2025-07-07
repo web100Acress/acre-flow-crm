@@ -23,21 +23,19 @@ const App = () => {
 
   useEffect(() => {
     const checkAuthStatus = () => {
-      const loggedIn = localStorage.getItem('isLoggedIn') === 'true';
-      const role = localStorage.getItem('userRole') || 'employee';
-      
+      const loggedIn = localStorage.getItem("isLoggedIn") === "true";
+      const role = localStorage.getItem("userRole") || "employee";
+
       setIsLoggedIn(loggedIn);
       setUserRole(role);
       setIsLoading(false);
     };
 
     checkAuthStatus();
-    
-    // Listen for storage changes (in case user logs out from another tab)
-    window.addEventListener('storage', checkAuthStatus);
-    
+
+    window.addEventListener("storage", checkAuthStatus);
     return () => {
-      window.removeEventListener('storage', checkAuthStatus);
+      window.removeEventListener("storage", checkAuthStatus);
     };
   }, []);
 
@@ -61,49 +59,115 @@ const App = () => {
         <Sonner />
         <BrowserRouter>
           <Routes>
-            <Route 
-              path="/login" 
-              element={!isLoggedIn ? <Login /> : <Navigate to="/" replace />} 
+            <Route
+              path="/login"
+              element={!isLoggedIn ? <Login /> : <Navigate to="/" replace />}
             />
-            <Route 
-              path="/" 
-              element={isLoggedIn ? <Dashboard userRole={userRole} /> : <Navigate to="/login" replace />} 
+            <Route
+              path="/"
+              element={
+                isLoggedIn ? (
+                  <Dashboard userRole={userRole} />
+                ) : (
+                  <Navigate to="/login" replace />
+                )
+              }
             />
-            <Route 
-              path="/leads" 
-              element={isLoggedIn ? <Leads userRole={userRole} /> : <Navigate to="/login" replace />} 
+            <Route
+              path="/leads"
+              element={
+                isLoggedIn ? (
+                  <Leads userRole={userRole} />
+                ) : (
+                  <Navigate to="/login" replace />
+                )
+              }
             />
-            <Route 
-              path="/tickets" 
-              element={isLoggedIn ? <Tickets userRole={userRole} /> : <Navigate to="/login" replace />} 
+            <Route
+              path="/tickets"
+              element={
+                isLoggedIn ? (
+                  <Tickets userRole={userRole} />
+                ) : (
+                  <Navigate to="/login" replace />
+                )
+              }
             />
-            <Route 
-              path="/create-admin" 
-              element={isLoggedIn && userRole === 'super-admin' ? <CreateUser userRole={userRole} userType="admin" /> : <Navigate to="/" replace />} 
+            <Route
+              path="/create-admin"
+              element={
+                isLoggedIn && userRole === "super-admin" ? (
+                  <CreateUser userRole={userRole} userType="admin" />
+                ) : (
+                  <Navigate to="/" replace />
+                )
+              }
             />
-            <Route 
-              path="/create-leader" 
-              element={isLoggedIn && userRole === 'head-admin' ? <CreateUser userRole={userRole} userType="leader" /> : <Navigate to="/" replace />} 
+            <Route
+              path="/create-leader"
+              element={
+                isLoggedIn && userRole === "head-admin" ? (
+                  <CreateUser userRole={userRole} userType="leader" />
+                ) : (
+                  <Navigate to="/" replace />
+                )
+              }
             />
-            <Route 
-              path="/create-employee" 
-              element={isLoggedIn && userRole === 'team-leader' ? <CreateUser userRole={userRole} userType="employee" /> : <Navigate to="/" replace />} 
+            <Route
+              path="/create-employee"
+              element={
+                isLoggedIn && userRole === "team-leader" ? (
+                  <CreateUser userRole={userRole} userType="employee" />
+                ) : (
+                  <Navigate to="/" replace />
+                )
+              }
             />
-            <Route 
-              path="/users" 
-              element={isLoggedIn && userRole === 'super-admin' ? <UserManagementPage userRole={userRole} /> : <Navigate to="/" replace />} 
+            <Route
+              path="/users"
+              element={
+                isLoggedIn && userRole === "super-admin" ? (
+                  <UserManagementPage userRole={userRole} />
+                ) : (
+                  <Navigate to="/" replace />
+                )
+              }
             />
-            <Route 
-              path="/settings" 
-              element={isLoggedIn && userRole === 'super-admin' ? <Settings userRole={userRole} /> : <Navigate to="/" replace />} 
+            <Route
+              path="/settings"
+              element={
+                isLoggedIn && userRole === "super-admin" ? (
+                  <Settings userRole={userRole} />
+                ) : (
+                  <Navigate to="/" replace />
+                )
+              }
             />
-            <Route 
-              path="/team" 
-              element={isLoggedIn && userRole === 'head-admin' ? <div className="p-6"><h1 className="text-2xl font-bold">Team Management</h1><p>Team management interface coming soon...</p></div> : <Navigate to="/" replace />} 
+            <Route
+              path="/team"
+              element={
+                isLoggedIn && userRole === "head-admin" ? (
+                  <div className="p-6">
+                    <h1 className="text-2xl font-bold">Team Management</h1>
+                    <p>Team management interface coming soon...</p>
+                  </div>
+                ) : (
+                  <Navigate to="/" replace />
+                )
+              }
             />
-            <Route 
-              path="/employees" 
-              element={isLoggedIn && userRole === 'team-leader' ? <div className="p-6"><h1 className="text-2xl font-bold">My Employees</h1><p>Employee management interface coming soon...</p></div> : <Navigate to="/" replace />} 
+            <Route
+              path="/employees"
+              element={
+                isLoggedIn && userRole === "team-leader" ? (
+                  <div className="p-6">
+                    <h1 className="text-2xl font-bold">My Employees</h1>
+                    <p>Employee management interface coming soon...</p>
+                  </div>
+                ) : (
+                  <Navigate to="/" replace />
+                )
+              }
             />
             <Route path="*" element={<NotFound />} />
           </Routes>

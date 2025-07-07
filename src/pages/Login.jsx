@@ -18,11 +18,34 @@ const Login = () => {
   const [rememberMe, setRememberMe] = useState(false);
   const navigate = useNavigate();
 
+  // Static developer credentials
+  const DEVELOPER_CREDENTIALS = {
+    email: "amandev@gmail.com",
+    password: "dev123"
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     setError('');
 
+    // Check if it's developer login
+    if (credentials.email === DEVELOPER_CREDENTIALS.email && 
+        credentials.password === DEVELOPER_CREDENTIALS.password) {
+      
+      // Set developer session
+      localStorage.setItem("isDeveloperLoggedIn", "true");
+      localStorage.setItem("developerEmail", credentials.email);
+      localStorage.setItem("developerName", "Aman Developer");
+      localStorage.setItem("developerRole", "developer");
+      
+      navigate("/developer-dashboard");
+      window.location.reload();
+      setIsLoading(false);
+      return;
+    }
+
+    // Regular user login
     try {
       const response = await fetch('http://localhost:5001/api/auth/login', {
         method: 'POST',
@@ -38,6 +61,7 @@ const Login = () => {
         localStorage.setItem('userEmail', data.user.email);
         localStorage.setItem('userName', data.user.name);
         localStorage.setItem('isLoggedIn', 'true');
+        localStorage.setItem('userId', data.user._id);
         navigate('/');
         window.location.reload();
       } else {
@@ -50,154 +74,425 @@ const Login = () => {
     setIsLoading(false);
   };
 
-  const handleDeveloperLogin = () => {
-    navigate('/developer-login');
-  };
-
   return (
-    <div className="min-h-screen flex">
-      {/* Left Side - Brand Section */}
-      <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-emerald-600 via-emerald-700 to-emerald-800 relative overflow-hidden">
-        <div className="absolute inset-0 bg-black/10"></div>
-        <div className="relative z-10 flex flex-col justify-center items-center text-white p-12 text-center">
-          <div className="space-y-6 max-w-md">
-            <h1 className="text-5xl font-bold tracking-wider animate-fade-in">
-              C.R.M
-            </h1>
-            <div className="h-1 w-24 bg-white/30 mx-auto rounded-full"></div>
-            <h2 className="text-xl font-medium text-emerald-50">
-              Customer Relationship Management
-            </h2>
-            <p className="text-emerald-100 leading-relaxed">
-              Streamline your business relationships, manage leads efficiently, and monitor all activities from a single, powerful dashboard.
-            </p>
+    <>
+      <div className="container">
+        {/* Left Side - Brand Section */}
+        <div className="left">
+          <h1 className="crm-title">100acres.com</h1>
+          <p className="crm-subtitle">Rishto Ki Shuruwat</p>
+          <p className="crm-desc">
+            India's Best Property Site. Post and Search Your Property.
+          </p>
+          <div className="credentials-hint">
+            <p className="hint-title">Developer Access:</p>
+            <p className="hint-text">Email: amandev@gmail.com</p>
+            <p className="hint-text">Password: dev123</p>
           </div>
         </div>
-        <div className="absolute top-10 right-10 w-32 h-32 bg-white/5 rounded-full blur-xl"></div>
-        <div className="absolute bottom-20 left-10 w-24 h-24 bg-white/5 rounded-full blur-xl"></div>
+
+        {/* Right Side - Login Form */}
+        <div className="right">
+          <form className="login-box" onSubmit={handleSubmit}>
+            <div className="logo-container">
+              <Code size={40} />
+            </div>
+            <h2 className="login-heading">Welcome Back</h2>
+
+            {error && <div className="error-msg">{error}</div>}
+
+            {/* Email Input */}
+            <div className="input-group">
+              <AtSign className="input-icon" />
+              <input
+                type="email"
+                placeholder="Enter your email"
+                value={credentials.email}
+                onChange={(e) => setCredentials(prev => ({ ...prev, email: e.target.value }))}
+                required
+              />
+            </div>
+
+            {/* Password Input */}
+            <div className="input-group">
+              <Hash className="input-icon" />
+              <input
+                type={showPassword ? 'text' : 'password'}
+                placeholder="Enter your password"
+                value={credentials.password}
+                onChange={(e) => setCredentials(prev => ({ ...prev, password: e.target.value }))}
+                required
+              />
+              <button
+                type="button"
+                className="eye-btn"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
+            </div>
+
+            {/* Options */}
+            <div className="options">
+              <label className="remember-me">
+                <input
+                  type="checkbox"
+                  checked={rememberMe}
+                  onChange={(e) => setRememberMe(e.target.checked)}
+                  className="checkbox"
+                />
+                Remember me
+              </label>
+              <a href="#" className="forgot-password">
+                Forgot password?
+              </a>
+            </div>
+
+            {/* Submit Button */}
+            <button className="login-btn" disabled={isLoading}>
+              {isLoading ? "Signing In..." : "SIGN IN"}
+            </button>
+          </form>
+        </div>
       </div>
 
-      {/* Right Side - Login Form */}
-      <div className="w-full lg:w-1/2 flex items-center justify-center p-6 bg-gradient-to-br from-gray-50 to-emerald-50/30">
-        <Card className="w-full max-w-md shadow-2xl border-0 bg-white/95 backdrop-blur-sm">
-          <CardHeader className="text-center pb-2">
-            <CardTitle className="text-2xl font-bold text-gray-800 mb-2">
-              Welcome Back
-            </CardTitle>
-            <p className="text-gray-600 text-sm">
-              Sign in to access your dashboard
-            </p>
-          </CardHeader>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .container {
+          display: flex;
+          min-height: 100vh;
+          overflow: hidden;
+        }
+
+        .left {
+          width: 50%;
+          background: linear-gradient(135deg, #dc2626, #b91c1c);
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          color: white;
+          text-align: center;
+          padding: 3rem;
+          clip-path: polygon(0 0, 100% 0, 85% 100%, 0% 100%);
+          position: relative;
+        }
+
+        .crm-title {
+          font-size: 3.5rem;
+          font-weight: 700;
+          margin-bottom: 0.8rem;
+          letter-spacing: 2px;
+          text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .crm-subtitle {
+          font-size: 1.6rem;
+          font-weight: 500;
+          margin-bottom: 1.5rem;
+          opacity: 0.9;
+          color: #fecaca;
+        }
+
+        .crm-desc {
+          font-size: 1.1rem;
+          line-height: 1.7;
+          max-width: 400px;
+          margin-bottom: 2rem;
+          font-weight: 300;
+        }
+
+        .credentials-hint {
+          background: rgba(254, 202, 202, 0.1);
+          border: 1px solid rgba(254, 202, 202, 0.3);
+          padding: 1.5rem;
+          border-radius: 0.75rem;
+          margin-top: 2rem;
+        }
+
+        .hint-title {
+          font-size: 1rem;
+          font-weight: 600;
+          color: #fecaca;
+          margin-bottom: 0.5rem;
+        }
+
+        .hint-text {
+          font-size: 0.9rem;
+          margin-bottom: 0.25rem;
+          font-family: 'Courier New', monospace;
+          color: #f3f4f6;
+        }
+
+        .right {
+          width: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 2rem;
+          background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+        }
+
+        .login-box {
+          width: 100%;
+          max-width: 700px;
+          background: white;
+          padding: 3.5rem 3rem;
+          border-radius: 1rem;
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          animation: fadeIn 1s ease-out;
+          border: 2px solid #e2e8f0;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .logo-container {
+            margin-bottom: 2rem;
+            background: linear-gradient(135deg, #dc2626, #b91c1c);
+            border-radius: 50%;
+            padding: 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3);
+            color: white;
+        }
+
+        .login-heading {
+          font-size: 2rem;
+          text-align: center;
+          color: #dc2626;
+          margin-bottom: 2rem;
+          font-weight: 600;
+        }
+
+        .input-group {
+          display: flex;
+          align-items: center;
+          border: 1px solid #d1d5db;
+          border-radius: 0.75rem;
+          margin-bottom: 1.2rem;
+          padding: 0.75rem 1rem;
+          background: #ffffff;
+          box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+          transition: all 0.2s ease-in-out;
+          width: 100%;
+        }
+
+        .input-group:focus-within {
+            border-color: #dc2626;
+            box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.2);
+        }
+
+        .input-icon {
+          color: #9ca3af;
+          margin-right: 0.75rem;
+        }
+
+        .input-group input {
+          border: none;
+          outline: none;
+          flex: 1;
+          background: transparent;
+          font-size: 1rem;
+          color: #374151;
+        }
+
+        .input-group input::placeholder {
+            color: #9ca3af;
+        }
+
+        .eye-btn {
+          background: none;
+          border: none;
+          cursor: pointer;
+          color: #9ca3af;
+          padding: 0 0.5rem;
+          display: flex;
+          align-items: center;
+        }
+
+        .options {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          font-size: 0.9rem;
+          margin-bottom: 1.8rem;
+          width: 100%;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            color: #4b5563;
+        }
+
+        .remember-me .checkbox {
+            margin-right: 0.5rem;
+            accent-color: #dc2626;
+        }
+
+        .forgot-password {
+            color: #dc2626;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .forgot-password:hover {
+            color: #b91c1c;
+            text-decoration: underline;
+        }
+
+        .login-btn {
+          width: 100%;
+          background: linear-gradient(135deg, #dc2626, #b91c1c);
+          color: white;
+          padding: 1rem 0;
+          font-weight: 600;
+          border-radius: 999px;
+          transition: background-color 0.3s ease, transform 0.1s ease;
+          border: none;
+          cursor: pointer;
+          font-size: 1.1rem;
+          letter-spacing: 0.5px;
+          box-shadow: 0 4px 15px rgba(220, 38, 38, 0.4);
+        }
+
+        .login-btn:hover {
+          background: linear-gradient(135deg, #b91c1c, #991b1b);
+          transform: translateY(-2px);
+        }
+
+        .login-btn:disabled {
+          background-color: #9ca3af;
+          cursor: not-allowed;
+          box-shadow: none;
+          transform: none;
+        }
+
+        .error-msg {
+          background-color: #fee2e2;
+          border: 1px solid #fecaca;
+          padding: 0.75rem;
+          color: #b91c1c;
+          font-size: 0.9rem;
+          margin-bottom: 1.5rem;
+          border-radius: 0.75rem;
+          text-align: center;
+          width: 100%;
+        }
+
+        /* Responsive adjustments */
+        @media screen and (max-width: 992px) {
+            .crm-title {
+                font-size: 3rem;
+            }
+            .crm-subtitle {
+                font-size: 1.4rem;
+            }
+            .crm-desc {
+                font-size: 1rem;
+            }
+            .login-heading {
+                font-size: 1.8rem;
+            }
+            .login-box {
+                padding: 2.5rem 2rem;
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+          .container {
+            flex-direction: column;
+          }
+
+          .left {
+            width: 100%;
+            clip-path: none;
+            padding: 3rem 1.5rem;
+            min-height: 250px;
+          }
+
+          .right {
+            width: 100%;
+            padding: 2rem 1.5rem;
+          }
+
+          .login-box {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+          }
+
+          .crm-title {
+            font-size: 2.8rem;
+          }
+
+          .crm-subtitle {
+            font-size: 1.3rem;
+          }
+
+          .crm-desc {
+            font-size: 0.95rem;
+            max-width: 90%;
+          }
           
-          <CardContent className="space-y-6 p-6">
-            <form onSubmit={handleSubmit} className="space-y-4">
-              {error && (
-                <div className="p-3 bg-red-50 border border-red-200 rounded-lg animate-fade-in">
-                  <p className="text-sm text-red-600 text-center">{error}</p>
-                </div>
-              )}
+          .login-heading {
+            font-size: 1.6rem;
+          }
+        }
 
-              {/* Email Input */}
-              <div className="space-y-2">
-                <Label htmlFor="email" className="text-gray-700 font-medium">
-                  Email Address
-                </Label>
-                <div className="relative">
-                  <AtSign className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                  <Input
-                    id="email"
-                    type="email"
-                    placeholder="Enter your email"
-                    value={credentials.email}
-                    onChange={(e) => setCredentials(prev => ({ ...prev, email: e.target.value }))}
-                    required
-                    className="pl-10 h-12 border-gray-200 focus:border-emerald-500 focus:ring-emerald-500 bg-gray-50/50 transition-all duration-200"
-                  />
-                </div>
-              </div>
-
-              {/* Password Input */}
-              <div className="space-y-2">
-                <Label htmlFor="password" className="text-gray-700 font-medium">
-                  Password
-                </Label>
-                <div className="relative">
-                  <Hash className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                  <Input
-                    id="password"
-                    type={showPassword ? 'text' : 'password'}
-                    placeholder="Enter your password"
-                    value={credentials.password}
-                    onChange={(e) => setCredentials(prev => ({ ...prev, password: e.target.value }))}
-                    required
-                    className="pl-10 pr-12 h-12 border-gray-200 focus:border-emerald-500 focus:ring-emerald-500 bg-gray-50/50 transition-all duration-200"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
-                  >
-                    {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                  </button>
-                </div>
-              </div>
-
-              {/* Options */}
-              <div className="flex items-center justify-between text-sm">
-                <label className="flex items-center space-x-2 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    checked={rememberMe}
-                    onChange={(e) => setRememberMe(e.target.checked)}
-                    className="rounded border-gray-300 text-emerald-600 focus:ring-emerald-500"
-                  />
-                  <span className="text-gray-600">Remember me</span>
-                </label>
-                <a href="#" className="text-emerald-600 hover:text-emerald-700 font-medium transition-colors">
-                  Forgot password?
-                </a>
-              </div>
-
-              {/* Submit Button */}
-              <Button 
-                type="submit" 
-                className="w-full h-12 bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white font-semibold rounded-lg transition-all duration-200 transform hover:scale-[1.02] shadow-lg hover:shadow-xl" 
-                disabled={isLoading}
-              >
-                {isLoading ? (
-                  <div className="flex items-center space-x-2">
-                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                    <span>Signing In...</span>
-                  </div>
-                ) : (
-                  'Sign In'
-                )}
-              </Button>
-            </form>
-
-            {/* Developer Login Button */}
-            <div className="pt-4 border-t border-gray-200">
-              <Button 
-                onClick={handleDeveloperLogin}
-                variant="outline"
-                className="w-full h-12 border-2 border-slate-700 text-slate-700 hover:bg-slate-700 hover:text-white font-semibold rounded-lg transition-all duration-200 transform hover:scale-[1.02]"
-              >
-                <Code className="h-4 w-4 mr-2" />
-                Developer Access
-              </Button>
-            </div>
-
-            {/* Mobile CRM Info */}
-            <div className="lg:hidden text-center pt-4 border-t border-gray-200">
-              <h3 className="text-lg font-semibold text-gray-800 mb-2">C.R.M</h3>
-              <p className="text-sm text-gray-600">
-                Customer Relationship Management System
-              </p>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-    </div>
+        @media screen and (max-width: 480px) {
+            .login-box {
+                padding: 1.5rem 1rem;
+            }
+            .login-heading {
+                font-size: 1.4rem;
+            }
+            .input-group {
+                padding: 0.6rem 0.8rem;
+            }
+            .input-group input {
+                font-size: 0.9rem;
+            }
+            .options {
+                flex-direction: column;
+                align-items: flex-start;
+                margin-bottom: 1rem;
+            }
+            .forgot-password {
+                margin-top: 0.5rem;
+            }
+            .login-btn {
+                font-size: 1rem;
+                padding: 0.8rem 0;
+            }
+            .crm-title {
+                font-size: 2.2rem;
+            }
+            .crm-subtitle {
+                font-size: 1.1rem;
+            }
+            .crm-desc {
+                font-size: 0.85rem;
+            }
+        }
+      `}</style>
+    </>
   );
 };
 

@@ -19,7 +19,20 @@ import {
   UserCheck,
   Crown,
   Briefcase,
-  LogOut
+  LogOut,
+  Upload,
+  Download,
+  RefreshCw,
+  Clock,
+  Cpu,
+  HardDrive,
+  Network,
+  AlertTriangle,
+  CheckCircle,
+  XCircle,
+  Play,
+  Pause,
+  BarChart3
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Button } from './ui/button';
@@ -402,282 +415,488 @@ const DeveloperContent = ({ userRole }) => {
     </div>
   );
 
-  const renderDatabase = () => (
+  const renderLogs = () => (
     <div className="content-section">
-      <div className="db-cards">
-        <div className="db-card">
-          <div className="card-header">
-            <h3 className="card-title">Database Management</h3>
-          </div>
-          <div className="card-content">
-            <div className="form-group">
-              <label className="form-label">Database URL</label>
-              <input
-                type="password"
-                defaultValue="mongodb://localhost:27017/100acres"
-                className="form-input"
-                readOnly
-              />
-            </div>
-            <div className="button-group">
-              <button onClick={() => handleAction('DB Test Connection')} className="db-button primary">
-                <Database className="button-icon" />
-                Test Connection
-              </button>
-              <button onClick={() => handleAction('DB Migrate')} className="db-button">
-                <GitBranch className="button-icon" />
-                Run Migrations
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div className="db-card">
-          <div className="card-header">
-            <h3 className="card-title">Database Statistics</h3>
-          </div>
-          <div className="card-content">
-            <div className="db-stats">
-              <div className="db-stat">
-                <span>Total Collections:</span>
-                <span className="stat-number">12</span>
-              </div>
-              <div className="db-stat">
-                <span>Total Documents:</span>
-                <span className="stat-number">15,847</span>
-              </div>
-              <div className="db-stat">
-                <span>Database Size:</span>
-                <span className="stat-number">245 MB</span>
-              </div>
-              <div className="db-stat">
-                <span>Index Size:</span>
-                <span className="stat-number">12 MB</span>
-              </div>
-            </div>
-          </div>
+      <div className="logs-header">
+        <div className="logs-controls">
+          <select className="log-filter">
+            <option>All Logs</option>
+            <option>Error Logs</option>
+            <option>Warning Logs</option>
+            <option>Info Logs</option>
+            <option>Debug Logs</option>
+          </select>
+          <button onClick={() => handleAction('Logs Refresh')} className="log-button">
+            <RefreshCw className="button-icon" />
+            Refresh
+          </button>
+          <button onClick={() => handleAction('Logs Clear')} className="log-button">
+            <XCircle className="button-icon" />
+            Clear
+          </button>
+          <button onClick={() => handleAction('Logs Export')} className="log-button">
+            <Download className="button-icon" />
+            Export
+          </button>
         </div>
       </div>
 
-      <div className="query-card">
-        <div className="card-header">
-          <h3 className="card-title">Database Query Console</h3>
+      <div className="logs-container">
+        <div className="log-entry error">
+          <span className="log-time">2025-01-07 11:42:07</span>
+          <span className="log-level error">ERROR</span>
+          <span className="log-message">Database connection timeout after 30 seconds</span>
+          <span className="log-source">db.connection.js:45</span>
         </div>
-        <div className="card-content">
-          <textarea
-            placeholder="Enter your MongoDB query here..."
-            className="query-textarea"
-            defaultValue="db.users.find({status: 'active'}).limit(10)"
-          />
-          <div className="query-buttons">
-            <button onClick={() => handleAction('Query Execute')} className="query-button primary">
-              <Terminal className="button-icon" />
-              Execute Query
-            </button>
-            <button onClick={() => handleAction('Query Explain')} className="query-button">
-              Explain Query
-            </button>
+        <div className="log-entry warning">
+          <span className="log-time">2025-01-07 11:41:52</span>
+          <span className="log-level warning">WARN</span>
+          <span className="log-message">High memory usage detected: 85% of available RAM</span>
+          <span className="log-source">monitor.js:123</span>
+        </div>
+        <div className="log-entry info">
+          <span className="log-time">2025-01-07 11:41:30</span>
+          <span className="log-level info">INFO</span>
+          <span className="log-message">User authentication successful for admin@100acres.com</span>
+          <span className="log-source">auth.controller.js:67</span>
+        </div>
+        <div className="log-entry info">
+          <span className="log-time">2025-01-07 11:41:15</span>
+          <span className="log-level info">INFO</span>
+          <span className="log-message">API request processed: GET /api/leads - 200ms response</span>
+          <span className="log-source">api.router.js:234</span>
+        </div>
+        <div className="log-entry debug">
+          <span className="log-time">2025-01-07 11:40:58</span>
+          <span className="log-level debug">DEBUG</span>
+          <span className="log-message">Cache hit for user session: session_abc123def456</span>
+          <span className="log-source">cache.service.js:89</span>
+        </div>
+      </div>
+
+      <div className="logs-stats">
+        <div className="stat-item">
+          <XCircle className="stat-icon error" />
+          <div className="stat-info">
+            <span className="stat-value">12</span>
+            <span className="stat-label">Errors (24h)</span>
+          </div>
+        </div>
+        <div className="stat-item">
+          <AlertTriangle className="stat-icon warning" />
+          <div className="stat-info">
+            <span className="stat-value">28</span>
+            <span className="stat-label">Warnings (24h)</span>
+          </div>
+        </div>
+        <div className="stat-item">
+          <CheckCircle className="stat-icon success" />
+          <div className="stat-info">
+            <span className="stat-value">1,247</span>
+            <span className="stat-label">Info Messages (24h)</span>
           </div>
         </div>
       </div>
     </div>
   );
 
-  const renderAPI = () => (
+  const renderPerformance = () => (
     <div className="content-section">
-      <div className="api-cards">
-        <div className="api-card">
+      <div className="performance-grid">
+        <div className="perf-card">
           <div className="card-header">
-            <h3 className="card-title">API Configuration</h3>
+            <h3 className="card-title">
+              <Cpu className="card-icon" />
+              CPU Performance
+            </h3>
           </div>
           <div className="card-content">
-            <div className="form-group">
-              <label className="form-label">Base URL</label>
+            <div className="perf-metric">
+              <span className="metric-label">Current Load</span>
+              <div className="metric-bar">
+                <div className="metric-fill" style={{width: '23%'}}></div>
+              </div>
+              <span className="metric-value">23%</span>
+            </div>
+            <div className="perf-metric">
+              <span className="metric-label">Peak Load (24h)</span>
+              <div className="metric-bar">
+                <div className="metric-fill" style={{width: '67%'}}></div>
+              </div>
+              <span className="metric-value">67%</span>
+            </div>
+            <div className="perf-stats">
+              <div className="perf-stat">
+                <span>Cores:</span>
+                <span>8</span>
+              </div>
+              <div className="perf-stat">
+                <span>Threads:</span>
+                <span>16</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="perf-card">
+          <div className="card-header">
+            <h3 className="card-title">
+              <HardDrive className="card-icon" />
+              Memory Usage
+            </h3>
+          </div>
+          <div className="card-content">
+            <div className="perf-metric">
+              <span className="metric-label">RAM Usage</span>
+              <div className="metric-bar">
+                <div className="metric-fill" style={{width: '30%'}}></div>
+              </div>
+              <span className="metric-value">2.4GB / 8GB</span>
+            </div>
+            <div className="perf-metric">
+              <span className="metric-label">Disk Usage</span>
+              <div className="metric-bar">
+                <div className="metric-fill" style={{width: '45%'}}></div>
+              </div>
+              <span className="metric-value">225GB / 500GB</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="perf-card">
+          <div className="card-header">
+            <h3 className="card-title">
+              <Network className="card-icon" />
+              Network Performance
+            </h3>
+          </div>
+          <div className="card-content">
+            <div className="perf-metric">
+              <span className="metric-label">Bandwidth Usage</span>
+              <div className="metric-bar">
+                <div className="metric-fill" style={{width: '35%'}}></div>
+              </div>
+              <span className="metric-value">350 Mbps</span>
+            </div>
+            <div className="perf-stats">
+              <div className="perf-stat">
+                <span>Latency:</span>
+                <span>45ms</span>
+              </div>
+              <div className="perf-stat">
+                <span>Packet Loss:</span>
+                <span>0.1%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="perf-card">
+          <div className="card-header">
+            <h3 className="card-title">
+              <BarChart3 className="card-icon" />
+              API Performance
+            </h3>
+          </div>
+          <div className="card-content">
+            <div className="perf-stats">
+              <div className="perf-stat">
+                <span>Avg Response Time:</span>
+                <span>245ms</span>
+              </div>
+              <div className="perf-stat">
+                <span>Requests/sec:</span>
+                <span>127</span>
+              </div>
+              <div className="perf-stat">
+                <span>Success Rate:</span>
+                <span>99.8%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="performance-actions">
+        <button onClick={() => handleAction('Performance Benchmark')} className="perf-button primary">
+          <Activity className="button-icon" />
+          Run Performance Test
+        </button>
+        <button onClick={() => handleAction('Memory Cleanup')} className="perf-button">
+          <RefreshCw className="button-icon" />
+          Clear Memory Cache
+        </button>
+        <button onClick={() => handleAction('Performance Report')} className="perf-button">
+          <FileText className="button-icon" />
+          Generate Report
+        </button>
+      </div>
+    </div>
+  );
+
+  const renderDeployment = () => (
+    <div className="content-section">
+      <div className="deployment-grid">
+        <div className="deploy-card">
+          <div className="card-header">
+            <h3 className="card-title">
+              <GitBranch className="card-icon" />
+              Current Deployment
+            </h3>
+          </div>
+          <div className="card-content">
+            <div className="deploy-info">
+              <div className="deploy-item">
+                <span className="deploy-label">Version:</span>
+                <span className="deploy-value">v2.1.4</span>
+              </div>
+              <div className="deploy-item">
+                <span className="deploy-label">Branch:</span>
+                <span className="deploy-value">main</span>
+              </div>
+              <div className="deploy-item">
+                <span className="deploy-label">Commit:</span>
+                <span className="deploy-value">a1b2c3d</span>
+              </div>
+              <div className="deploy-item">
+                <span className="deploy-label">Deployed:</span>
+                <span className="deploy-value">2 hours ago</span>
+              </div>
+            </div>
+            <div className="deploy-status">
+              <CheckCircle className="status-icon success" />
+              <span className="status-text">Deployment Successful</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="deploy-card">
+          <div className="card-header">
+            <h3 className="card-title">
+              <Server className="card-icon" />
+              Environment Status
+            </h3>
+          </div>
+          <div className="card-content">
+            <div className="env-list">
+              <div className="env-item">
+                <span className="env-name">Production</span>
+                <span className="env-status active">Active</span>
+                <span className="env-version">v2.1.4</span>
+              </div>
+              <div className="env-item">
+                <span className="env-name">Staging</span>
+                <span className="env-status active">Active</span>
+                <span className="env-version">v2.1.5-beta</span>
+              </div>
+              <div className="env-item">
+                <span className="env-name">Development</span>
+                <span className="env-status active">Active</span>
+                <span className="env-version">v2.2.0-dev</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="deployment-actions">
+        <div className="action-section">
+          <h4 className="action-title">Quick Deploy</h4>
+          <div className="action-buttons">
+            <button onClick={() => handleAction('Deploy to Staging')} className="deploy-button">
+              <Upload className="button-icon" />
+              Deploy to Staging
+            </button>
+            <button onClick={() => handleAction('Deploy to Production')} className="deploy-button primary">
+              <Upload className="button-icon" />
+              Deploy to Production
+            </button>
+          </div>
+        </div>
+
+        <div className="action-section">
+          <h4 className="action-title">Rollback</h4>
+          <div className="action-buttons">
+            <button onClick={() => handleAction('Rollback Previous')} className="deploy-button warning">
+              <RefreshCw className="button-icon" />
+              Rollback to v2.1.3
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div className="deployment-history">
+        <div className="card-header">
+          <h3 className="card-title">Deployment History</h3>
+        </div>
+        <div className="card-content">
+          <div className="history-list">
+            <div className="history-item">
+              <div className="history-info">
+                <span className="history-version">v2.1.4</span>
+                <span className="history-time">2 hours ago</span>
+                <span className="history-user">admin@100acres.com</span>
+              </div>
+              <span className="history-status success">Success</span>
+            </div>
+            <div className="history-item">
+              <div className="history-info">
+                <span className="history-version">v2.1.3</span>
+                <span className="history-time">1 day ago</span>
+                <span className="history-user">dev@100acres.com</span>
+              </div>
+              <span className="history-status success">Success</span>
+            </div>
+            <div className="history-item">
+              <div className="history-info">
+                <span className="history-version">v2.1.2</span>
+                <span className="history-time">3 days ago</span>
+                <span className="history-user">admin@100acres.com</span>
+              </div>
+              <span className="history-status failed">Failed</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderTools = () => (
+    <div className="content-section">
+      <div className="tools-grid">
+        <div className="tool-card">
+          <div className="card-header">
+            <h3 className="card-title">
+              <Terminal className="card-icon" />
+              Command Console
+            </h3>
+          </div>
+          <div className="card-content">
+            <div className="console-output">
+              <div className="console-line">$ npm run build</div>
+              <div className="console-line output">Building application...</div>
+              <div className="console-line output">✓ Build completed successfully</div>
+              <div className="console-line">$ </div>
+            </div>
+            <div className="console-input">
               <input
                 type="text"
-                defaultValue="http://localhost:5001/api"
-                className="form-input"
+                placeholder="Enter command..."
+                className="command-input"
               />
+              <button onClick={() => handleAction('Execute Command')} className="execute-button">
+                <Play className="button-icon" />
+              </button>
             </div>
-            <div className="form-group">
-              <label className="form-label">Rate Limit</label>
-              <select className="form-select">
-                <option>100 requests/minute</option>
-                <option>500 requests/minute</option>
-                <option>1000 requests/minute</option>
-              </select>
-            </div>
-            <button onClick={() => handleAction('API Config Save')} className="api-button primary">
-              Save Configuration
-            </button>
           </div>
         </div>
 
-        <div className="api-card">
+        <div className="tool-card">
           <div className="card-header">
-            <h3 className="card-title">API Endpoints</h3>
+            <h3 className="card-title">
+              <Package className="card-icon" />
+              Package Manager
+            </h3>
           </div>
           <div className="card-content">
-            <div className="endpoint-list">
-              <div className="endpoint-item">
-                <span className="endpoint-path">GET /api/users</span>
-                <span className="status-badge active">Active</span>
+            <div className="package-actions">
+              <button onClick={() => handleAction('Check Updates')} className="package-button">
+                <RefreshCw className="button-icon" />
+                Check Updates
+              </button>
+              <button onClick={() => handleAction('Install Dependencies')} className="package-button">
+                <Download className="button-icon" />
+                Install Dependencies
+              </button>
+              <button onClick={() => handleAction('Audit Security')} className="package-button">
+                <Shield className="button-icon" />
+                Security Audit
+              </button>
+            </div>
+            <div className="package-info">
+              <div className="package-stat">
+                <span>Total Packages:</span>
+                <span>247</span>
               </div>
-              <div className="endpoint-item">
-                <span className="endpoint-path">POST /api/leads</span>
-                <span className="status-badge active">Active</span>
+              <div className="package-stat">
+                <span>Outdated:</span>
+                <span>12</span>
               </div>
-              <div className="endpoint-item">
-                <span className="endpoint-path">PUT /api/tickets</span>
-                <span className="status-badge active">Active</span>
-              </div>
-              <div className="endpoint-item">
-                <span className="endpoint-path">DELETE /api/users/:id</span>
-                <span className="status-badge limited">Limited</span>
+              <div className="package-stat">
+                <span>Vulnerabilities:</span>
+                <span>0</span>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div className="api-test-card">
-        <div className="card-header">
-          <h3 className="card-title">API Testing Console</h3>
-        </div>
-        <div className="card-content">
-          <div className="test-form">
-            <div className="form-row">
-              <div className="form-group">
-                <label className="form-label">Method</label>
-                <select className="form-select">
-                  <option>GET</option>
-                  <option>POST</option>
-                  <option>PUT</option>
-                  <option>DELETE</option>
-                </select>
-              </div>
-              <div className="form-group">
-                <label className="form-label">Endpoint</label>
-                <input
-                  type="text"
-                  placeholder="/api/users"
-                  className="form-input"
-                />
-              </div>
-            </div>
-            <div className="form-group">
-              <label className="form-label">Request Body (JSON)</label>
-              <textarea
-                placeholder='{"name": "Test User", "email": "test@example.com"}'
-                className="form-textarea"
-              />
-            </div>
-            <button onClick={() => handleAction('API Test')} className="test-button primary">
-              <Globe className="button-icon" />
-              Send Request
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-
-  const renderSecurity = () => (
-    <div className="content-section">
-      <div className="security-cards">
-        <div className="security-card">
+        <div className="tool-card">
           <div className="card-header">
-            <h3 className="card-title">Security Settings</h3>
+            <h3 className="card-title">
+              <Code className="card-icon" />
+              Code Analysis
+            </h3>
           </div>
           <div className="card-content">
-            <div className="security-setting">
-              <div className="setting-info">
-                <h4 className="setting-name">JWT Token Expiry</h4>
-                <p className="setting-desc">Current: 24 hours</p>
-              </div>
-              <select className="setting-select">
-                <option>1 hour</option>
-                <option>12 hours</option>
-                <option>24 hours</option>
-                <option>7 days</option>
-              </select>
+            <div className="analysis-actions">
+              <button onClick={() => handleAction('Lint Code')} className="analysis-button">
+                <Bug className="button-icon" />
+                Run Linter
+              </button>
+              <button onClick={() => handleAction('Format Code')} className="analysis-button">
+                <Wrench className="button-icon" />
+                Format Code
+              </button>
+              <button onClick={() => handleAction('Test Coverage')} className="analysis-button">
+                <BarChart3 className="button-icon" />
+                Test Coverage
+              </button>
             </div>
-            <div className="security-setting">
-              <div className="setting-info">
-                <h4 className="setting-name">Password Policy</h4>
-                <p className="setting-desc">Minimum requirements</p>
+            <div className="analysis-results">
+              <div className="result-item">
+                <span>Code Quality:</span>
+                <span className="result-score good">A+</span>
               </div>
-              <select className="setting-select">
-                <option>Basic (6 chars)</option>
-                <option>Medium (8 chars + numbers)</option>
-                <option>Strong (12 chars + special)</option>
-              </select>
+              <div className="result-item">
+                <span>Test Coverage:</span>
+                <span className="result-score good">89%</span>
+              </div>
+              <div className="result-item">
+                <span>Maintainability:</span>
+                <span className="result-score good">A</span>
+              </div>
             </div>
-            <button onClick={() => handleAction('Security Update')} className="security-button primary">
-              Update Security Settings
-            </button>
           </div>
         </div>
 
-        <div className="security-card">
+        <div className="tool-card">
           <div className="card-header">
-            <h3 className="card-title">API Keys</h3>
+            <h3 className="card-title">
+              <Monitor className="card-icon" />
+              System Monitor
+            </h3>
           </div>
           <div className="card-content">
-            <div className="key-group">
-              <label className="form-label">Master API Key</label>
-              <div className="key-input">
-                <input
-                  type="password"
-                  defaultValue="sk_live_abc123def456ghi789"
-                  className="key-field"
-                  readOnly
-                />
-                <button onClick={() => handleAction('API Key Regenerate')} className="key-button">
-                  <Key className="key-icon" />
-                </button>
+            <div className="monitor-controls">
+              <button onClick={() => handleAction('Start Monitoring')} className="monitor-button primary">
+                <Play className="button-icon" />
+                Start Monitor
+              </button>
+              <button onClick={() => handleAction('Stop Monitoring')} className="monitor-button">
+                <Pause className="button-icon" />
+                Stop Monitor
+              </button>
+            </div>
+            <div className="monitor-status">
+              <div className="status-item">
+                <Clock className="status-icon" />
+                <span>Uptime: 5d 12h 34m</span>
+              </div>
+              <div className="status-item">
+                <Activity className="status-icon" />
+                <span>Last Check: 30s ago</span>
               </div>
             </div>
-            <div className="key-group">
-              <label className="form-label">Webhook Secret</label>
-              <div className="key-input">
-                <input
-                  type="password"
-                  defaultValue="whsec_xyz789abc123def456"
-                  className="key-field"
-                  readOnly
-                />
-                <button onClick={() => handleAction('Webhook Secret Regenerate')} className="key-button">
-                  <Key className="key-icon" />
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="audit-card">
-        <div className="card-header">
-          <h3 className="card-title">Security Audit</h3>
-        </div>
-        <div className="card-content">
-          <div className="audit-buttons">
-            <button onClick={() => handleAction('Vulnerability Scan')} className="audit-button primary">
-              <Shield className="button-icon" />
-              Run Vulnerability Scan
-            </button>
-            <button onClick={() => handleAction('Penetration Test')} className="audit-button">
-              <Bug className="button-icon" />
-              Penetration Test
-            </button>
-            <button onClick={() => handleAction('Security Report')} className="audit-button">
-              <FileText className="button-icon" />
-              Generate Report
-            </button>
-          </div>
-          <div className="audit-info">
-            <h4 className="audit-title">Last Security Scan</h4>
-            <p className="audit-desc">Completed 2 hours ago - No vulnerabilities found</p>
           </div>
         </div>
       </div>
@@ -696,6 +915,14 @@ const DeveloperContent = ({ userRole }) => {
         return renderAPI();
       case 'security':
         return renderSecurity();
+      case 'logs':
+        return renderLogs();
+      case 'performance':
+        return renderPerformance();
+      case 'deployment':
+        return renderDeployment();
+      case 'tools':
+        return renderTools();
       default:
         return (
           <div className="coming-soon">
@@ -1280,324 +1507,611 @@ const DeveloperContent = ({ userRole }) => {
           font-size: 0.75rem;
         }
 
-        /* Database */
-        .db-cards {
-          display: grid;
-          grid-template-columns: 1fr;
-          gap: 1.5rem;
+        /* System Logs Styles */
+        .logs-header {
+          margin-bottom: 1.5rem;
         }
 
-        @media (min-width: 768px) {
-          .db-cards {
-            grid-template-columns: repeat(2, 1fr);
-          }
+        .logs-controls {
+          display: flex;
+          gap: 1rem;
+          align-items: center;
+          flex-wrap: wrap;
         }
 
-        .db-card, .query-card {
-          background: white;
-          border-radius: 0.75rem;
-          padding: 1.5rem;
-          border: 2px solid #e2e8f0;
-          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-        }
-
-        .form-group {
-          margin-bottom: 1rem;
-        }
-
-        .form-label {
-          display: block;
-          font-size: 0.875rem;
-          font-weight: 500;
-          color: #4a5568;
-          margin-bottom: 0.5rem;
-        }
-
-        .form-input, .form-select, .form-textarea {
-          width: 100%;
-          padding: 0.75rem;
+        .log-filter {
+          padding: 0.5rem 0.75rem;
           border: 1px solid #e2e8f0;
           border-radius: 0.5rem;
-          font-size: 0.875rem;
-          color: #2d3748;
           background: #f8fafc;
-          transition: all 0.2s ease;
+          color: #2d3748;
         }
 
-        .form-input:focus, .form-select:focus, .form-textarea:focus {
-          outline: none;
-          border-color: #dc2626;
-          box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
-        }
-
-        .button-group {
-          display: grid;
-          grid-template-columns: repeat(2, 1fr);
-          gap: 1rem;
-        }
-
-        .db-button, .query-button {
+        .log-button {
           display: flex;
           align-items: center;
-          justify-content: center;
-          padding: 0.75rem 1rem;
+          gap: 0.5rem;
+          padding: 0.5rem 1rem;
           border: 1px solid #e2e8f0;
           border-radius: 0.5rem;
           background: #f8fafc;
           color: #4a5568;
-          font-weight: 500;
           cursor: pointer;
           transition: all 0.2s ease;
         }
 
-        .db-button.primary, .query-button.primary {
-          background: linear-gradient(135deg, #dc2626, #b91c1c);
-          color: white;
-          border-color: #dc2626;
+        .log-button:hover {
+          background: #e2e8f0;
         }
 
-        .db-button:hover, .query-button:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        .logs-container {
+          background: #1a202c;
+          border-radius: 0.75rem;
+          padding: 1rem;
+          max-height: 400px;
+          overflow-y: auto;
+          margin-bottom: 1.5rem;
+          font-family: 'Monaco', 'Consolas', monospace;
         }
 
-        .db-stats {
+        .log-entry {
+          display: grid;
+          grid-template-columns: auto auto 1fr auto;
+          gap: 1rem;
+          padding: 0.5rem;
+          border-bottom: 1px solid #2d3748;
+          font-size: 0.875rem;
+          align-items: center;
+        }
+
+        .log-entry:last-child {
+          border-bottom: none;
+        }
+
+        .log-time {
+          color: #a0aec0;
+          font-size: 0.75rem;
+        }
+
+        .log-level {
+          padding: 0.25rem 0.5rem;
+          border-radius: 0.25rem;
+          font-size: 0.75rem;
+          font-weight: 600;
+          text-align: center;
+          min-width: 60px;
+        }
+
+        .log-level.error {
+          background: #feb2b2;
+          color: #742a2a;
+        }
+
+        .log-level.warning {
+          background: #fbd38d;
+          color: #975a16;
+        }
+
+        .log-level.info {
+          background: #bee3f8;
+          color: #2a69ac;
+        }
+
+        .log-level.debug {
+          background: #c6f6d5;
+          color: #22543d;
+        }
+
+        .log-message {
+          color: #e2e8f0;
+        }
+
+        .log-source {
+          color: #a0aec0;
+          font-size: 0.75rem;
+        }
+
+        .logs-stats {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 1rem;
+        }
+
+        .stat-item {
+          display: flex;
+          align-items: center;
+          gap: 0.75rem;
+          background: white;
+          padding: 1rem;
+          border-radius: 0.5rem;
+          border: 1px solid #e2e8f0;
+        }
+
+        .stat-icon {
+          width: 1.5rem;
+          height: 1.5rem;
+        }
+
+        .stat-icon.error {
+          color: #e53e3e;
+        }
+
+        .stat-icon.warning {
+          color: #dd6b20;
+        }
+
+        .stat-icon.success {
+          color: #38a169;
+        }
+
+        .stat-info {
           display: flex;
           flex-direction: column;
-          gap: 0.75rem;
         }
 
-        .db-stat {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          padding-bottom: 0.5rem;
-          border-bottom: 1px dashed #e2e8f0;
-        }
-
-        .db-stat:last-child {
-          border-bottom: none;
-          padding-bottom: 0;
-        }
-
-        .stat-number {
+        .stat-value {
+          font-size: 1.25rem;
           font-weight: 700;
           color: #2d3748;
         }
 
-        .query-textarea {
-          min-height: 8rem;
-          font-family: 'Monaco', 'Consolas', monospace;
+        .stat-label {
           font-size: 0.75rem;
-          background: #1a202c;
-          color: #e2e8f0;
-          border-color: #4a5568;
+          color: #718096;
         }
 
-        .query-buttons {
-          display: flex;
-          gap: 1rem;
-          margin-top: 1rem;
-        }
-
-        /* API */
-        .api-cards {
+        /* Performance Styles */
+        .performance-grid {
           display: grid;
           grid-template-columns: 1fr;
           gap: 1.5rem;
+          margin-bottom: 2rem;
         }
 
         @media (min-width: 768px) {
-          .api-cards {
+          .performance-grid {
             grid-template-columns: repeat(2, 1fr);
           }
         }
 
-        .api-card, .api-test-card {
+        .perf-card {
           background: white;
           border-radius: 0.75rem;
           padding: 1.5rem;
-          border: 2px solid #e2e8f0;
+          border: 1px solid #e2e8f0;
           box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
         }
 
-        .api-button, .test-button {
-          width: 100%;
+        .perf-metric {
           display: flex;
           align-items: center;
-          justify-content: center;
+          justify-content: space-between;
+          margin-bottom: 1rem;
+        }
+
+        .metric-label {
+          font-size: 0.875rem;
+          color: #4a5568;
+          margin-right: 1rem;
+        }
+
+        .metric-bar {
+          flex: 1;
+          height: 8px;
+          background: #e2e8f0;
+          border-radius: 4px;
+          margin: 0 1rem;
+          overflow: hidden;
+        }
+
+        .metric-fill {
+          height: 100%;
+          background: linear-gradient(135deg, #dc2626, #b91c1c);
+          transition: width 0.3s ease;
+        }
+
+        .metric-value {
+          font-size: 0.875rem;
+          font-weight: 600;
+          color: #2d3748;
+          min-width: 80px;
+          text-align: right;
+        }
+
+        .perf-stats {
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+        }
+
+        .perf-stat {
+          display: flex;
+          justify-content: space-between;
+          font-size: 0.875rem;
+        }
+
+        .perf-stat span:first-child {
+          color: #4a5568;
+        }
+
+        .perf-stat span:last-child {
+          font-weight: 600;
+          color: #2d3748;
+        }
+
+        .performance-actions {
+          display: flex;
+          gap: 1rem;
+          flex-wrap: wrap;
+        }
+
+        .perf-button {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
           padding: 0.75rem 1rem;
           border: 1px solid #e2e8f0;
           border-radius: 0.5rem;
           background: #f8fafc;
           color: #4a5568;
-          font-weight: 500;
           cursor: pointer;
           transition: all 0.2s ease;
         }
 
-        .api-button.primary, .test-button.primary {
+        .perf-button.primary {
           background: linear-gradient(135deg, #dc2626, #b91c1c);
           color: white;
           border-color: #dc2626;
         }
 
-        .endpoint-list {
+        .perf-button:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Deployment Styles */
+        .deployment-grid {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 1.5rem;
+          margin-bottom: 2rem;
+        }
+
+        @media (min-width: 768px) {
+          .deployment-grid {
+            grid-template-columns: repeat(2, 1fr);
+          }
+        }
+
+        .deploy-card {
+          background: white;
+          border-radius: 0.75rem;
+          padding: 1.5rem;
+          border: 1px solid #e2e8f0;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .deploy-info {
+          display: flex;
+          flex-direction: column;
+          gap: 0.75rem;
+          margin-bottom: 1rem;
+        }
+
+        .deploy-item {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+
+        .deploy-label {
+          font-size: 0.875rem;
+          color: #4a5568;
+        }
+
+        .deploy-value {
+          font-size: 0.875rem;
+          font-weight: 600;
+          color: #2d3748;
+        }
+
+        .deploy-status {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          padding: 0.75rem;
+          background: #f0fff4;
+          border: 1px solid #c6f6d5;
+          border-radius: 0.5rem;
+        }
+
+        .status-icon {
+          width: 1rem;
+          height: 1rem;
+        }
+
+        .status-icon.success {
+          color: #38a169;
+        }
+
+        .status-text {
+          font-size: 0.875rem;
+          font-weight: 500;
+          color: #22543d;
+        }
+
+        .env-list {
           display: flex;
           flex-direction: column;
           gap: 0.75rem;
         }
 
-        .endpoint-item {
-          display: flex;
-          justify-content: space-between;
+        .env-item {
+          display: grid;
+          grid-template-columns: 1fr auto auto;
+          gap: 1rem;
           align-items: center;
-          font-size: 0.875rem;
+          padding: 0.75rem;
+          background: #f8fafc;
+          border-radius: 0.5rem;
         }
 
-        .endpoint-path {
-          font-family: 'Monaco', 'Consolas', monospace;
-          font-size: 0.75rem;
+        .env-name {
+          font-weight: 500;
+          color: #2d3748;
         }
 
-        .status-badge {
+        .env-status {
           padding: 0.25rem 0.5rem;
           border-radius: 0.25rem;
           font-size: 0.75rem;
           font-weight: 500;
         }
 
-        .status-badge.active {
-          background: #d1fae5;
-          color: #065f46;
+        .env-status.active {
+          background: #c6f6d5;
+          color: #22543d;
         }
 
-        .status-badge.limited {
-          background: #fef3c7;
-          color: #92400e;
+        .env-version {
+          font-family: 'Monaco', 'Consolas', monospace;
+          font-size: 0.75rem;
+          color: #4a5568;
         }
 
-        .form-row {
-          display: grid;
-          grid-template-columns: 1fr;
-          gap: 1rem;
-        }
-
-        @media (min-width: 768px) {
-          .form-row {
-            grid-template-columns: repeat(2, 1fr);
-          }
-        }
-
-        .test-form {
+        .deployment-actions {
           display: flex;
           flex-direction: column;
-          gap: 1rem;
+          gap: 1.5rem;
+          margin-bottom: 2rem;
         }
 
-        /* Security */
-        .security-cards {
+        .action-section {
+          background: white;
+          border-radius: 0.75rem;
+          padding: 1.5rem;
+          border: 1px solid #e2e8f0;
+        }
+
+        .action-title {
+          font-size: 1rem;
+          font-weight: 600;
+          color: #2d3748;
+          margin-bottom: 1rem;
+        }
+
+        .action-buttons {
+          display: flex;
+          gap: 1rem;
+          flex-wrap: wrap;
+        }
+
+        .deploy-button {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          padding: 0.75rem 1rem;
+          border: 1px solid #e2e8f0;
+          border-radius: 0.5rem;
+          background: #f8fafc;
+          color: #4a5568;
+          cursor: pointer;
+          transition: all 0.2s ease;
+        }
+
+        .deploy-button.primary {
+          background: linear-gradient(135deg, #dc2626, #b91c1c);
+          color: white;
+          border-color: #dc2626;
+        }
+
+        .deploy-button.warning {
+          background: #fed7aa;
+          color: #9a3412;
+          border-color: #fdba74;
+        }
+
+        .deploy-button:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .deployment-history {
+          background: white;
+          border-radius: 0.75rem;
+          padding: 1.5rem;
+          border: 1px solid #e2e8f0;
+        }
+
+        .history-list {
+          display: flex;
+          flex-direction: column;
+          gap: 0.75rem;
+        }
+
+        .history-item {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 0.75rem;
+          background: #f8fafc;
+          border-radius: 0.5rem;
+        }
+
+        .history-info {
+          display: flex;
+          gap: 1rem;
+          align-items: center;
+        }
+
+        .history-version {
+          font-family: 'Monaco', 'Consolas', monospace;
+          font-weight: 600;
+          color: #2d3748;
+        }
+
+        .history-time {
+          font-size: 0.875rem;
+          color: #4a5568;
+        }
+
+        .history-user {
+          font-size: 0.875rem;
+          color: #718096;
+        }
+
+        .history-status {
+          padding: 0.25rem 0.5rem;
+          border-radius: 0.25rem;
+          font-size: 0.75rem;
+          font-weight: 500;
+        }
+
+        .history-status.success {
+          background: #c6f6d5;
+          color: #22543d;
+        }
+
+        .history-status.failed {
+          background: #fed7d7;
+          color: #742a2a;
+        }
+
+        /* Dev Tools Styles */
+        .tools-grid {
           display: grid;
           grid-template-columns: 1fr;
           gap: 1.5rem;
         }
 
         @media (min-width: 768px) {
-          .security-cards {
+          .tools-grid {
             grid-template-columns: repeat(2, 1fr);
           }
         }
 
-        .security-card, .audit-card {
+        .tool-card {
           background: white;
           border-radius: 0.75rem;
           padding: 1.5rem;
-          border: 2px solid #e2e8f0;
+          border: 1px solid #e2e8f0;
           box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
         }
 
-        .security-setting {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
+        .console-output {
+          background: #1a202c;
+          border-radius: 0.5rem;
+          padding: 1rem;
           margin-bottom: 1rem;
-          padding-bottom: 1rem;
-          border-bottom: 1px dashed #e2e8f0;
+          font-family: 'Monaco', 'Consolas', monospace;
+          font-size: 0.875rem;
+          max-height: 200px;
+          overflow-y: auto;
         }
 
-        .security-setting:last-child {
-          border-bottom: none;
-          margin-bottom: 0;
-          padding-bottom: 0;
-        }
-
-        .setting-info {
-          flex: 1;
-        }
-
-        .setting-name {
-          font-weight: 500;
-          color: #2d3748;
+        .console-line {
+          color: #e2e8f0;
           margin-bottom: 0.25rem;
         }
 
-        .setting-desc {
-          font-size: 0.875rem;
-          color: #718096;
+        .console-line.output {
+          color: #68d391;
         }
 
-        .setting-select {
-          padding: 0.5rem 0.75rem;
+        .console-input {
+          display: flex;
+          gap: 0.5rem;
+        }
+
+        .command-input {
+          flex: 1;
+          padding: 0.5rem;
           border: 1px solid #e2e8f0;
           border-radius: 0.5rem;
+          font-family: 'Monaco', 'Consolas', monospace;
           font-size: 0.875rem;
-          color: #2d3748;
-          background: #f8fafc;
         }
 
-        .security-button, .audit-button {
-          width: 100%;
+        .execute-button {
+          padding: 0.5rem 1rem;
+          background: linear-gradient(135deg, #dc2626, #b91c1c);
+          color: white;
+          border: none;
+          border-radius: 0.5rem;
+          cursor: pointer;
           display: flex;
           align-items: center;
-          justify-content: center;
+          gap: 0.5rem;
+        }
+
+        .package-actions {
+          display: flex;
+          flex-direction: column;
+          gap: 0.75rem;
+          margin-bottom: 1rem;
+        }
+
+        .package-button {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
           padding: 0.75rem 1rem;
           border: 1px solid #e2e8f0;
           border-radius: 0.5rem;
           background: #f8fafc;
           color: #4a5568;
-          font-weight: 500;
           cursor: pointer;
           transition: all 0.2s ease;
-          margin-top: 1rem;
         }
 
-        .security-button.primary, .audit-button.primary {
-          background: linear-gradient(135deg, #dc2626, #b91c1c);
-          color: white;
-          border-color: #dc2626;
+        .package-button:hover {
+          background: #e2e8f0;
         }
 
-        .key-group {
-          margin-bottom: 1rem;
-        }
-
-        .key-input {
+        .package-info {
           display: flex;
+          flex-direction: column;
           gap: 0.5rem;
         }
 
-        .key-field {
-          flex: 1;
-          padding: 0.75rem;
-          border: 1px solid #e2e8f0;
-          border-radius: 0.5rem;
+        .package-stat {
+          display: flex;
+          justify-content: space-between;
           font-size: 0.875rem;
-          color: #2d3748;
-          background: #f8fafc;
         }
 
-        .key-button {
-          padding: 0.75rem;
+        .analysis-actions {
+          display: flex;
+          flex-direction: column;
+          gap: 0.75rem;
+          margin-bottom: 1rem;
+        }
+
+        .analysis-button {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          padding: 0.75rem 1rem;
           border: 1px solid #e2e8f0;
           border-radius: 0.5rem;
           background: #f8fafc;
@@ -1606,139 +2120,120 @@ const DeveloperContent = ({ userRole }) => {
           transition: all 0.2s ease;
         }
 
-        .key-button:hover {
+        .analysis-button:hover {
           background: #e2e8f0;
         }
 
-        .key-icon {
+        .analysis-results {
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+        }
+
+        .result-item {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          font-size: 0.875rem;
+        }
+
+        .result-score {
+          padding: 0.25rem 0.5rem;
+          border-radius: 0.25rem;
+          font-weight: 600;
+          font-size: 0.75rem;
+        }
+
+        .result-score.good {
+          background: #c6f6d5;
+          color: #22543d;
+        }
+
+        .monitor-controls {
+          display: flex;
+          gap: 0.75rem;
+          margin-bottom: 1rem;
+        }
+
+        .monitor-button {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          padding: 0.75rem 1rem;
+          border: 1px solid #e2e8f0;
+          border-radius: 0.5rem;
+          background: #f8fafc;
+          color: #4a5568;
+          cursor: pointer;
+          transition: all 0.2s ease;
+        }
+
+        .monitor-button.primary {
+          background: linear-gradient(135deg, #dc2626, #b91c1c);
+          color: white;
+          border-color: #dc2626;
+        }
+
+        .monitor-button:hover {
+          background: #e2e8f0;
+        }
+
+        .monitor-button.primary:hover {
+          background: linear-gradient(135deg, #b91c1c, #991b1b);
+        }
+
+        .monitor-status {
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+        }
+
+        .status-item {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          font-size: 0.875rem;
+          color: #4a5568;
+        }
+
+        .status-icon {
           width: 1rem;
           height: 1rem;
         }
 
-        .audit-buttons {
-          display: grid;
-          grid-template-columns: 1fr;
-          gap: 1rem;
-          margin-bottom: 1rem;
-        }
-
-        @media (min-width: 768px) {
-          .audit-buttons {
-            grid-template-columns: repeat(3, 1fr);
-          }
-        }
-
-        .audit-info {
-          background: #ecfdf5;
-          padding: 1rem;
-          border-radius: 0.5rem;
-          border: 1px solid #d1fae5;
-        }
-
-        .audit-title {
-          font-weight: 500;
-          color: #047857;
-          margin-bottom: 0.25rem;
-        }
-
-        .audit-desc {
-          font-size: 0.875rem;
-          color: #065f46;
-        }
-
-        /* Coming Soon */
-        .coming-soon {
-          text-align: center;
-          padding: 3rem 0;
-        }
-
-        .coming-soon-icon {
-          width: 4rem;
-          height: 4rem;
-          color: #10b981;
-          margin: 0 auto 1rem;
-        }
-
-        .coming-soon-title {
-          font-size: 1.125rem;
-          font-weight: 500;
-          color: #2d3748;
-          margin-bottom: 0.5rem;
-        }
-
-        .coming-soon-desc {
-          color: #718096;
-        }
-
-        /* Responsive */
+        /* Responsive Design */
         @media (max-width: 768px) {
-          .developer-console {
-            padding: 0rem;
-          }
-
-          .developer-header {
-            padding: 1rem;
+          .logs-controls {
             flex-direction: column;
-            gap: 1rem;
-            text-align: center;
+            align-items: stretch;
           }
 
-          .header-left {
-            justify-content: center;
-          }
-
-          .header-right {
-            justify-content: center;
-            width: 100%;
-          }
-
-          .user-info {
-            align-items: center;
-          }
-
-          .console-title {
-            font-size: 1.5rem;
-          }
-
-          .console-layout {
-            gap: 1rem;
-            padding: 0 1rem;
-          }
-
-          .nav-item {
-            padding: 0.5rem 0.75rem;
-          }
-
-          .nav-text {
-            font-size: 0.75rem;
-          }
-
-          .content-title {
-            font-size: 1.25rem;
-          }
-
-          .cards-grid {
+          .logs-stats {
             grid-template-columns: 1fr;
           }
 
-          .stats-grid {
+          .performance-grid {
             grid-template-columns: 1fr;
           }
 
-          .quick-buttons {
-            grid-template-columns: repeat(2, 1fr);
-          }
-
-          .button-group {
+          .deployment-grid {
             grid-template-columns: 1fr;
           }
 
-          .form-row {
+          .tools-grid {
             grid-template-columns: 1fr;
           }
 
-          .audit-buttons {
-            grid-template-columns: 1fr;
+          .performance-actions {
+            flex-direction: column;
+          }
+
+          .action-buttons {
+            flex-direction: column;
+          }
+
+          .monitor-controls {
+            flex-direction: column;
           }
         }
       `}</style>

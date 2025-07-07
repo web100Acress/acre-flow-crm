@@ -1,19 +1,26 @@
-
 import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { User, Users, UserPlus, Ticket, Building2, Home, LogOut, Settings } from 'lucide-react';
+import {
+  User,
+  Users,
+  UserPlus,
+  Ticket,
+  Building2,
+  Home,
+  LogOut,
+  Settings,
+  Code
+} from 'lucide-react';
 
 const Sidebar = ({ userRole, isCollapsed, onToggle }) => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    // Clear user session and redirect to login
     localStorage.clear();
     navigate('/login');
     window.location.reload();
   };
 
-  // Get user info from localStorage
   const userName = localStorage.getItem('userName') || 'User';
   const userEmail = localStorage.getItem('userEmail') || '';
 
@@ -25,25 +32,26 @@ const Sidebar = ({ userRole, isCollapsed, onToggle }) => {
       { path: '/create-admin', icon: UserPlus, label: 'Create Admin' },
       { path: '/tickets', icon: Ticket, label: 'All Tickets' },
       { path: '/settings', icon: Settings, label: 'Settings' },
+      { path: '/developer', icon: Code, label: 'Developer' }
     ],
     'head-admin': [
       { path: '/', icon: Home, label: 'Dashboard' },
       { path: '/leads', icon: Building2, label: 'My Leads' },
       { path: '/team', icon: Users, label: 'Team Management' },
       { path: '/create-leader', icon: UserPlus, label: 'Create Team Leader' },
-      { path: '/tickets', icon: Ticket, label: 'Team Tickets' },
+      { path: '/tickets', icon: Ticket, label: 'Team Tickets' }
     ],
     'team-leader': [
       { path: '/', icon: Home, label: 'Dashboard' },
       { path: '/leads', icon: Building2, label: 'Assigned Leads' },
       { path: '/employees', icon: Users, label: 'My Employees' },
       { path: '/create-employee', icon: UserPlus, label: 'Add Employee' },
-      { path: '/tickets', icon: Ticket, label: 'Manage Tickets' },
+      { path: '/tickets', icon: Ticket, label: 'Manage Tickets' }
     ],
-    'employee': [
+    employee: [
       { path: '/', icon: Home, label: 'Dashboard' },
       { path: '/leads', icon: Building2, label: 'My Leads' },
-      { path: '/tickets', icon: Ticket, label: 'My Tickets' },
+      { path: '/tickets', icon: Ticket, label: 'My Tickets' }
     ]
   };
 
@@ -65,67 +73,219 @@ const Sidebar = ({ userRole, isCollapsed, onToggle }) => {
   };
 
   return (
-    <div className={`bg-white border-r border-gray-200 transition-all duration-300 ${isCollapsed ? 'w-16' : 'w-64'} min-h-screen flex flex-col`}>
-      <div className="p-4 border-b border-gray-200">
-        <div className="flex items-center">
-          <div className="bg-green-600 text-white p-2 rounded-lg">
-            <Building2 className="h-6 w-6" />
+    <>
+      <div className={`sidebar ${isCollapsed ? 'collapsed' : ''}`}>
+        <div className="sidebar-header">
+          <div className="sidebar-logo">
+            <Building2 className="icon" />
           </div>
           {!isCollapsed && (
-            <div className="ml-3">
-              <h1 className="text-lg font-bold text-gray-900">100acres.com</h1>
-              <p className="text-sm text-gray-500">CRM Dashboard</p>
+            <div className="sidebar-title">
+              <h1>100acres.com</h1>
+              <p>CRM Dashboard</p>
             </div>
           )}
         </div>
-      </div>
 
-      <nav className="flex-1 p-4">
-        <ul className="space-y-2">
-          {navItems.map((item) => {
-            const Icon = item.icon;
-            return (
-              <li key={item.path}>
-                <NavLink
-                  to={item.path}
-                  className={({ isActive }) =>
-                    `flex items-center px-3 py-2 rounded-lg transition-colors ${
-                      isActive
-                        ? 'bg-green-50 text-green-700 border-r-2 border-green-700'
-                        : 'text-gray-700 hover:bg-gray-50'
-                    }`
-                  }
-                >
-                  <Icon className="h-5 w-5" />
-                  {!isCollapsed && <span className="ml-3">{item.label}</span>}
-                </NavLink>
-              </li>
-            );
-          })}
-        </ul>
-      </nav>
+        <nav className="sidebar-nav">
+          <ul>
+            {navItems.map((item) => {
+              const Icon = item.icon;
+              return (
+                <li key={item.path}>
+               <NavLink
+  to={item.path}
+  end={item.path === '/'} // exact match for "/"
+  className={({ isActive }) =>
+    `sidebar-link ${isActive ? 'active' : ''}`
+  }
+>
 
-      <div className="p-4 border-t border-gray-200">
-        <div className="flex items-center mb-4">
-          <div className="bg-green-600 text-white p-2 rounded-full">
-            <User className="h-4 w-4" />
-          </div>
-          {!isCollapsed && (
-            <div className="ml-3">
-              <p className="text-sm font-medium text-gray-900">{userName}</p>
-              <p className="text-xs text-gray-500">{getRoleDisplayName(userRole)}</p>
+  <Icon className="icon" />
+  {!isCollapsed && <span>{item.label}</span>}
+</NavLink>
+
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
+
+        <div className="sidebar-footer">
+          <div className="sidebar-user">
+            <div className="user-icon">
+              <User className="icon-small" />
             </div>
-          )}
+            {!isCollapsed && (
+              <div className="user-info">
+                <p className="user-name">{userName}</p>
+                <p className="user-role">{getRoleDisplayName(userRole)}</p>
+              </div>
+            )}
+          </div>
+          <button className="logout-btn" onClick={handleLogout}>
+            <LogOut className="icon" />
+            {!isCollapsed && <span>Logout</span>}
+          </button>
         </div>
-        <button
-          onClick={handleLogout}
-          className="flex items-center w-full px-3 py-2 text-gray-700 hover:bg-red-50 hover:text-red-700 rounded-lg transition-colors"
-        >
-          <LogOut className="h-5 w-5" />
-          {!isCollapsed && <span className="ml-3">Logout</span>}
-        </button>
       </div>
-    </div>
+
+      <style>{`
+        .sidebar {
+          background: linear-gradient(145deg, #1e293b, #111827);
+          box-shadow: 4px 0 12px rgba(0,0,0,0.3);
+          color: white;
+          border-right: 1px solid #334155;
+          transition: width 0.3s ease;
+          width: 16rem;
+          min-height: 100vh;
+          display: flex;
+          flex-direction: column;
+          font-family: 'Segoe UI', sans-serif;
+        }
+
+        .sidebar.collapsed {
+          width: 4rem;
+        }
+
+        .sidebar-header {
+          padding: 1.25rem 1rem;
+          border-bottom: 1px solid #334155;
+          display: flex;
+          align-items: center;
+        }
+
+        .sidebar-logo {
+          background-color: #3b82f6;
+          padding: 0.6rem;
+          border-radius: 0.75rem;
+          box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+        }
+
+        .sidebar-title {
+          margin-left: 0.85rem;
+        }
+
+        .sidebar-title h1 {
+          font-size: 1rem;
+          font-weight: 600;
+        }
+
+        .sidebar-title p {
+          font-size: 0.75rem;
+          color: #94a3b8;
+        }
+
+        .sidebar-nav {
+          flex: 1;
+          padding: 1rem 0.75rem;
+        }
+
+        .sidebar-nav ul {
+          list-style: none;
+          padding: 0;
+          margin: 0;
+        }
+
+        .sidebar-link {
+          display: flex;
+          align-items: center;
+          padding: 0.6rem 0.85rem;
+          margin-bottom: 0.5rem;
+          border-radius: 0.6rem;
+          color: #cbd5e1;
+          text-decoration: none;
+          transition: all 0.2s ease-in-out;
+        }
+
+        .sidebar-link:hover {
+          background-color: #334155;
+          transform: translateX(2px);
+        }
+
+        .sidebar-link.active {
+          background-color: #e0e7ff;
+          color: #1e293b;
+          font-weight: 700;
+          box-shadow: inset 4px 0 0 0 #3b82f6;
+        }
+
+        .sidebar-link .icon {
+          width: 1.25rem;
+          height: 1.25rem;
+        }
+
+        .sidebar-link span {
+          margin-left: 0.85rem;
+          font-size: 0.95rem;
+        }
+
+        .sidebar-footer {
+          padding: 1rem;
+          border-top: 1px solid #334155;
+        }
+
+        .sidebar-user {
+          display: flex;
+          align-items: center;
+          margin-bottom: 1rem;
+        }
+
+        .user-icon {
+          background: white;
+          color: #1e293b;
+          padding: 0.5rem;
+          border-radius: 999px;
+          box-shadow: 0 2px 4px rgba(255,255,255,0.1);
+        }
+
+        .icon-small {
+          width: 1rem;
+          height: 1rem;
+        }
+
+        .user-info {
+          margin-left: 0.75rem;
+        }
+
+        .user-name {
+          font-size: 0.9rem;
+          font-weight: 600;
+        }
+
+        .user-role {
+          font-size: 0.75rem;
+          color: #94a3b8;
+        }
+
+        .logout-btn {
+          display: flex;
+          align-items: center;
+          background: none;
+          border: none;
+          color: #cbd5e1;
+          cursor: pointer;
+          padding: 0.6rem 0.85rem;
+          border-radius: 0.6rem;
+          width: 100%;
+          transition: background 0.2s ease;
+        }
+
+        .logout-btn:hover {
+          background-color: #334155;
+        }
+
+        .logout-btn .icon {
+          width: 1.25rem;
+          height: 1.25rem;
+        }
+
+        .logout-btn span {
+          margin-left: 0.75rem;
+          font-size: 0.95rem;
+        }
+      `}</style>
+    </>
   );
 };
 

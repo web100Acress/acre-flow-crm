@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -13,6 +12,7 @@ import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 import Settings from "./pages/Settings";
 import UserManagementPage from "./pages/UserManagement";
+import Developer from "./pages/Developer";
 
 const queryClient = new QueryClient();
 
@@ -138,6 +138,16 @@ const App = () => {
               element={
                 isLoggedIn && userRole === "super-admin" ? (
                   <Settings userRole={userRole} />
+                ) : (
+                  <Navigate to="/" replace />
+                )
+              }
+            />
+            <Route
+              path="/developer"
+              element={
+                isLoggedIn && userRole === "super-admin" ? (
+                  <Developer userRole={userRole} />
                 ) : (
                   <Navigate to="/" replace />
                 )

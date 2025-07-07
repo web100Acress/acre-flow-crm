@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { 
   Code, 
@@ -16,11 +15,16 @@ import {
   GitBranch,
   Package,
   Bug,
-  Wrench
+  Wrench,
+  Users,
+  UserCheck,
+  Crown,
+  Briefcase
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Button } from './ui/button';
 import { useToast } from '@/hooks/use-toast';
+import { useNavigate } from 'react-router-dom';
 
 const DeveloperContent = ({ userRole }) => {
   const [activeTab, setActiveTab] = useState('overview');
@@ -34,9 +38,11 @@ const DeveloperContent = ({ userRole }) => {
   });
 
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const tabs = [
     { id: 'overview', label: 'System Overview', icon: Monitor },
+    { id: 'access-control', label: 'Access Control', icon: Users },
     { id: 'database', label: 'Database', icon: Database },
     { id: 'api', label: 'API Management', icon: Server },
     { id: 'security', label: 'Security', icon: Shield },
@@ -52,6 +58,223 @@ const DeveloperContent = ({ userRole }) => {
       description: `${action} executed successfully`,
     });
   };
+
+  const handleAccessSection = (section, role) => {
+    // Set temporary session for the role
+    localStorage.setItem('tempUserRole', role);
+    localStorage.setItem('tempUserEmail', 'developer@access.com');
+    localStorage.setItem('tempUserName', 'Developer Access');
+    localStorage.setItem('isLoggedIn', 'true');
+    
+    navigate(section);
+    toast({
+      title: "Access Granted",
+      description: `Accessing ${section} as ${role}`,
+    });
+  };
+
+  const renderAccessControl = () => (
+    <div className="space-y-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Crown className="h-5 w-5 text-purple-600" />
+              Super Admin Access
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <p className="text-sm text-gray-600 mb-4">
+              Full system access with all administrative privileges
+            </p>
+            <div className="grid grid-cols-1 gap-2">
+              <Button 
+                onClick={() => handleAccessSection('/', 'super-admin')} 
+                className="w-full justify-start"
+                variant="outline"
+              >
+                Dashboard
+              </Button>
+              <Button 
+                onClick={() => handleAccessSection('/users', 'super-admin')} 
+                className="w-full justify-start"
+                variant="outline"
+              >
+                User Management
+              </Button>
+              <Button 
+                onClick={() => handleAccessSection('/settings', 'super-admin')} 
+                className="w-full justify-start"
+                variant="outline"
+              >
+                System Settings
+              </Button>
+              <Button 
+                onClick={() => handleAccessSection('/create-admin', 'super-admin')} 
+                className="w-full justify-start"
+                variant="outline"
+              >
+                Create Admin
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <UserCheck className="h-5 w-5 text-blue-600" />
+              Head Admin Access
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <p className="text-sm text-gray-600 mb-4">
+              Administrative access with team management capabilities
+            </p>
+            <div className="grid grid-cols-1 gap-2">
+              <Button 
+                onClick={() => handleAccessSection('/', 'head-admin')} 
+                className="w-full justify-start"
+                variant="outline"
+              >
+                Dashboard
+              </Button>
+              <Button 
+                onClick={() => handleAccessSection('/create-leader', 'head-admin')} 
+                className="w-full justify-start"
+                variant="outline"
+              >
+                Create Team Leader
+              </Button>
+              <Button 
+                onClick={() => handleAccessSection('/team', 'head-admin')} 
+                className="w-full justify-start"
+                variant="outline"
+              >
+                Team Management
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Briefcase className="h-5 w-5 text-green-600" />
+              Team Leader Access
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <p className="text-sm text-gray-600 mb-4">
+              Team leadership with employee management capabilities
+            </p>
+            <div className="grid grid-cols-1 gap-2">
+              <Button 
+                onClick={() => handleAccessSection('/', 'team-leader')} 
+                className="w-full justify-start"
+                variant="outline"
+              >
+                Dashboard
+              </Button>
+              <Button 
+                onClick={() => handleAccessSection('/create-employee', 'team-leader')} 
+                className="w-full justify-start"
+                variant="outline"
+              >
+                Create Employee
+              </Button>
+              <Button 
+                onClick={() => handleAccessSection('/employees', 'team-leader')} 
+                className="w-full justify-start"
+                variant="outline"
+              >
+                My Employees
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Users className="h-5 w-5 text-orange-600" />
+              Employee Access
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <p className="text-sm text-gray-600 mb-4">
+              Standard employee access with basic functionality
+            </p>
+            <div className="grid grid-cols-1 gap-2">
+              <Button 
+                onClick={() => handleAccessSection('/', 'employee')} 
+                className="w-full justify-start"
+                variant="outline"
+              >
+                Dashboard
+              </Button>
+              <Button 
+                onClick={() => handleAccessSection('/leads', 'employee')} 
+                className="w-full justify-start"
+                variant="outline"
+              >
+                Leads Management
+              </Button>
+              <Button 
+                onClick={() => handleAccessSection('/tickets', 'employee')} 
+                className="w-full justify-start"
+                variant="outline"
+              >
+                Support Tickets
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Quick Role Switch</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <Button 
+              onClick={() => handleAccessSection('/', 'super-admin')} 
+              className="flex flex-col items-center p-4 h-auto"
+              variant="outline"
+            >
+              <Crown className="h-6 w-6 mb-2 text-purple-600" />
+              <span className="text-xs">Super Admin</span>
+            </Button>
+            <Button 
+              onClick={() => handleAccessSection('/', 'head-admin')} 
+              className="flex flex-col items-center p-4 h-auto"
+              variant="outline"
+            >
+              <UserCheck className="h-6 w-6 mb-2 text-blue-600" />
+              <span className="text-xs">Head Admin</span>
+            </Button>
+            <Button 
+              onClick={() => handleAccessSection('/', 'team-leader')} 
+              className="flex flex-col items-center p-4 h-auto"
+              variant="outline"
+            >
+              <Briefcase className="h-6 w-6 mb-2 text-green-600" />
+              <span className="text-xs">Team Leader</span>
+            </Button>
+            <Button 
+              onClick={() => handleAccessSection('/', 'employee')} 
+              className="flex flex-col items-center p-4 h-auto"
+              variant="outline"
+            >
+              <Users className="h-6 w-6 mb-2 text-orange-600" />
+              <span className="text-xs">Employee</span>
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
 
   const renderOverview = () => (
     <div className="space-y-6">
@@ -475,6 +698,8 @@ const DeveloperContent = ({ userRole }) => {
     switch (activeTab) {
       case 'overview':
         return renderOverview();
+      case 'access-control':
+        return renderAccessControl();
       case 'database':
         return renderDatabase();
       case 'api':

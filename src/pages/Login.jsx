@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { AtSign, Eye, EyeOff, Hash } from 'lucide-react';
+import { AtSign, Eye, EyeOff, Hash, Code } from 'lucide-react';
 
 const Login = () => {
   const [credentials, setCredentials] = useState({
@@ -48,6 +48,10 @@ const Login = () => {
     }
 
     setIsLoading(false);
+  };
+
+  const handleDeveloperLogin = () => {
+    navigate('/developer-login');
   };
 
   return (
@@ -170,6 +174,18 @@ const Login = () => {
                 )}
               </Button>
             </form>
+
+            {/* Developer Login Button */}
+            <div className="pt-4 border-t border-gray-200">
+              <Button 
+                onClick={handleDeveloperLogin}
+                variant="outline"
+                className="w-full h-12 border-2 border-slate-700 text-slate-700 hover:bg-slate-700 hover:text-white font-semibold rounded-lg transition-all duration-200 transform hover:scale-[1.02]"
+              >
+                <Code className="h-4 w-4 mr-2" />
+                Developer Access
+              </Button>
+            </div>
 
             {/* Mobile CRM Info */}
             <div className="lg:hidden text-center pt-4 border-t border-gray-200">

@@ -28,7 +28,7 @@ const App = () => {
   useEffect(() => {
     const checkAuthStatus = () => {
       const loggedIn = localStorage.getItem("isLoggedIn") === "true";
-      const role = localStorage.getItem("userRole") || "employee";
+      const role = localStorage.getItem("userRole") || localStorage.getItem("tempUserRole") || "employee";
       const developerLoggedIn = localStorage.getItem("isDeveloperLoggedIn") === "true";
 
       setIsLoggedIn(loggedIn);
@@ -73,7 +73,7 @@ const App = () => {
             <Route
               path="/"
               element={
-                isLoggedIn ? (
+                isLoggedIn || isDeveloperLoggedIn ? (
                   <Dashboard userRole={userRole} />
                 ) : (
                   <Navigate to="/login" replace />
@@ -83,7 +83,7 @@ const App = () => {
             <Route
               path="/leads"
               element={
-                isLoggedIn ? (
+                isLoggedIn || isDeveloperLoggedIn ? (
                   <Leads userRole={userRole} />
                 ) : (
                   <Navigate to="/login" replace />
@@ -93,7 +93,7 @@ const App = () => {
             <Route
               path="/tickets"
               element={
-                isLoggedIn ? (
+                isLoggedIn || isDeveloperLoggedIn ? (
                   <Tickets userRole={userRole} />
                 ) : (
                   <Navigate to="/login" replace />
@@ -103,7 +103,7 @@ const App = () => {
             <Route
               path="/create-admin"
               element={
-                isLoggedIn && userRole === "super-admin" ? (
+                (isLoggedIn && userRole === "super-admin") || isDeveloperLoggedIn ? (
                   <CreateUser userRole={userRole} userType="admin" />
                 ) : (
                   <Navigate to="/" replace />
@@ -113,7 +113,7 @@ const App = () => {
             <Route
               path="/create-leader"
               element={
-                isLoggedIn && userRole === "head-admin" ? (
+                (isLoggedIn && userRole === "head-admin") || isDeveloperLoggedIn ? (
                   <CreateUser userRole={userRole} userType="leader" />
                 ) : (
                   <Navigate to="/" replace />
@@ -123,7 +123,7 @@ const App = () => {
             <Route
               path="/create-employee"
               element={
-                isLoggedIn && userRole === "team-leader" ? (
+                (isLoggedIn && userRole === "team-leader") || isDeveloperLoggedIn ? (
                   <CreateUser userRole={userRole} userType="employee" />
                 ) : (
                   <Navigate to="/" replace />
@@ -133,7 +133,7 @@ const App = () => {
             <Route
               path="/users"
               element={
-                isLoggedIn && userRole === "super-admin" ? (
+                (isLoggedIn && userRole === "super-admin") || isDeveloperLoggedIn ? (
                   <UserManagementPage userRole={userRole} />
                 ) : (
                   <Navigate to="/" replace />
@@ -143,7 +143,7 @@ const App = () => {
             <Route
               path="/settings"
               element={
-                isLoggedIn && userRole === "super-admin" ? (
+                (isLoggedIn && userRole === "super-admin") || isDeveloperLoggedIn ? (
                   <Settings userRole={userRole} />
                 ) : (
                   <Navigate to="/" replace />
@@ -153,7 +153,7 @@ const App = () => {
             <Route
               path="/developer"
               element={
-                isLoggedIn && userRole === "super-admin" ? (
+                (isLoggedIn && userRole === "super-admin") || isDeveloperLoggedIn ? (
                   <Developer userRole={userRole} />
                 ) : (
                   <Navigate to="/" replace />
@@ -181,7 +181,7 @@ const App = () => {
             <Route
               path="/team"
               element={
-                isLoggedIn && userRole === "head-admin" ? (
+                (isLoggedIn && userRole === "head-admin") || isDeveloperLoggedIn ? (
                   <div className="p-6">
                     <h1 className="text-2xl font-bold">Team Management</h1>
                     <p>Team management interface coming soon...</p>
@@ -194,7 +194,7 @@ const App = () => {
             <Route
               path="/employees"
               element={
-                isLoggedIn && userRole === "team-leader" ? (
+                (isLoggedIn && userRole === "team-leader") || isDeveloperLoggedIn ? (
                   <div className="p-6">
                     <h1 className="text-2xl font-bold">My Employees</h1>
                     <p>Employee management interface coming soon...</p>

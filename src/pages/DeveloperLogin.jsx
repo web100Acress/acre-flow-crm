@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Eye, EyeOff, AtSign, Hash, Code } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import logo from '/image/logo.png';
 
 const DeveloperLogin = () => {
   const [credentials, setCredentials] = useState({ email: "", password: "" });
@@ -12,8 +11,8 @@ const DeveloperLogin = () => {
 
   // Static developer credentials
   const DEVELOPER_CREDENTIALS = {
-    email: "developer@100acres.com",
-    password: "dev123admin"
+    email: "amandev@gmail.com",
+    password: "dev123"
   };
 
   const handleSubmit = async (e) => {
@@ -29,7 +28,7 @@ const DeveloperLogin = () => {
         // Set developer session
         localStorage.setItem("isDeveloperLoggedIn", "true");
         localStorage.setItem("developerEmail", credentials.email);
-        localStorage.setItem("developerName", "Developer");
+        localStorage.setItem("developerName", "Aman Developer");
         localStorage.setItem("developerRole", "developer");
         
         navigate("/developer-dashboard");
@@ -54,8 +53,8 @@ const DeveloperLogin = () => {
           </p>
           <div className="credentials-hint">
             <p className="hint-title">Developer Credentials:</p>
-            <p className="hint-text">Email: developer@100acres.com</p>
-            <p className="hint-text">Password: dev123admin</p>
+            <p className="hint-text">Email: amandev@gmail.com</p>
+            <p className="hint-text">Password: dev123</p>
           </div>
         </div>
 

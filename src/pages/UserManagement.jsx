@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Search, Plus, Edit, Trash2, UserCheck, UserX, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Search, Plus, Edit, Trash2, UserCheck, UserX, ChevronLeft, ChevronRight, Download } from 'lucide-react';
 import AddEditUserModal from '../components/AddEditUserModal';
 import DeleteUserModal from '../components/DeleteUserModal';
 import { useToast } from '@/hooks/use-toast';
@@ -18,6 +18,7 @@ const UserManagementContent = ({ userRole }) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const [isExporting, setIsExporting] = useState(false);
 
   const { toast } = useToast();
 
@@ -95,6 +96,55 @@ const UserManagementContent = ({ userRole }) => {
     const endIndex = startIndex + USERS_PER_PAGE_CONSTANT;
     return filteredUsers.slice(startIndex, endIndex);
   }, [filteredUsers, currentPage]);
+
+  const exportToCSV = () => {
+    setIsExporting(true);
+    
+    try {
+      const headers = ['ID', 'Name', 'Email', 'Phone', 'Role', 'Department', 'Status', 'Last Login', 'Created At'];
+      
+      const csvData = filteredUsers.map(user => [
+        user._id || user.id,
+        user.name || '',
+        user.email || '',
+        user.phone || '',
+        user.role || '',
+        user.department || '',
+        user.status || '',
+        user.lastLogin ? new Date(user.lastLogin).toLocaleString() : '',
+        user.createdAt ? new Date(user.createdAt).toLocaleDateString() : ''
+      ]);
+
+      const csvContent = [headers, ...csvData]
+        .map(row => row.map(field => `"${field}"`).join(','))
+        .join('\n');
+
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement('a');
+      const url = URL.createObjectURL(blob);
+      
+      link.setAttribute('href', url);
+      link.setAttribute('download', `users_export_${new Date().toISOString().split('T')[0]}.csv`);
+      link.style.visibility = 'hidden';
+      
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      toast({
+        title: "Export Successful",
+        description: `${filteredUsers.length} users exported to CSV successfully.`,
+      });
+    } catch (error) {
+      toast({
+        title: "Export Failed",
+        description: "There was an error exporting the users. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsExporting(false);
+    }
+  };
 
   const handleToggleStatus = (userToToggle) => async () => {
     const newStatus = userToToggle.status === 'active' ? 'inactive' : 'active';
@@ -352,6 +402,15 @@ const UserManagementContent = ({ userRole }) => {
             <option value="active">Active</option>
             <option value="inactive">Inactive</option>
           </select>
+          
+          <button
+            onClick={exportToCSV}
+            disabled={isExporting || filteredUsers.length === 0}
+            className="export-btn"
+          >
+            <Download className="export-icon" />
+            {isExporting ? 'Exporting...' : 'Export to CSV'}
+          </button>
         </div>
       </div>
 
@@ -639,6 +698,38 @@ const UserManagementContent = ({ userRole }) => {
         @keyframes spin {
           0% { transform: rotate(0deg); }
           100% { transform: rotate(360deg); }
+        }
+
+        .export-btn {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          padding: 0.75rem 1rem;
+          border: 1px solid #cbd5e1;
+          border-radius: 0.5rem;
+          background-color: #fff;
+          font-size: 0.95rem;
+          color: #334155;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .export-btn:hover:not(:disabled) {
+          background-color: #eff6ff;
+          border-color: #93c5fd;
+          color: #2563eb;
+          transform: translateY(-1px);
+          box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .export-btn:disabled {
+          background-color: #f1f5f9;
+          color: #94a3b8;
+          cursor: not-allowed;
+          border-color: #e2e8f0;
+        }
+        .export-icon {
+          width: 1rem;
+          height: 1rem;
         }
       `}</style>
     </div>

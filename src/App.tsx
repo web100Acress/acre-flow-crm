@@ -14,6 +14,7 @@ import Settings from "./pages/Settings";
 import UserManagementPage from "./pages/UserManagement";
 import Developer from "./pages/Developer";
 import DeveloperDashboard from "./pages/DeveloperDashboard";
+import TeamEmployees from "./pages/TeamEmployees";
 
 const queryClient = new QueryClient();
 
@@ -189,10 +190,7 @@ const App = () => {
               path="/employees"
               element={
                 (isLoggedIn && userRole === "team-leader") || isDeveloperLoggedIn ? (
-                  <div className="p-6">
-                    <h1 className="text-2xl font-bold">My Employees</h1>
-                    <p>Employee management interface coming soon...</p>
-                  </div>
+                  <TeamEmployees userRole={userRole} />
                 ) : (
                   <Navigate to="/" replace />
                 )

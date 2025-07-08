@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Search, Filter, Eye, MessageSquare, Phone, Mail, MapPin, Plus, Trash2 } from 'lucide-react';
+import { Search, Filter, Eye, MessageSquare, Phone, Mail, MapPin, Plus, Trash2, Download } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useToast } from '@/hooks/use-toast';
 import FollowUpModal from './FollowUpModal';
 import CreateLeadForm from './CreateLeadForm';
 
@@ -10,6 +11,9 @@ const LeadTable = ({ userRole, leads = [] }) => {
   const [selectedLead, setSelectedLead] = useState(null);
   const [showFollowUp, setShowFollowUp] = useState(false);
   const [showCreateLead, setShowCreateLead] = useState(false);
+  const [isExporting, setIsExporting] = useState(false);
+  const { toast } = useToast();
+  
   const [leadsList, setLeadsList] = useState(leads.length > 0 ? leads : [
     {
       id: 1,
@@ -102,6 +106,58 @@ const LeadTable = ({ userRole, leads = [] }) => {
     console.log('New lead created:', newLead);
   };
 
+  const exportToCSV = () => {
+    setIsExporting(true);
+    
+    try {
+      const headers = ['ID', 'Name', 'Email', 'Phone', 'Location', 'Budget', 'Property', 'Status', 'Assigned To', 'Assigned By', 'Last Contact', 'Follow Ups'];
+      
+      const csvData = filteredLeads.map(lead => [
+        lead.id,
+        lead.name,
+        lead.email,
+        lead.phone,
+        lead.location,
+        lead.budget,
+        lead.property,
+        lead.status,
+        lead.assignedTo,
+        lead.assignedBy,
+        lead.lastContact,
+        lead.followUps
+      ]);
+
+      const csvContent = [headers, ...csvData]
+        .map(row => row.map(field => `"${field}"`).join(','))
+        .join('\n');
+
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement('a');
+      const url = URL.createObjectURL(blob);
+      
+      link.setAttribute('href', url);
+      link.setAttribute('download', `leads_export_${new Date().toISOString().split('T')[0]}.csv`);
+      link.style.visibility = 'hidden';
+      
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      toast({
+        title: "Export Successful",
+        description: `${filteredLeads.length} leads exported to CSV successfully.`,
+      });
+    } catch (error) {
+      toast({
+        title: "Export Failed",
+        description: "There was an error exporting the leads. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsExporting(false);
+    }
+  };
+
   return (
     <div className="bg-white rounded-lg shadow-sm border border-gray-200">
       <div className="p-6 border-b border-gray-200">
@@ -131,6 +187,16 @@ const LeadTable = ({ userRole, leads = [] }) => {
                 <option value="warm">Warm</option>
                 <option value="cold">Cold</option>
               </select>
+
+              <Button 
+                onClick={exportToCSV}
+                disabled={isExporting || filteredLeads.length === 0}
+                variant="outline"
+                className="flex items-center"
+              >
+                <Download className="h-4 w-4 mr-2" />
+                {isExporting ? 'Exporting...' : 'Export to CSV'}
+              </Button>
             </div>
             
             <Button 
